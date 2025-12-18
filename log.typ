@@ -4,6 +4,34 @@
 
 #outline()
 
+= 2025年12月18日
+
+在GA网上，调用千帆模型，报400错。我需要在互联网上调用千帆看看能否成功。如果互联网上也报相同错误，说明需要改代码从而支持千帆模型。
+
+千帆api key: bce-v3/ALTAK-WEtfPuAdoIz3APYflYveE/5f92d54547ab2be4834c6f6bc9671e4e1f48f4de
+(https://console.bce.baidu.com/qianfan/ais/console/onlineTest/LLM)
+
+base_url = 'https://qianfan.baidubce.com/v2' 
+
+model="ernie-5.0-thinking-preview"
+
+api输入错误：
+WARNING  [Agent] ⚠️ LLM error (ModelProviderError: Error code: 401 - {'error': {'code': 'invalid_iam_token', 'message': 'invalid_iam_token', 'type': 'invalid_request_error'}, 'id': 'as-ssusauigqj'}) but no fallback_llm configured
+
+地址输入错误报错：
+base_url = 'https://qianfan.baidubce.com/v2'
+WARNING  [Agent] ❌ Result failed 1/4 times: 404 page not found
+
+试一下 curl 能否跑通
+
+curl --location --request POST 'https://qianfan.baidubce.com/v2/chat/completions' \
+--header 'Content-Type: application/json' \
+--header 'Authorization: Bearer bce-v3/ALTAK-WEtfPuAdoIz3APYflYveE/5f92d54547ab2be4834c6f6bc9671e4e1f48f4de' \
+--data-raw '{"model":"ernie-5.0-thinking-preview","messages":[{"role": "user", "content": "hi"}],"fps":2,"web_search":{"enable":true}}'
+成功。
+
+使用正确的api之后，就能成功访问了。这说明不用改代码专门适配千帆大模型。
+
 = 2025年12月16日
 
 == 目标：录屏
