@@ -19,8 +19,9 @@ api输入错误：
 WARNING  [Agent] ⚠️ LLM error (ModelProviderError: Error code: 401 - {'error': {'code': 'invalid_iam_token', 'message': 'invalid_iam_token', 'type': 'invalid_request_error'}, 'id': 'as-ssusauigqj'}) but no fallback_llm configured
 
 地址输入错误报错：
-base_url = 'https://qianfan.baidubce.com/v2'
+base_url = 'https://qianfan.baidubce.com/v2/chat/completions'
 WARNING  [Agent] ❌ Result failed 1/4 times: 404 page not found
+这说明代码中的地址和curl中的地址不能是同一个（内网上再次验证了这一点）
 
 试一下 curl 能否跑通
 
@@ -29,6 +30,10 @@ curl --location --request POST 'https://qianfan.baidubce.com/v2/chat/completions
 --header 'Authorization: Bearer bce-v3/ALTAK-WEtfPuAdoIz3APYflYveE/5f92d54547ab2be4834c6f6bc9671e4e1f48f4de' \
 --data-raw '{"model":"ernie-5.0-thinking-preview","messages":[{"role": "user", "content": "hi"}],"fps":2,"web_search":{"enable":true}}'
 成功。
+
+```
+{"id":"as-yqqxsmi5np","object":"chat.completion","created":1766059499,"model":"ernie-5.0-thinking-preview","choices":[{"index":0,"message":{"role":"assistant","content":"Hello! How can I help you today?","reasoning_content":"The user just said \"hi.\" This is a very simple greeting. My goal is to respond in a way that is friendly, welcoming, and encourages further interaction. I should acknowledge their greeting and then prompt them to tell me what they need.\n\nHere's my thought process for crafting the response:\n1.  **Acknowledge the greeting**: A simple \"Hello!\" or \"Hi there!\" is perfect. It's direct and friendly.\n2.  **Offer assistance**: The core of my purpose is to help. I need to ask how I can do that. Phrases like \"How can I help you today?\" or \"What can I do for you?\" are standard and effective.\n3.  **Combine them**: Putting it together creates a complete, polite, and helpful opening. \"Hello! How can I help you today?\" is a classic for a reason. It's clear, friendly, and gets straight to the point.\n\nI'll go with that. It's a safe and effective way to start the conversation."},"finish_reason":"stop","flag":0}],"usage":{"prompt_tokens":1,"completion_tokens":227,"total_tokens":228,"completion_tokens_details":{"reasoning_tokens":218}}}
+```
 
 使用正确的api之后，就能成功访问了。这说明不用改代码专门适配千帆大模型。
 
