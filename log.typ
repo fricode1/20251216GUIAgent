@@ -14,6 +14,8 @@ vlc/ffmpeg/kdenlive能否压制srt字幕到视频中？
 ffmpeg -i output.mp4 -vf "subtitles=output.srt" output_subtitle.mp4
 ```
 
+上述方法失败。还得是直接录屏的方法管用。
+
 = 2025年12月19日
 
 已经在内网跑通结果，需要录屏。麒麟系统没有自带录屏软件。经查询资料，得知ffmpeg能够录屏：
