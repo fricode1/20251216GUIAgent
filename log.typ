@@ -4,6 +4,16 @@
 
 #outline()
 
+= 2025年12月20日
+
+== 如何压制字幕到视频中？
+
+vlc/ffmpeg/kdenlive能否压制srt字幕到视频中？
+
+```    
+ffmpeg -i output.mp4 -vf "subtitles=output.srt" output_subtitle.mp4
+```
+
 = 2025年12月19日
 
 已经在内网跑通结果，需要录屏。麒麟系统没有自带录屏软件。经查询资料，得知ffmpeg能够录屏：
@@ -61,6 +71,12 @@ BUA (Browser Use Agent) = 浏览器自动化（基于大模型理解DOM的）
 https://browser-use.com/ Persistent_Profiles Login to any website. Stay authenticated.
 
 完成：通过指定浏览器路径实现记住登录信息的功能。
+
+成功在现有业务系统自动执行任务。
+
+== 在视频上叠加字幕用于演示
+
+成功。
 
 = 2025年12月18日
 
