@@ -16,6 +16,75 @@ ffmpeg -i output.mp4 -vf "subtitles=output.srt" output_subtitle.mp4
 
 上述方法失败。还得是直接录屏的方法管用。
 
+== browse use 的能力边界是什么？
+
+必须通过具体的测试、录屏才能得知其能力边界。
+
+测试什么呢？问gemini：
+```
+我想实际验证 browser use 能力。为我设计具体的业务场景。
+```
+我已经验证了什么能力？从技术上，能够自动进入网站、点击、填写、总结。从应用上，能够：
+
+- 自动阅读指定网站新闻公告
+- 自动搜索指定词条
+- 自动播放指定地理点位监控视频
+
+更新提示词：
+
+```text
+browser use 除了能够
+自动阅读指定网站新闻公告
+自动搜索指定词条
+自动播放指定地理点位监控视频
+还能做什么？（要求体现跨站点操作能力）
+```
+
+我想到一个体现跨站点操作能力的：
+```
+1. 在 https://piaofang.maoyan.com/dashboard 上获取票房信息。2. 进入知乎写作界面 https://zhuanlan.zhihu.com/write 3. 将获取到的票房信息发布到知乎上。
+```
+
+调用LLM超时。换一个试试。
+
+可以了。
+
+但是缺点：markdown格式不好，知乎不兼容。
+
+换一个：
+
+```
+在 https://movie.douban.com/ 上获取最近热门电影。2. 进入知乎写作界面 https://zhuanlan.zhihu.com/write 3. 将获取到的最近热门电影信息发布到知乎上。
+```
+
+```
+INFO     [Agent] 📍 Step 4:
+WARNING  [Agent] ⚠️ LLM error (ModelProviderError: 1 validation error for AgentOutput
+  Invalid JSON: expected value at line 1 column 1 [type=json_invalid, input_value='```json\n{\n  "thinking"...  }\n    }\n  \n}\n```', input_type=str]
+    For further information visit https://errors.pydantic.dev/2.12/v/json_invalid) but no fallback_llm configured
+WARNING  [Agent] ❌ Result failed 2/4 times: 1 validation error for AgentOutput
+  Invalid JSON: expected value at line 1 column 1 [type=json_invalid, input_value='```json\n{\n  "thinking"...  }\n    }\n  \n}\n```', input_type=str]
+    For further information visit https://errors.pydantic.dev/2.12/v/json_invalid
+INFO     [Agent] 
+
+INFO     [Agent] 📍 Step 5:
+WARNING  [Agent] ❌ Result failed 3/4 times: LLM call timed out after 60 seconds. Keep your thinking and output short.
+INFO     [Agent]
+```
+
+再试一次。还是不行。
+
+设置新任务(降低难度)：
+
+```
+1. 进入 https://www.weather.com.cn/ 查询北京天气 2. 将北京天气浓缩成140以内，发布到 https://weibo.com/ 上。
+```
+
+混淆了自带的发布框和弹出的发布框。在设置一下：
+```
+1. 进入 https://www.weather.com.cn/ 查询北京天气 2. 将北京天气浓缩成140以内 3. 进入 https://weibo.com/ 点击新鲜事填写框 4. 在新鲜事填写框中发布北京天气
+```
+
 = 2025年12月19日
 
 已经在内网跑通结果，需要录屏。麒麟系统没有自带录屏软件。经查询资料，得知ffmpeg能够录屏：
