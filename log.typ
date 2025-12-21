@@ -95,6 +95,109 @@ INFO     [Agent]
 
 在12306.cn上，为李振邦购买从北京北到怀柔北，12月31日，S511次五座车票一张。支付方式选择微信支付。弹出二维码即视作任务成功。
 
+不行。该网站每次退出后，再打开就要重新登陆。- 登录后不关闭窗口就行了。
+
+```
+INFO     [Agent] 📍 Step 4:
+WARNING  [Agent] ⚠️ LLM error (ModelProviderError: 1 validation error for AgentOutput
+  Invalid JSON: expected value at line 1 column 1 [type=json_invalid, input_value='```json\n{\n  "thinking"...柔北"}}\n  ]\n}\n```', input_type=str]
+    For further information visit https://errors.pydantic.dev/2.12/v/json_invalid) but no fallback_llm configured
+WARNING  [Agent] ❌ Result failed 3/4 times: 1 validation error for AgentOutput
+  Invalid JSON: expected value at line 1 column 1 [type=json_invalid, input_value='```json\n{\n  "thinking"...柔北"}}\n  ]\n}\n```', input_type=str]
+    For further information visit https://errors.pydantic.dev/2.12/v/json_invalid
+INFO     [Agent] 
+
+INFO     [Agent] 📍 Step 5:
+ERROR    [Agent] ❌ Result failed 4/4 times: LLM call timed out after 60 seconds. Keep your thinking and output short.
+ERROR    [Agent] ❌ Stopping due to 3 consecutive failures
+```
+
+改成百炼
+
+```
+WARNING  [Agent] ⚠️ LLM error (ModelProviderError: 39 validation errors for AgentOutput
+```
+
+改为百炼的 qwen-vl-max 成功。正如issue所说，用这个模型可以，换其他千问模型就不行。
+
+这个任务太难了：
+```
+INFO     [Agent] 📍 Step 16:
+INFO     [Agent]   ❔ Eval: Waited for 10 seconds but the train results have not loaded yet. Verdict: Uncertain
+INFO     [Agent]   🧠 Memory: Departure station '北京北', arrival station '怀柔北', and travel date '2025-12-31' have been correctly entered. The '查询' button has been clicked, but the train results are still loading. Need to wait longer for the page to fully load.
+INFO     [Agent]   🎯 Next goal: Wait for an additional 10 seconds to allow the train results to load completely so that I can locate the S511 train with a five-seat option.
+INFO     [Agent]   ▶️   wait: seconds: 10
+INFO     [tools] 🕒 waited for 10 seconds
+INFO     [Agent]
+```
+
+换一个别的任务：在jd.com上将小米17promax手机加入购物车
+
+失败。点击加入按钮后，无法判断已经加入了。不停重复加入。还是得仔细写提示词。就比如，让ai统计全球GPD排名189的国家，我们理想中它得精确操作，但是它做不到。
+
+```
+1. 进入jd.com 2. 在搜索栏输入 小米17promax 并点击搜索按钮 3. 选在排在最前面的产品并进入产品详情页 4. 在产品详情页点击“加入购物车”
+```
+
+触发了京东的验证按钮。再想一个方案吧。试试天猫。
+
+```
+1. 进入tmall.com 2. 在搜索栏输入 小米17promax 并点击搜索按钮 3. 选在排在最前面的产品并进入产品详情页 4. 在产品详情页点击“加入购物车”
+```
+
+总是莫名其妙弹出空白窗口。我看版本发布说明，好像是该版本的bug。升级一下。
+
+失败。不停重复打开新窗口：
+
+```
+INFO     [Agent] 📍 Step 7:
+INFO     [Agent]   ❔ Eval: Failed to navigate to the correct search results page; instead, the homepage with product recommendations was displayed. The search query may not have been properly submitted.
+INFO     [Agent]   🧠 Memory: Visited tmall.com and attempted to search for '小米17promax'. The search input was entered, but the expected search results page did not appear. The current page shows recommended products instead of search results. Need to ensure the search query is properly submitted.
+INFO     [Agent]   🎯 Next goal: Navigate to the correct search results page by ensuring the search query is properly submitted and verified.
+INFO     [Agent]   ▶️   navigate: url: https://www.tmall.com, new_tab: True
+INFO     [tools] 🔗  Opened new tab with url https://www.tmall.com
+INFO     [Agent]
+```
+
+再来个更简单的：
+
+`
+1. 进入 https://code.visualstudio.com/ 2. 下载 vscode deb 安装包。
+`
+
+这个太简单了，一瞬间就完成了。
+
+```
+1. 进入 https://trains.ctrip.com/ 2. 搜索从12月31号北京北到怀柔北的车票
+```
+
+成功1次，失败1次。失败原因：明明已经打开页面了，agent以为没打开，不停重复打开。
+
+试试负面舆情分析功能。这一功能的实用性很强。
+```
+在知乎上，关于“电动车新国标”话题，是否存在负面舆情？
+```
+
+失败。宛如智障。总是不停打开同一个页面，
+
+试试github提供的例子。shopping
+
+失败。需要登录，登录需要点击确认真人。这是它重新打开了主页。
+
+试试github提供的搜索手机的例子。
+
+遇到了验证码。简化一些，只在ebay上搜索。但是这样不就是简单的搜索吗？有什么意义呢？
+
+采用github提供的装机例子。这个复杂操作比较多。
+
+失败。在中间步骤不停循环。
+
+== 新尝试：装机
+
+```
+https://zj.zol.com.cn/ 指定攒机方案，仅填写必填项 CPU 主板 内存 类型 名称，然后点击预览按钮。
+```
+
 = 2025年12月19日
 
 已经在内网跑通结果，需要录屏。麒麟系统没有自带录屏软件。经查询资料，得知ffmpeg能够录屏：
