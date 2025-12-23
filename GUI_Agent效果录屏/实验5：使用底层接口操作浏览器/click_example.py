@@ -5,7 +5,7 @@ async def main():
     # 1. 连接到浏览器
     # 注意：这里的 URL 建议换成不带具体 ID 的，或者确保 ID 是正确的
     # 通常可以用 ws://127.0.0.1:9222/devtools/browser/xxx
-    uri = "ws://[::1]:9222/devtools/browser/7119b24e-4638-4d1f-89ec-06fae1f66be5"
+    uri = "ws://127.0.0.1:9222/devtools/browser/7bbd88c5-8f3e-43c1-ac77-8271ad9e39e1"
     
     async with CDPClient(uri) as cdp:
         # 2. 获取所有目标并找到“页面”类型的目标
@@ -42,7 +42,9 @@ async def main():
 
         # 6. 使用选择器找到你要点击的元素
         # 示例：点击知乎页面上的“发现”链接，或者简单地找第一个 <a> 标签
-        selector = "a" # 你可以修改为具体的 CSS 选择器，如 ".AppHeader-navItem"
+        # selector = "a" # 你可以修改为具体的 CSS 选择器，如 ".AppHeader-navItem"
+        selector = '#train_date'
+
         try:
             target_node = await cdp.send.DOM.querySelector({
                 "nodeId": root_node_id,
