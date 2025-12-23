@@ -104,12 +104,16 @@ async def main():
         js_code = """
         (function() {
             const el = document.getElementById('train_date');
-            if (el) {
-                el.style.backgroundColor = 'yellow'; // 变色以便肉眼观察
-                console.log('JS 成功找到元素:', el);
-                return '成功找到元素，ID为: ' + el.id + ', 当前值为: ' + el.value;
+            const hasContentEditable = el.getAttribute('contenteditable') === 'true' || el.getAttribute('contenteditable') === '' || el.isContentEditable === true;
+            if (hasContentEditable) {
+                return '有';
+            } else if (el.value !== undefined) {
+                el.value = "";
+                el.dispatchEvent(new Event("input", { bubbles: true }));
+                el.dispatchEvent(new Event("change", { bubbles: true }));
+                return '清空';
             } else {
-                return '未找到 ID 为 train_date 的元素';
+                return '没有';
             }
         })()
         """
