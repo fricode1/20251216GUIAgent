@@ -49,8 +49,8 @@ async def main():
         # --- 核心修改部分 ---
 
         # 6. 首先聚焦到该元素（确保键盘输入能送达目标）
-        await cdp.send.DOM.focus({"nodeId": node_id}, session_id=sid)
-        print(f"已聚焦到元素: {selector}")
+        # await cdp.send.DOM.focus({"nodeId": node_id}, session_id=sid)
+        # print(f"已聚焦到元素: {selector}")
 
         # 7. 模拟键盘按下 '2' (keyDown)
         await cdp.send.Input.dispatchKeyEvent({
