@@ -1,0 +1,138 @@
+2025-12-21 16:14:20,392 - INFO     [Agent] 📍 Step 6:
+2025-12-21 16:14:20,392 - DEBUG    [browser_use.Agent🅰 614b ⇢ 🅑 9d6b 🅣 6E] Evaluating page with 116 interactive elements on: https://www.12306.cn/index/
+2025-12-21 16:14:20,392 - DEBUG    [browser_use.Agent🅰 614b ⇢ 🅑 9d6b 🅣 6E] 📝 Step 6: Updating action models...
+2025-12-21 16:14:20,412 - DEBUG    [browser_use.Agent🅰 614b ⇢ 🅑 9d6b 🅣 6E] 💬 Step 6: Creating state messages for context...
+2025-12-21 16:14:20,412 - DEBUG    [browser_use.agent.message_manager.service] Added extracted_content to action_results: Clicked span "怀柔北"
+2025-12-21 16:14:20,415 - DEBUG    [browser_use.agent.message_manager.service] 
+2025-12-21 16:14:20,415 - DEBUG    [browser_use.Agent🅰 614b ⇢ 🅑 9d6b 🅣 6E] 🤖 Step 6: Calling LLM with 2 messages (model: qwen-vl-max)...
+2025-12-21 16:14:31,532 - DEBUG    [browser_use.tokens.service] Token cost service: model='qwen-vl-max' timestamp=datetime.datetime(2025, 12, 21, 16, 14, 31, 532274) usage=ChatInvokeUsage(prompt_tokens=9402, prompt_cached_tokens=0, prompt_cache_creation_tokens=None, prompt_image_tokens=None, completion_tokens=313, total_tokens=9715)
+2025-12-21 16:14:31,532 - DEBUG    [browser_use.Agent🅰 614b ⇢ 🅑 9d6b 🅣 6E] 💡 Thinking:
+The previous actions have successfully completed the selection of both departure and arrival stations. The next step in the user request is to interact with the '出发日期' (Departure Date) input field. Based on the browser state, the element with index 3416 corresponds to this input field. I will click on it to activate it and then input the required date '2025-12-31'. This action aligns with the user's request and progresses toward completing the task.
+2025-12-21 16:14:31,532 - INFO     [Agent]   [32m👍 Eval: Successfully selected '怀柔北' from the dropdown list. Verdict: Success[0m
+2025-12-21 16:14:31,532 - INFO     [Agent]   🧠 Memory: Completed steps 1-5: navigated to the 12306 homepage, selected '北京北' as departure station, entered and selected '怀柔北' as arrival station. Now proceeding to step 6: clicking the departure date input field and entering '2025-12-31'.
+2025-12-21 16:14:31,532 - INFO     [Agent]   [34m🎯 Next goal: Click on the '出发日期' (Departure Date) input field and enter '2025-12-31'.[0m
+2025-12-21 16:14:31,533 - DEBUG    [browser_use.Agent🅰 614b ⇢ 🅑 9d6b 🅣 6E] ⏳ get_next_action() took 11.12s
+2025-12-21 16:14:31,533 - DEBUG    [browser_use.Agent🅰 614b ⇢ 🅑 9d6b 🅣 6E] ✅ Step 6: Got LLM response with 2 actions
+2025-12-21 16:14:31,534 - INFO     [Agent]   ▶️  [1/2] [34mclick[0m: [35mindex[0m: 3416
+2025-12-21 16:14:31,535 - DEBUG    [cost] 🧠 [96mqwen-vl-max[0m | 📥 [93m9.4k[0m | 📤 [92m313[0m
+2025-12-21 16:14:31,536 - DEBUG    [browser_use.BrowserSession🅑 9d6b 🅣 6E] 🚌 [DefaultActionWatchdog.on_ClickElementEvent(#76a8)]    ⏳ Starting...       👈 by Agent 
+2025-12-21 16:14:31,536 - DEBUG    [browser_use.BrowserSession🅑 9d6b 🅣 6E] ✅ Using session from node.session_id for node 3416: https://www.12306.cn/index/
+2025-12-21 16:14:31,537 - DEBUG    [browser_use.BrowserSession🅑 9d6b 🅣 6E] Got 1 quads from DOM.getContentQuads
+2025-12-21 16:14:31,589 - DEBUG    [browser_use.BrowserSession🅑 9d6b 🅣 6E] Scrolled element into view before getting coordinates
+2025-12-21 16:14:31,590 - DEBUG    [browser_use.BrowserSession🅑 9d6b 🅣 6E] Got 1 quads from DOM.getContentQuads
+2025-12-21 16:14:31,590 - DEBUG    [browser_use.BrowserSession🅑 9d6b 🅣 6E] Got coordinates from unified method: 524.5, 354, 265.0x30
+2025-12-21 16:14:31,592 - DEBUG    [browser_use.BrowserSession🅑 9d6b 🅣 6E] Element is clickable (target, contained, or semantically related)
+2025-12-21 16:14:31,593 - DEBUG    [browser_use.BrowserSession🅑 9d6b 🅣 6E] 👆 Dragging mouse over element before clicking x: 657.0px y: 369.0px ...
+2025-12-21 16:14:31,647 - DEBUG    [browser_use.BrowserSession🅑 9d6b 🅣 6E] 👆🏾 Clicking x: 657.0px y: 369.0px ...
+2025-12-21 16:14:31,790 - DEBUG    [browser_use.BrowserSession🅑 9d6b 🅣 6E] 🖱️ Clicked successfully using x,y coordinates
+2025-12-21 16:14:31,802 - DEBUG    [browser_use.BrowserSession🅑 9d6b 🅣 6E] 🖱️ Clicked button INPUT: 
+2025-12-21 16:14:31,802 - DEBUG    [browser_use.BrowserSession🅑 9d6b 🅣 6E] Element xpath: input
+2025-12-21 16:14:31,803 - DEBUG    [browser_use.BrowserSession🅑 9d6b 🅣 6E] 🚌 [DefaultActionWatchdog.on_ClickElementEvent(#76a8)]    Succeeded (0.27s) ➡️ <dict> 👉 returned to  Agent
+2025-12-21 16:14:31,804 - INFO     [tools] 🖱️ Clicked input type=text id=train_date aria-label=请输入日期，例如2021杠01杠01
+2025-12-21 16:14:31,804 - DEBUG    [browser_use.BrowserSession🅑 9d6b 🅣 6E] ⏳ execute_action() took 0.27s
+2025-12-21 16:14:31,804 - DEBUG    [browser_use.Agent🅰 614b ⇢ 🅑 9d6b 🅣 6E] Waiting 0.1 seconds between actions
+2025-12-21 16:14:31,906 - INFO     [Agent]   ▶️  [2/2] [34minput[0m: [35mindex[0m: 3416, [35mtext[0m: 2025-12-31, [35mclear[0m: True
+2025-12-21 16:14:31,911 - DEBUG    [browser_use.BrowserSession🅑 9d6b 🅣 6E] 🚌 [DefaultActionWatchdog.on_TypeTextEvent(#7968)]        ⏳ Starting...       👈 by Agent 
+2025-12-21 16:14:31,911 - DEBUG    [browser_use.BrowserSession🅑 9d6b 🅣 6E] ✅ Using session from node.session_id for node 3416: https://www.12306.cn/index/
+2025-12-21 16:14:31,913 - DEBUG    [browser_use.BrowserSession🅑 9d6b 🅣 6E] Got 1 quads from DOM.getContentQuads
+2025-12-21 16:14:31,926 - DEBUG    [browser_use.BrowserSession🅑 9d6b 🅣 6E] Got 1 quads from DOM.getContentQuads
+2025-12-21 16:14:31,929 - DEBUG    [browser_use.BrowserSession🅑 9d6b 🅣 6E] Element is clickable (target, contained, or semantically related)
+2025-12-21 16:14:31,929 - DEBUG    [browser_use.BrowserSession🅑 9d6b 🅣 6E] Using unified coordinates: x=657.0, y=369.0
+2025-12-21 16:14:31,930 - DEBUG    [browser_use.BrowserSession🅑 9d6b 🅣 6E] Element focused using CDP DOM.focus (result: {})
+2025-12-21 16:14:31,931 - DEBUG    [browser_use.BrowserSession🅑 9d6b 🅣 6E] 🧹 Clearing text field using JavaScript value setting
+2025-12-21 16:14:31,936 - DEBUG    [browser_use.BrowserSession🅑 9d6b 🅣 6E] Clear result: {'cleared': True, 'method': 'value', 'finalText': ''}
+2025-12-21 16:14:31,936 - DEBUG    [browser_use.BrowserSession🅑 9d6b 🅣 6E] ✅ Text field cleared successfully using value
+2025-12-21 16:14:31,936 - DEBUG    [browser_use.BrowserSession🅑 9d6b 🅣 6E] 🎯 Typing text character by character: "2025-12-31"
+2025-12-21 16:14:32,043 - DEBUG    [browser_use.BrowserSession🅑 9d6b 🅣 6E] ✅ Framework events triggered successfully
+2025-12-21 16:14:32,043 - INFO     [BrowserSession] ⌨️ Typed "2025-12-31" into element with index 3416
+2025-12-21 16:14:32,043 - DEBUG    [browser_use.BrowserSession🅑 9d6b 🅣 6E] Element xpath: input
+2025-12-21 16:14:32,043 - DEBUG    [browser_use.BrowserSession🅑 9d6b 🅣 6E] 🚌 [DefaultActionWatchdog.on_TypeTextEvent(#7968)]        Succeeded (0.13s) ➡️ <dict> 👉 returned to  Agent
+2025-12-21 16:14:32,044 - DEBUG    [browser_use.tools.service] Typed '2025-12-31'
+2025-12-21 16:14:32,044 - DEBUG    [browser_use.Agent🅰 614b ⇢ 🅑 9d6b 🅣 6E] ⏳ multi_act() took 0.51s
+2025-12-21 16:14:32,045 - DEBUG    [browser_use.Agent🅰 614b ⇢ 🅑 9d6b 🅣 6E] 📸 Storing screenshot for step 6, screenshot length: 847272
+2025-12-21 16:14:32,048 - DEBUG    [browser_use.Agent🅰 614b ⇢ 🅑 9d6b 🅣 6E] 📸 Screenshot stored at: /tmp/browser_use_agent_06947ac0-433f-7af2-8000-ddc38406614b_1766304772/screenshots/step_6.png
+2025-12-21 16:14:32,048 - DEBUG    [browser_use.Agent🅰 614b ⇢ 🅑 9d6b 🅣 6E] 📍 Step 6: Ran 2 actions in 12.15s: ✅ 2
+2025-12-21 16:14:32,049 - DEBUG    [browser_use.agent.cloud_events] 📸 Including screenshot in CreateAgentStepEvent, length: 847272
+2025-12-21 16:14:32,050 - DEBUG    [browser_use.Agent🅰 614b ⇢ 🅑 9d6b 🅣 6E] ⏳ step() took 12.15s
+2025-12-21 16:14:32,050 - DEBUG    [browser_use.Agent🅰 614b ⇢ 🅑 9d6b 🅣 6E] ✅ Completed step 6/100
+2025-12-21 16:14:32,050 - DEBUG    [browser_use.Agent🅰 614b ⇢ 🅑 9d6b 🅣 6E] 🚶 Starting step 7/100...
+2025-12-21 16:14:32,050 - DEBUG    [browser_use.Agent🅰 614b ⇢ 🅑 9d6b 🅣 6E] 🌐 Step 7: Getting browser state...
+2025-12-21 16:14:32,050 - DEBUG    [browser_use.Agent🅰 614b ⇢ 🅑 9d6b 🅣 6E] 📸 Requesting browser state with include_screenshot=True
+2025-12-21 16:14:32,052 - DEBUG    [browser_use.BrowserSession🅑 9d6b 🅣 6E] 🚌 [DownloadsWatchdog.on_BrowserStateRequestEvent(#8ced)] ⏳ Starting...       👈 by Agent 
+2025-12-21 16:14:32,052 - DEBUG    [browser_use.BrowserSession🅑 9d6b 🅣 6E] [DownloadsWatchdog] on_BrowserStateRequestEvent started, event_id=8ced
+2025-12-21 16:14:32,054 - DEBUG    [browser_use.BrowserSession🅑 9d6b 🅣 6E] [DownloadsWatchdog] About to call get_current_page_url(), target_id=2F6E
+2025-12-21 16:14:32,054 - DEBUG    [browser_use.BrowserSession🅑 9d6b 🅣 6E] [DownloadsWatchdog] Got URL: https://www.12306.cn/index/
+2025-12-21 16:14:32,054 - DEBUG    [browser_use.BrowserSession🅑 9d6b 🅣 6E] [DownloadsWatchdog] About to dispatch NavigationCompleteEvent for target 2F6E
+2025-12-21 16:14:32,055 - DEBUG    [browser_use.BrowserSession🅑 9d6b 🅣 6E] [DownloadsWatchdog] Successfully completed BrowserStateRequestEvent
+2025-12-21 16:14:32,055 - DEBUG    [browser_use.BrowserSession🅑 9d6b 🅣 6E] 🚌 [DownloadsWatchdog.on_BrowserStateRequestEvent(#8ced)] Succeeded (0.00s) 👉 returned to  Agent
+2025-12-21 16:14:32,056 - DEBUG    [browser_use.BrowserSession🅑 9d6b 🅣 6E] 🚌 [DOMWatchdog.on_BrowserStateRequestEvent(#8ced)]       ⏳ Starting...       👈 by Agent 
+2025-12-21 16:14:32,056 - DEBUG    [browser_use.BrowserSession🅑 9d6b 🅣 6E] 🔍 DOMWatchdog.on_BrowserStateRequestEvent: STARTING browser state request
+2025-12-21 16:14:32,056 - DEBUG    [browser_use.BrowserSession🅑 9d6b 🅣 6E] 🔍 DOMWatchdog.on_BrowserStateRequestEvent: Got page URL: https://www.12306.cn/index/
+2025-12-21 16:14:32,056 - DEBUG    [browser_use.BrowserSession🅑 9d6b 🅣 6E] Current page URL: https://www.12306.cn/index/, target_id: A9CAE38A0BEC94E08FB2DBEDA3CF2F6E
+2025-12-21 16:14:32,062 - DEBUG    [browser_use.BrowserSession🅑 9d6b 🅣 6E] 🔍 Network check: document.readyState=complete, loading=False, total_resources=82, responseEnd=0: 0, after_filters=0, domains=[kyfw.12306.cn, tj.12306.cn, www.12306.cn]
+2025-12-21 16:14:32,062 - DEBUG    [browser_use.BrowserSession🅑 9d6b 🅣 6E] 🔍 DOMWatchdog.on_BrowserStateRequestEvent: ⏳ Waiting for page stability...
+2025-12-21 16:14:32,062 - DEBUG    [browser_use.BrowserSession🅑 9d6b 🅣 6E] 🔍 DOMWatchdog.on_BrowserStateRequestEvent: ✅ Page stability complete
+2025-12-21 16:14:32,062 - DEBUG    [browser_use.BrowserSession🅑 9d6b 🅣 6E] 🔍 DOMWatchdog.on_BrowserStateRequestEvent: Getting tabs info...
+2025-12-21 16:14:32,062 - DEBUG    [browser_use.BrowserSession🅑 9d6b 🅣 6E] 🔍 DOMWatchdog.on_BrowserStateRequestEvent: Got 1 tabs
+2025-12-21 16:14:32,062 - DEBUG    [browser_use.BrowserSession🅑 9d6b 🅣 6E] 🔍 DOMWatchdog.on_BrowserStateRequestEvent: Tabs info: [TabInfo(url='https://www.12306.cn/index/', title='12306.cn/index/', target_id='A9CAE38A0BEC94E08FB2DBEDA3CF2F6E', parent_target_id=None)]
+2025-12-21 16:14:32,062 - DEBUG    [browser_use.BrowserSession🅑 9d6b 🅣 6E] 🔍 DOMWatchdog.on_BrowserStateRequestEvent: 🌳 Starting DOM tree build task...
+2025-12-21 16:14:32,063 - DEBUG    [browser_use.BrowserSession🅑 9d6b 🅣 6E] 🔍 DOMWatchdog.on_BrowserStateRequestEvent: 📸 Starting clean screenshot task...
+2025-12-21 16:14:32,063 - DEBUG    [browser_use.BrowserSession🅑 9d6b 🅣 6E] 🔍 DOMWatchdog._build_dom_tree_without_highlights: STARTING DOM tree build
+2025-12-21 16:14:32,063 - DEBUG    [browser_use.BrowserSession🅑 9d6b 🅣 6E] 🔍 DOMWatchdog._build_dom_tree_without_highlights: Calling DomService.get_serialized_dom_tree...
+2025-12-21 16:14:32,063 - DEBUG    [browser_use.BrowserSession🅑 9d6b 🅣 6E] 🔍 DOMWatchdog._capture_clean_screenshot: Capturing clean screenshot...
+2025-12-21 16:14:32,064 - DEBUG    [browser_use.BrowserSession🅑 9d6b 🅣 6E] 🔍 DEBUG: Capturing DOM snapshot for target A9CAE38A0BEC94E08FB2DBEDA3CF2F6E
+2025-12-21 16:14:32,064 - DEBUG    [browser_use.BrowserSession🅑 9d6b 🅣 6E] 📸 ScreenshotEvent handlers registered: 1 - ['ScreenshotWatchdog.on_ScreenshotEvent']
+2025-12-21 16:14:32,065 - DEBUG    [browser_use.BrowserSession🅑 9d6b 🅣 6E] 📸 Dispatched ScreenshotEvent, waiting for event to complete...
+2025-12-21 16:14:32,066 - DEBUG    [browser_use.BrowserSession🅑 9d6b 🅣 6E] 🚌 [DownloadsWatchdog.on_NavigationCompleteEvent(#134b)]  ⏳ Starting...       ↲  triggered by on_BrowserStateRequestEvent#8ced 👈 by Agent
+2025-12-21 16:14:32,066 - DEBUG    [browser_use.BrowserSession🅑 9d6b 🅣 6E] [DownloadsWatchdog] NavigationCompleteEvent received for https://www.12306.cn/index/, tab #2F6E
+2025-12-21 16:14:32,066 - DEBUG    [browser_use.BrowserSession🅑 9d6b 🅣 6E] [DownloadsWatchdog] Got target_id=A9CAE38A0BEC94E08FB2DBEDA3CF2F6E for tab #2F6E
+2025-12-21 16:14:32,066 - DEBUG    [browser_use.BrowserSession🅑 9d6b 🅣 6E] [DownloadsWatchdog] Checking if target A9CAE38A0BEC94E08FB2DBEDA3CF2F6E is PDF viewer...
+2025-12-21 16:14:32,066 - DEBUG    [browser_use.BrowserSession🅑 9d6b 🅣 6E] 🚌 [DownloadsWatchdog.on_NavigationCompleteEvent(#134b)]  Succeeded (0.00s) ⤴  returned to  on_BrowserStateRequestEvent#8ced
+2025-12-21 16:14:32,068 - DEBUG    [browser_use.BrowserSession🅑 9d6b 🅣 6E] 🚌 [SecurityWatchdog.on_NavigationCompleteEvent(#134b)]   ⏳ Starting...       ↲  triggered by on_BrowserStateRequestEvent#8ced 👈 by Agent
+2025-12-21 16:14:32,068 - DEBUG    [browser_use.BrowserSession🅑 9d6b 🅣 6E] 🚌 [SecurityWatchdog.on_NavigationCompleteEvent(#134b)]   Succeeded (0.00s) ⤴  returned to  on_BrowserStateRequestEvent#8ced
+2025-12-21 16:14:32,070 - DEBUG    [browser_use.BrowserSession🅑 9d6b 🅣 6E] 🚌 [ScreenshotWatchdog.on_ScreenshotEvent(#a692)]         ⏳ Starting...       ↲  triggered by on_BrowserStateRequestEvent#8ced 👈 by Agent
+2025-12-21 16:14:32,070 - DEBUG    [browser_use.BrowserSession🅑 9d6b 🅣 6E] [ScreenshotWatchdog] Handler START - on_ScreenshotEvent called
+2025-12-21 16:14:32,141 - DEBUG    [browser_use.BrowserSession🅑 9d6b 🅣 6E] [ScreenshotWatchdog] Taking screenshot with params: {'format': 'png', 'captureBeyondViewport': False}
+2025-12-21 16:14:32,196 - DEBUG    [browser_use.BrowserSession🅑 9d6b 🅣 6E] 🔍 DEBUG: Snapshot contains 1 frames with 17 total nodes
+2025-12-21 16:14:32,223 - DEBUG    [browser_use.BrowserSession🅑 9d6b 🅣 6E] 🔍 DEBUG: HTML frame scroll - scrollY=0, scrollX=0, frameId=A9CAE38A0BEC94E08FB2DBEDA3CF2F6E, nodeId=11278
+2025-12-21 16:14:32,241 - DEBUG    [browser_use.BrowserSession🅑 9d6b 🅣 6E] 🔍 DEBUG: Form element input id='selected_input' name='cityID' - visible=False, bounds=None
+2025-12-21 16:14:32,303 - DEBUG    [root] BBox filtering excluded 47 nodes
+2025-12-21 16:14:32,309 - DEBUG    [browser_use.BrowserSession🅑 9d6b 🅣 6E] 🔍 DOMWatchdog._build_dom_tree_without_highlights: ✅ DomService.get_serialized_dom_tree completed
+2025-12-21 16:14:32,309 - DEBUG    [browser_use.BrowserSession🅑 9d6b 🅣 6E] ⏱️ Total DOM tree time: 246.06ms
+📊 Timing breakdown:
+  ├─ get_all_trees: 133.23ms
+  │  ├─ iframe_scroll_detection: 2.98ms
+  │  ├─ cdp_parallel_calls: 129.08ms
+  │  └─ snapshot_processing: 0.20ms
+  ├─ build_ax_lookup: 0.17ms
+  ├─ build_snapshot_lookup: 26.98ms
+  ├─ construct_enhanced_tree: 48.37ms
+  ├─ serialize_accessible_elements: 35.50ms
+  │  ├─ create_simplified_tree: 6.26ms
+  │  │  └─ clickable_detection: 3.21ms
+  │  ├─ calculate_paint_order: 19.83ms
+  │  ├─ optimize_tree: 0.47ms
+  │  ├─ bbox_filtering: 3.00ms
+  │  └─ assign_interactive_indices: 5.92ms
+  └─ get_serialized_dom_tree_overhead: 1.75ms
+2025-12-21 16:14:32,309 - DEBUG    [browser_use.BrowserSession🅑 9d6b 🅣 6E] 🔍 DOMWatchdog._build_dom_tree_without_highlights: Updating selector maps...
+2025-12-21 16:14:32,309 - DEBUG    [browser_use.BrowserSession🅑 9d6b 🅣 6E] 🔍 DOMWatchdog._build_dom_tree_without_highlights: ✅ Selector maps updated, 239 elements
+2025-12-21 16:14:32,309 - DEBUG    [browser_use.BrowserSession🅑 9d6b 🅣 6E] 🔍 DOMWatchdog._build_dom_tree_without_highlights: ✅ COMPLETED DOM tree build (no JS highlights)
+2025-12-21 16:14:32,309 - DEBUG    [browser_use.BrowserSession🅑 9d6b 🅣 6E] 🔍 DOMWatchdog.on_BrowserStateRequestEvent: ✅ DOM tree build completed
+2025-12-21 16:14:32,594 - DEBUG    [browser_use.BrowserSession🅑 9d6b 🅣 6E] [ScreenshotWatchdog] Screenshot captured successfully
+2025-12-21 16:14:32,596 - DEBUG    [browser_use.BrowserSession🅑 9d6b 🅣 6E] Successfully removed 0 highlight elements
+2025-12-21 16:14:32,596 - DEBUG    [browser_use.BrowserSession🅑 9d6b 🅣 6E] 🚌 [ScreenshotWatchdog.on_ScreenshotEvent(#a692)]         Succeeded (0.53s) ➡️ <str> ⤴  returned to  on_BrowserStateRequestEvent#8ced
+2025-12-21 16:14:32,596 - DEBUG    [browser_use.BrowserSession🅑 9d6b 🅣 6E] 🔍 DOMWatchdog._capture_clean_screenshot: ✅ Clean screenshot captured successfully
+2025-12-21 16:14:32,596 - DEBUG    [browser_use.BrowserSession🅑 9d6b 🅣 6E] ⏳ capture_clean_screenshot() took 0.53s
+2025-12-21 16:14:32,597 - DEBUG    [browser_use.BrowserSession🅑 9d6b 🅣 6E] 🔍 DOMWatchdog.on_BrowserStateRequestEvent: ✅ Clean screenshot captured
+2025-12-21 16:14:32,597 - DEBUG    [browser_use.BrowserSession🅑 9d6b 🅣 6E] 🔍 DOMWatchdog.on_BrowserStateRequestEvent: Getting page title...
+2025-12-21 16:14:32,597 - DEBUG    [browser_use.BrowserSession🅑 9d6b 🅣 6E] 🔍 DOMWatchdog.on_BrowserStateRequestEvent: Got title: 12306.cn/index/
+2025-12-21 16:14:32,597 - DEBUG    [browser_use.BrowserSession🅑 9d6b 🅣 6E] 🔍 DOMWatchdog.on_BrowserStateRequestEvent: Getting page info from CDP...
+2025-12-21 16:14:32,598 - DEBUG    [browser_use.BrowserSession🅑 9d6b 🅣 6E] 🔍 DOMWatchdog.on_BrowserStateRequestEvent: Got page info from CDP: viewport_width=1839 viewport_height=961 page_width=1839 page_height=1713 scroll_x=0 scroll_y=0 pixels_above=0 pixels_below=752 pixels_left=0 pixels_right=0
+2025-12-21 16:14:32,598 - DEBUG    [browser_use.BrowserSession🅑 9d6b 🅣 6E] 🔍 DOMWatchdog._detect_pagination_buttons: Detecting pagination buttons...
+2025-12-21 16:14:32,600 - DEBUG    [browser_use.BrowserSession🅑 9d6b 🅣 6E] 🔍 DOMWatchdog._detect_pagination_buttons: Found 19 pagination buttons
+2025-12-21 16:14:32,600 - DEBUG    [browser_use.BrowserSession🅑 9d6b 🅣 6E] 🔍 DOMWatchdog.on_BrowserStateRequestEvent: 📸 Creating BrowserStateSummary with screenshot, length: 1005052
+2025-12-21 16:14:32,600 - DEBUG    [browser_use.BrowserSession🅑 9d6b 🅣 6E] 🔍 DOMWatchdog.on_BrowserStateRequestEvent: ✅ COMPLETED - Returning browser state
+2025-12-21 16:14:32,600 - DEBUG    [browser_use.BrowserSession🅑 9d6b 🅣 6E] 🚌 [DOMWatchdog.on_BrowserStateRequestEvent(#8ced)]       Succeeded (0.54s) ➡️ <BrowserStateSummary> 👉 returned to  Agent
+2025-12-21 16:14:32,619 - DEBUG    [browser_use.Agent🅰 614b ⇢ 🅑 9d6b 🅣 6E] 📸 Got browser state WITH screenshot, length: 1005052
+2025-12-21 16:14:32,619 - INFO     [Agent] 
