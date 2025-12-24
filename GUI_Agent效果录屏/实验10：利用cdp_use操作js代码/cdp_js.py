@@ -5,7 +5,7 @@ async def main():
     # 1. 连接到浏览器
     # 请确保 Chrome 已经以 --remote-debugging-port=9222 启动
     # 注意：这里的 ID 如果变化了，需要更新，或者使用 /json 接口动态获取
-    uri = "ws://127.0.0.1:9222/devtools/browser/f14f69be-8dd3-407c-bf84-89b64dc9a6f9"
+    uri = "ws://127.0.0.1:9222/devtools/browser/4ca7aed5-583e-47fa-9d3e-99cffac381a5"
     
     async with CDPClient(uri) as cdp:
         # 2. 获取所有目标并找到“页面”类型的目标
