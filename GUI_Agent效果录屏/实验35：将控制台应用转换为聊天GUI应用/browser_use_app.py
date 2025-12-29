@@ -78,6 +78,8 @@ class AgentWorker(QThread):
                 executable_path='/usr/bin/google-chrome',
                 user_data_dir=os.path.expanduser('~/.config/google-chrome'),
                 profile_directory='Default',
+                window_size={'width': 1200, 'height': 800},
+                window_position={'width': 100, 'height': 0},  # 左上角为0，0
             )
 
             agent = Agent(
