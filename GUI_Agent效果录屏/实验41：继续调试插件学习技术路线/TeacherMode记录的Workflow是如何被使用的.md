@@ -2,12 +2,13 @@
 
 ```typescript
 webpack://Agent/src/background/handlers/ExecutionHandler.ts
-    workflow = teachModeService.getWorkflow(workflowId)
-    this.execution.updateOptions({
-        mode: 'teach',
-        workflow: workflow
-    })
-    this.execution.run()  // 调用 webpack://Agent/src/lib/execution/Execution.ts/Execution/run()
+    handleExecuteTeachModeWorkflow
+        workflow = teachModeService.getWorkflow(workflowId)
+        this.execution.updateOptions({
+            mode: 'teach',
+            workflow: workflow
+        })
+        this.execution.run()  // 调用 webpack://Agent/src/lib/execution/Execution.ts/Execution/run()
 
 webpack://Agent/src/lib/execution/Execution.ts
     Execution
