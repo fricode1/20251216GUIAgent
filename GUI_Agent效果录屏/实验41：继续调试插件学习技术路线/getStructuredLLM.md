@@ -93,6 +93,18 @@ webpack://Agent/src/lib/llm/LangChainProvider.ts
 webpack://Agent/src/lib/llm/LangChainProvider.ts
 import { ChatOpenAI } from "@langchain/openai"
     class LangChainProvider:
-        _createBrowserOSLLM()
-            model = new ChatOpenAI()  //调用langchain/openai/ChatOpenAI
+        _createBrowserOSLLM()  // BrowserOS built-in provider (uses proxy, no API key needed)
+            const config: any = {
+                modelName: selectedProvider,
+                temperature: isReasoningModel ? 1 : temperature,  // Reasoning models use temperature 1
+                topP: isReasoningModel ? undefined : 1,  // Reasoning models don't support topP
+                streaming,
+                openAIApiKey: 'nokey',
+                configuration: {
+                    baseURL: proxyUrl,
+                    apiKey: 'nokey',
+                    dangerouslyAllowBrowser: true
+                }
+            }
+            model = new ChatOpenAI(config)  //调用langchain/openai/ChatOpenAI
 ```
