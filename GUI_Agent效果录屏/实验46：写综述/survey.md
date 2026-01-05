@@ -118,9 +118,27 @@ https://docs.google.com/spreadsheets/d/1M801lEpBbKSNwP-vDBkC_pF7LdyGU1f_ufZb_NWN
 
 当上下文过长时，LLM通过调用工具，自动存储上下文中的重要信息。
 
+## AutoWebGLM
+
+### 简介
+
+- **标题**：AutoWebGLM: A Large Language Model-based Web Navigating Agent
+- **时间**：2024 年 4 月
+- **基准测试平台**：本文提出了一个用于评估 WebAgent 的基准测试平台 AutoWebBench
+	- 约一万条轨迹
+- **数据收集**：本文收集了一个数据集来微调模型
+	- 通过浏览器插件记录网页任务的执行过程
+	- 训练的模型大小为6B，基于ChatGLM3-6B微调
 ## Agent S
 
+### 要点
+- **时间**：2024年10月
+- 本文重点考虑了 domain-specific knowledge，提出了 experience-augmented hierarchical planning
 
+### EXPERIENCE-AUGMENTED HIERARCHICAL PLANNING
+
+- 用户的 Query 用于：从记忆中检索相似任务经验。检索是基于 query embedding 的相似性。
+- Planner 根据经验生成 subtask
 ## ScribeAgent
 
 **要点：**
@@ -129,7 +147,7 @@ https://docs.google.com/spreadsheets/d/1M801lEpBbKSNwP-vDBkC_pF7LdyGU1f_ufZb_NWN
 - 现有的 Web Agents 基于提示词，但本文的微调策略更好。
 - 仅利用网页的文本形式而非截图，因为缺乏有效的视觉处理工具
 
-**数据集获取**
+### 数据集获取
 - 靠 Scribe，这是一个商业化的产品。这篇论文就是这个公司发布的
 	- 类似开源工具：https://github.com/AutomaApp/automa
 - 记录了页面的DOM和动作
@@ -140,7 +158,7 @@ https://docs.google.com/spreadsheets/d/1M801lEpBbKSNwP-vDBkC_pF7LdyGU1f_ufZb_NWN
 - 平均步骤：11步
 - 可能涉及隐私，所以数据集不公开
 
-微调
+### 微调
 - 效果：在公开测试集上，比不微调提升了5到10个点。注意，这是对于常用应用，开源数据集上的。对于从来没有见过的业务平台，提升肯定明显。
 	- 表1显示，在test split dataset上，至少有三倍提升。
 - 缺点：微调需要技术、数据、算力。
@@ -157,8 +175,11 @@ https://docs.google.com/spreadsheets/d/1M801lEpBbKSNwP-vDBkC_pF7LdyGU1f_ufZb_NWN
 - learning rate: 1e-4
 - 微调成本：Qwen2 7B 只需使用 8 块 H100 GPU 就能在一天内完成微调，而 Qwen2 57B 在相同的硬件配置下则需要超过一周的时间。
 ## PAE
-*   **时间**：2024年12月。
-*   **出品方**：亚马逊。
+* **时间**：2024年12月。
+* **出品方**：亚马逊。
+* **现状与问题**：如果每项技能都需要通过固定的人类标注指令手动指定，那么由于人类标注指令的数量和多样性限制，Agent的技能库必然会受到限制。
+* **基于视觉**：而非DOM进行感知
+* **问题**：是否涉及到模型训练？
 
 ## A Survey of WebAgents
 
@@ -181,6 +202,14 @@ https://docs.google.com/spreadsheets/d/1M801lEpBbKSNwP-vDBkC_pF7LdyGU1f_ufZb_NWN
 *   **亮点**：对于简单任务，不使用 planner。
 *   **核心洞察**：先前的工作需要 environment-specific adaptations，如浏览器的 DOM parsers，手机的 accessibility trees。本文通过**纯视觉交互**统一了不同平台。
 
+## Agent S3
+
+设agent的操作序列是 $\tau = (s_0, a_1, s_1, \cdots, a_{T-1}, s_T)$，定义事实：$\phi_i = G(s_i, a_i, s_{i+1})$。据此可以生成行为叙事 $\tilde \tau = (s_0, \phi_0, \phi_1, \cdots, \phi_{T-1}, s_T)$，这让agent更加聚焦于轨迹之间的变化。
+
+本文推出了两个东西：1. Agent S3，2. Agent S3 w/ bBoN（能提2~10个点）。
+- Agent S3的两点改进：1. 使用tools而非单纯GUI操作。2. 使用一个agent（worker only）而非两个agent（高级规划器没有必要，有时适得其反，两者配合有过时现象）。
+	- worker: 代码位于 [raw.githubusercontent.com/simular-ai/Agent-S/refs/heads/main/gui_agents/s3/agents/worker.py](https://raw.githubusercontent.com/simular-ai/Agent-S/refs/heads/main/gui_agents/s3/agents/worker.py)
+
 ## UltraCUA
 *   **时间**：2025年10月。
 *   **出品方**：苹果。
@@ -188,10 +217,39 @@ https://docs.google.com/spreadsheets/d/1M801lEpBbKSNwP-vDBkC_pF7LdyGU1f_ufZb_NWN
     1.  不仅基于 GUI Operations，还结合了 tool execution。
     2.  提出了新模型。
 
+## Prune4Web
+
+### 简介
+
+- **标题**：Prune4Web: DOM Tree Pruning Programming for Web Agent
+- **时间**：2025年11月
+- **发表于**: AAAI 2026
+- **出品方**：北航
+- **现状问题**：DOM很长，一万至十万tokens。
+- **效果**：本文提出的 Purne4Web能降低 25~50 倍。
+- **基于截图模式的缺点**：包含的语义信息有限，尤其是对于特殊图标，并且对分辨率变化和元素重叠非常敏感。相比之下，HTML/DOM 提供精确且稳定的语义和结构信息，使得元素选择能够准确无误，并且几乎没有歧义。
+- **问题**：本文提出的 Purne4Web，是基于代码的，还是基于 LLM 的？如果是基于 LLM 的，则兴趣不大。
+	- 是基于LLM的，但LLM的输入不是全量DOM。而是根据用户提出的问题生成一段修剪DOM的代码。
+		- 缺点
+			- 增加了调用LLM的次数
+			- 生成的代码未必准确
+
+## MAI-UI
+
+### 简介
+- **标题**：MAI-UI Technical Report: Real-World Centric Foundation GUI Agents
+- **时间**：2025年12月
+- **设备**：手机。虽然提了一句可以
+- **感知方式**：视觉
+- **Action创新点**：不再仅仅是UI动作（点击、填写），还能进行工具调用。不再仅仅强调与应用交互，还要与用户交互。
+- **GUI 定位任务**：这是基于视觉的Agent衍生出来的专门任务。这说明基于视觉的agent在定位环节可能有误差。
+- **训练**：进行了模型的训练。
 ## WebOperator
 
 要点：
+- 标题：WebOperator: Action-Aware Tree Search for Autonomous Agents in Web Environment
 - 时间：2025年12月
+- Citations：0
 - 本文不训练模型，而是设计Agent框架。
 - 使用AxTree
 - 创新点：对动作进行 tree search
@@ -220,7 +278,8 @@ https://docs.google.com/spreadsheets/d/1M801lEpBbKSNwP-vDBkC_pF7LdyGU1f_ufZb_NWN
 # Benchmark 与 结果
 
 ### OSWorld
-*   **UI-TARS-2**: 47.5
+* **Agent S**: 20.58%  
+* **UI-TARS-2**: 47.5%
 *   **Surfer 2**: 60.1%
 
 ### Online-Mind2Web
@@ -230,8 +289,13 @@ https://docs.google.com/spreadsheets/d/1M801lEpBbKSNwP-vDBkC_pF7LdyGU1f_ufZb_NWN
 *   **UI-TARS-2**: 50.6
 
 ### AndroidWorld
-*   **UI-TARS-2**: 73.3
-*   **Surfer 2 (另一测试集/版本)**: 87.1%
+* **UI-TARS-2**: 73.3%
+* **MAI-UI**：76.7%
+* **Surfer 2 (另一测试集/版本)**: 87.1%
+
+### MobileWorld
+
+- **MAI-UI**：41.7%
 
 ### WebVoyage
 *   **Surfer 2**: 97.1%
@@ -427,3 +491,33 @@ zhbli：上述内容的真实性未知。
 ## DOM 比 截图 的优势
 
 想要全文总结，截图就不行。
+
+## WebAgent中的经验
+
+### 整体流程
+
+每次任务的操作步骤（人工的/AI的）都存起来，后续再执行相似任务时，先调用这些经验。（最最开始，肯定是人工。）
+- 执行的越多，积累的越多，成功率越高
+
+### 如何保存每次任务的操作步骤
+
+这是要做的事情
+- 需要有任务prompt（用于与新任务计算余弦相似度）
+- 成功完成一个任务后，根据轨迹生成SOP（新任务按照SOP进行）
+	- 也就是说，对于一个新任务，它是先调取轨迹，再根据轨迹生成SOP呢？还是每一个历史历史轨迹完成后生成SOP呢？这是需要考量的
+- 每个状态，要生成摘要（原始DOM太长）
+
+### 如何调用这些经验
+
+这是要做的事情
+- 计算新任务 Prompt 与历史任务 Prompt 的余弦相似度
+
+### 如何根据经验生成子任务
+
+这是要做的事情
+
+## 点击一个动作后，要不要判断动作是否执行成功？
+
+![[京东.png]]
+
+当我点击添加购物车后，页面会提示添加成功，但1秒就消失了。（如果不是第一次添加该商品，右侧购物车图标数量也不会发生改变）这让agent怎么得知是否操作成功？有种策略是不执行判断。如果人没注意这个一闪而过的提示，也不知道自己有没有添加成功。这种情况很特殊。每个网站都有各自的情况，如何设计统一的流程？如果强制要求每一步都检查是否完成，则这个例子，检查结果肯定是没有完成。不过，执行一个动作后，页面没有任何变化的情况，是罕见的。
