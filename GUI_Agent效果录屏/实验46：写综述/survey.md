@@ -220,6 +220,7 @@ https://docs.google.com/spreadsheets/d/1M801lEpBbKSNwP-vDBkC_pF7LdyGU1f_ufZb_NWN
 
 ## UltraCUA
 *   **时间**：2025年10月。
+* **Citations**: 2
 *   **出品方**：苹果。
 *   **亮点**：
     1.  不仅基于 GUI Operations，还结合了 tool execution。
@@ -231,6 +232,7 @@ https://docs.google.com/spreadsheets/d/1M801lEpBbKSNwP-vDBkC_pF7LdyGU1f_ufZb_NWN
 
 - **标题**：Prune4Web: DOM Tree Pruning Programming for Web Agent
 - **时间**：2025年11月
+- **Citations**: 0
 - **发表于**: AAAI 2026
 - **出品方**：北航
 - **现状问题**：DOM很长，一万至十万tokens。
