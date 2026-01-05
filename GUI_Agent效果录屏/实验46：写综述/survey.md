@@ -118,6 +118,14 @@ https://docs.google.com/spreadsheets/d/1M801lEpBbKSNwP-vDBkC_pF7LdyGU1f_ufZb_NWN
 
 当上下文过长时，LLM通过调用工具，自动存储上下文中的重要信息。
 
+## WebVoyager
+
+### 简介
+- **标题**：WebVoyager : Building an End-to-End Web Agent with Large Multimodal Models
+- **时间**：2024 年 1 月
+- **出品方**：腾讯
+- **感知方式**：视觉+文本
+
 ## AutoWebGLM
 
 ### 简介
@@ -239,7 +247,8 @@ https://docs.google.com/spreadsheets/d/1M801lEpBbKSNwP-vDBkC_pF7LdyGU1f_ufZb_NWN
 ### 简介
 - **标题**：MAI-UI Technical Report: Real-World Centric Foundation GUI Agents
 - **时间**：2025年12月
-- **设备**：手机。虽然提了一句可以
+- **Citations**：0
+- **设备**：手机。虽然提了一句可以用于电脑和网页，但是文章的各级标题都指向手机
 - **感知方式**：视觉
 - **Action创新点**：不再仅仅是UI动作（点击、填写），还能进行工具调用。不再仅仅强调与应用交互，还要与用户交互。
 - **GUI 定位任务**：这是基于视觉的Agent衍生出来的专门任务。这说明基于视觉的agent在定位环节可能有误差。
