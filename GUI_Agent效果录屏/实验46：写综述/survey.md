@@ -515,7 +515,7 @@ zhbli：上述内容的真实性未知。
 这是要做的事情
 - 需要有任务prompt（用于与新任务计算余弦相似度）
 - 成功完成一个任务后，根据轨迹生成SOP（新任务按照SOP进行）
-	- 也就是说，对于一个新任务，它是先调取轨迹，再根据轨迹生成SOP呢？还是每一个历史历史轨迹完成后生成SOP呢？这是需要考量的
+	- 也就是说，对于一个新任务，它是先调取轨迹，再根据轨迹生成SOP呢？还是每一个历史轨迹完成后生成SOP呢？这是需要考量的
 - 每个状态，要生成摘要（原始DOM太长）
 
 ### 如何调用这些经验
@@ -535,6 +535,7 @@ zhbli：上述内容的真实性未知。
 	- 人工操作一遍，后台录制下轨迹，大模型据此生成SOP，作为后续类似任务的参考
 		- nano browser: Replay Historical Tasks( experimental ): Enable storing and replaying of agent step history (experimental, may have issues) 提供了录制重播的功能，但是没法用
 		- browseros自带了这个
+	- 自主探索
 
 ## 点击一个动作后，要不要判断动作是否执行成功？
 
