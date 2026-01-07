@@ -527,6 +527,15 @@ zhbli：上述内容的真实性未知。
 
 这是要做的事情
 
+在web agent 领域，还有没有其他生成经验的思路？
+- 首先，必要性是肯定的。大模型肯定不会操作专业性强的系统。必须要经验。
+- 其次，如何生产经验
+	- 现有说明书就够了
+	- 编制任务的SOP（这就是我目前采用的方式）
+	- 人工操作一遍，后台录制下轨迹，大模型据此生成SOP，作为后续类似任务的参考
+		- nano browser: Replay Historical Tasks( experimental ): Enable storing and replaying of agent step history (experimental, may have issues) 提供了录制重播的功能，但是没法用
+		- browseros自带了这个
+
 ## 点击一个动作后，要不要判断动作是否执行成功？
 
 ![[京东.png]]
