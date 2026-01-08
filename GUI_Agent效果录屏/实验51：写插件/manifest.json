@@ -1,10 +1,13 @@
 {
   "manifest_version": 3,
-  "name": "HelloWorld Sidebar",
+  "name": "AI Chat - DeepSeek",
   "version": "1.0.0",
-  "description": "A simple Chrome extension with echo chat functionality in the sidebar",
+  "description": "AI chat assistant powered by DeepSeek API in the sidebar",
   "permissions": [
     "sidePanel"
+  ],
+  "host_permissions": [
+    "https://api.deepseek.com/*"
   ],
   "background": {
     "service_worker": "background.js"
@@ -13,6 +16,6 @@
     "default_path": "sidebar.html"
   },
   "action": {
-    "default_title": "Open Sidebar"
+    "default_title": "Open AI Chat"
   }
 }
