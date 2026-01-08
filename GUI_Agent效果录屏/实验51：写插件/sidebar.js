@@ -168,6 +168,9 @@ async function getCurrentTabDOM() {
           });
         });
 
+        // 将元素列表存储在 window 对象中，供后续操作使用
+        window.__interactiveElements = elements;
+
         return elements;
       }
     });
@@ -175,6 +178,67 @@ async function getCurrentTabDOM() {
     return results[0].result;
   } catch (error) {
     console.error('获取 DOM 失败:', error);
+    throw error;
+  }
+}
+
+// 点击指定元素
+async function clickElement(elementId) {
+  try {
+    // 获取当前活动标签页
+    const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
+
+    if (!tab || !tab.id) {
+      throw new Error('无法获取当前标签页');
+    }
+
+    // 在标签页中执行脚本来点击元素
+    const results = await chrome.scripting.executeScript({
+      target: { tabId: tab.id },
+      func: (id) => {
+        // 从之前存储的元素列表中查找
+        if (!window.__interactiveElements) {
+          return { success: false, error: '未找到元素列表，请先执行 DOM 命令' };
+        }
+
+        const elementInfo = window.__interactiveElements.find(el => el.id === id);
+        if (!elementInfo) {
+          return { success: false, error: `未找到 ID 为 ${id} 的元素` };
+        }
+
+        // 使用选择器查找元素
+        const element = document.querySelector(elementInfo.selector);
+        if (!element) {
+          return { success: false, error: `元素可能已从页面移除: ${elementInfo.selector}` };
+        }
+
+        // 滚动到元素可见
+        element.scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+        // 高亮元素（临时添加边框）
+        const originalStyle = element.style.cssText;
+        element.style.cssText = 'border: 3px solid red !important; outline: 3px solid red !important;';
+
+        // 延迟点击，让用户看到高亮
+        setTimeout(() => {
+          element.click();
+          setTimeout(() => {
+            element.style.cssText = originalStyle;
+          }, 500);
+        }, 300);
+
+        return {
+          success: true,
+          element: elementInfo,
+          message: `已点击元素 [${id}]: ${elementInfo.tag}`
+        };
+      },
+      args: [elementId]
+    });
+
+    return results[0].result;
+  } catch (error) {
+    console.error('点击元素失败:', error);
     throw error;
   }
 }
@@ -257,6 +321,47 @@ async function sendMessage() {
 
       // 显示错误消息
       addMessage(`❌ 获取 DOM 失败: ${error.message}`, false);
+    } finally {
+      // 重新启用发送按钮
+      sendButton.disabled = false;
+      messageInput.focus();
+    }
+    return;
+  }
+
+  // 检查是否是 click 命令
+  const clickMatch = message.match(/^click\((\d+)\)$/i);
+  if (clickMatch) {
+    const elementId = parseInt(clickMatch[1]);
+
+    // 显示"正在点击..."提示
+    const thinkingDiv = document.createElement('div');
+    thinkingDiv.className = 'message bot';
+    thinkingDiv.innerHTML = `
+      <div class="sender">Bot</div>
+      <div class="content">🖱️ 正在点击元素 [${elementId}]...</div>
+    `;
+    chatContainer.appendChild(thinkingDiv);
+    chatContainer.scrollTop = chatContainer.scrollHeight;
+
+    try {
+      // 点击元素
+      const result = await clickElement(elementId);
+
+      // 移除"正在点击..."提示
+      thinkingDiv.remove();
+
+      if (result.success) {
+        addMessage(`✅ ${result.message}`, false);
+      } else {
+        addMessage(`❌ 点击失败: ${result.error}`, false);
+      }
+    } catch (error) {
+      // 移除"正在点击..."提示
+      thinkingDiv.remove();
+
+      // 显示错误消息
+      addMessage(`❌ 点击失败: ${error.message}`, false);
     } finally {
       // 重新启用发送按钮
       sendButton.disabled = false;
