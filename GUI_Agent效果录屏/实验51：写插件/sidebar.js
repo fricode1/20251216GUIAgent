@@ -81,7 +81,7 @@ async function callDeepSeekAPI(messages) {
   }
 }
 
-// 获取当前标签页的 DOM 内容
+// 获取当前标签页的可交互元素
 async function getCurrentTabDOM() {
   try {
     // 获取当前活动标签页
@@ -91,11 +91,84 @@ async function getCurrentTabDOM() {
       throw new Error('无法获取当前标签页');
     }
 
-    // 在标签页中执行脚本来获取 DOM
+    // 在标签页中执行脚本来获取可交互元素
     const results = await chrome.scripting.executeScript({
       target: { tabId: tab.id },
       func: () => {
-        return document.documentElement.outerHTML;
+        // 定义可交互元素的选择器
+        const interactiveSelectors = [
+          'button',
+          'a[href]',
+          'input',
+          'textarea',
+          'select',
+          '[contenteditable="true"]',
+          '[role="button"]',
+          '[role="link"]',
+          '[role="textbox"]',
+          '[onclick]',
+          '[tabindex]:not([tabindex="-1"])'
+        ];
+
+        const elements = [];
+        const seen = new Set();
+
+        // 遍历所有选择器
+        interactiveSelectors.forEach(selector => {
+          const nodes = document.querySelectorAll(selector);
+          nodes.forEach(element => {
+            // 使用元素路径作为唯一标识
+            const getPath = (el) => {
+              if (el.id) {
+                return `${el.tagName.toLowerCase()}#${el.id}`;
+              }
+              const path = [];
+              let current = el;
+              while (current && current !== document.body) {
+                let selector = current.tagName.toLowerCase();
+                if (current.id) {
+                  selector += `#${current.id}`;
+                  path.unshift(selector);
+                  break;
+                }
+                if (current.className) {
+                  const classes = current.className.split(' ').filter(c => c).join('.');
+                  if (classes) {
+                    selector += `.${classes}`;
+                  }
+                }
+                path.unshift(selector);
+                current = current.parentElement;
+              }
+              return path.join(' > ');
+            };
+
+            const path = getPath(element);
+
+            // 避免重复
+            if (seen.has(path)) return;
+            seen.add(path);
+
+            // 获取元素信息
+            const info = {
+              id: elements.length + 1,
+              tag: element.tagName.toLowerCase(),
+              type: element.getAttribute('type') || '',
+              role: element.getAttribute('role') || '',
+              text: element.textContent?.trim().substring(0, 50) || '',
+              placeholder: element.getAttribute('placeholder') || '',
+              href: element.getAttribute('href') || '',
+              name: element.getAttribute('name') || '',
+              idAttr: element.id || '',
+              className: element.className || '',
+              selector: path
+            };
+
+            elements.push(info);
+          });
+        });
+
+        return elements;
       }
     });
 
@@ -136,18 +209,48 @@ async function sendMessage() {
     chatContainer.scrollTop = chatContainer.scrollHeight;
 
     try {
-      // 获取当前标签页的 DOM 内容
-      const domContent = await getCurrentTabDOM();
+      // 获取当前标签页的可交互元素
+      const elements = await getCurrentTabDOM();
 
       // 移除"正在获取..."提示
       thinkingDiv.remove();
 
-      // 添加 DOM 内容（截取前5000个字符以避免消息过长）
-      const truncatedDOM = domContent.length > 5000
-        ? domContent.substring(0, 5000) + '\n\n... (内容过长，已截断)'
-        : domContent;
+      // 格式化输出
+      let output = `📄 **当前标签页的可交互元素（共 ${elements.length} 个）：**\n\n`;
 
-      addMessage(`📄 **当前标签页 DOM 内容：**\n\n\`\`\`html\n${truncatedDOM}\n\`\`\``, false);
+      elements.forEach(el => {
+        let desc = `[${el.id}] ${el.tag}`;
+
+        // 添加类型或角色信息
+        if (el.type) desc += `[type="${el.type}"]`;
+        if (el.role) desc += `[role="${el.role}"]`;
+
+        // 添加文本内容
+        if (el.text) {
+          desc += ` - "${el.text}${el.text.length >= 50 ? '...' : ''}"`;
+        }
+
+        // 添加 placeholder
+        if (el.placeholder) {
+          desc += ` [placeholder: "${el.placeholder}"]`;
+        }
+
+        // 添加 href（链接）
+        if (el.href) {
+          desc += ` → ${el.href}`;
+        }
+
+        // 添加 id/class 信息
+        if (el.idAttr) desc += ` #${el.idAttr}`;
+        if (el.className) desc += ` .${el.className.split(' ').join('.')}`;
+
+        output += desc + '\n';
+      });
+
+      // 添加选择器说明
+      output += `\n💡 提示：可以使用元素 ID 来引用特定元素`;
+
+      addMessage(output, false);
     } catch (error) {
       // 移除"正在获取..."提示
       thinkingDiv.remove();
