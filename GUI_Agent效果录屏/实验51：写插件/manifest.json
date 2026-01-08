@@ -2,7 +2,7 @@
   "manifest_version": 3,
   "name": "HelloWorld Sidebar",
   "version": "1.0.0",
-  "description": "A simple Chrome extension that displays helloworld in the sidebar",
+  "description": "A simple Chrome extension with echo chat functionality in the sidebar",
   "permissions": [
     "sidePanel"
   ],
