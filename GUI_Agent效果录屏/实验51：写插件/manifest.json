@@ -4,10 +4,13 @@
   "version": "1.0.0",
   "description": "AI chat assistant powered by DeepSeek API in the sidebar",
   "permissions": [
-    "sidePanel"
+    "sidePanel",
+    "activeTab",
+    "scripting"
   ],
   "host_permissions": [
-    "https://api.deepseek.com/*"
+    "https://api.deepseek.com/*",
+    "<all_urls>"
   ],
   "background": {
     "service_worker": "background.js"

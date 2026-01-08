@@ -81,6 +81,31 @@ async function callDeepSeekAPI(messages) {
   }
 }
 
+// 获取当前标签页的 DOM 内容
+async function getCurrentTabDOM() {
+  try {
+    // 获取当前活动标签页
+    const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
+
+    if (!tab || !tab.id) {
+      throw new Error('无法获取当前标签页');
+    }
+
+    // 在标签页中执行脚本来获取 DOM
+    const results = await chrome.scripting.executeScript({
+      target: { tabId: tab.id },
+      func: () => {
+        return document.documentElement.outerHTML;
+      }
+    });
+
+    return results[0].result;
+  } catch (error) {
+    console.error('获取 DOM 失败:', error);
+    throw error;
+  }
+}
+
 // 发送消息
 async function sendMessage() {
   const message = messageInput.value.trim();
@@ -97,6 +122,45 @@ async function sendMessage() {
 
   // 禁用发送按钮
   sendButton.disabled = true;
+
+  // 检查是否输入了 "DOM"
+  if (message.toUpperCase() === 'DOM') {
+    // 显示"正在获取..."提示
+    const thinkingDiv = document.createElement('div');
+    thinkingDiv.className = 'message bot';
+    thinkingDiv.innerHTML = `
+      <div class="sender">Bot</div>
+      <div class="content">📄 正在获取 DOM 内容...</div>
+    `;
+    chatContainer.appendChild(thinkingDiv);
+    chatContainer.scrollTop = chatContainer.scrollHeight;
+
+    try {
+      // 获取当前标签页的 DOM 内容
+      const domContent = await getCurrentTabDOM();
+
+      // 移除"正在获取..."提示
+      thinkingDiv.remove();
+
+      // 添加 DOM 内容（截取前5000个字符以避免消息过长）
+      const truncatedDOM = domContent.length > 5000
+        ? domContent.substring(0, 5000) + '\n\n... (内容过长，已截断)'
+        : domContent;
+
+      addMessage(`📄 **当前标签页 DOM 内容：**\n\n\`\`\`html\n${truncatedDOM}\n\`\`\``, false);
+    } catch (error) {
+      // 移除"正在获取..."提示
+      thinkingDiv.remove();
+
+      // 显示错误消息
+      addMessage(`❌ 获取 DOM 失败: ${error.message}`, false);
+    } finally {
+      // 重新启用发送按钮
+      sendButton.disabled = false;
+      messageInput.focus();
+    }
+    return;
+  }
 
   // 显示"正在思考..."提示
   const thinkingDiv = document.createElement('div');
