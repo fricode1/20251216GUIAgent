@@ -12,10 +12,67 @@ const API_CONFIG = {
 
 // 存储对话历史
 let chatHistory = [];
+
+// 系统提示词
+const SYSTEM_PROMPT = `你是一个智能网页助手，可以帮助用户与当前浏览器标签页进行交互。
+
+你拥有以下能力：
+1. 查看当前网页的所有可交互元素（按钮、链接、输入框等）
+2. 点击网页上的任何可交互元素
+
+使用规则：
+- 当用户询问关于网页元素、想要点击按钮、提交表单、导航链接等操作时，先调用 get_interactive_elements 工具查看可用的元素
+- 获取元素列表后，根据用户的请求选择合适的元素 ID
+- 使用 click_element 工具点击目标元素
+- 完成操作后，向用户说明执行了什么操作以及结果
+
+示例对话：
+用户：帮我点击登录按钮
+你：[调用 get_interactive_elements] → [看到登录按钮 ID 是 5] → [调用 click_element(5)] → [回复用户：已成功点击登录按钮]
+
+用户：页面上有什么可以点击的？
+你：[调用 get_interactive_elements] → [回复用户：页面上有以下可交互元素...]
+
+请自然、友好地与用户交流。主动使用工具来完成用户的需求。`;
+
 let isFirstMessage = true;
 
+// 定义可用的工具
+const TOOLS = [
+  {
+    type: 'function',
+    function: {
+      name: 'get_interactive_elements',
+      description: '获取当前网页标签页中的所有可交互元素（按钮、链接、输入框等）及其ID。当用户想了解页面内容或需要点击某个元素时调用此工具。',
+      parameters: {
+        type: 'object',
+        properties: {},
+        required: []
+      }
+    }
+  },
+  {
+    type: 'function',
+    function: {
+      name: 'click_element',
+      description: '点击当前网页中指定ID的可交互元素。在调用此工具前，应该先调用 get_interactive_elements 获取元素列表。',
+      parameters: {
+        type: 'object',
+        properties: {
+          element_id: {
+            type: 'integer',
+            description: '要点击的元素ID（通过get_interactive_elements获取）'
+          }
+        },
+        required: ['element_id']
+      }
+    }
+  }
+];
+
 // 添加消息到聊天界面
-function addMessage(content, isUser) {
+// addToHistory 参数：是否将消息添加到对话历史（默认 true）
+function addMessage(content, isUser, addToHistory = true) {
   // 移除空状态提示
   if (isFirstMessage) {
     const emptyState = chatContainer.querySelector('.empty-state');
@@ -37,11 +94,11 @@ function addMessage(content, isUser) {
   contentDiv.className = 'content';
 
   // 判断是否需要渲染 Markdown
-  // 如果是用户消息或者是命令输出（DOM、click），使用纯文本
+  // 如果是用户消息或者是工具调用结果，使用纯文本
   // 如果是 Bot 的普通回复，使用 Markdown 渲染
-  const isCommandOutput = content.startsWith('📄') || content.startsWith('✅') || content.startsWith('❌') || content.startsWith('🖱️');
+  const isToolOutput = content.startsWith('📄') || content.startsWith('✅') || content.startsWith('❌') || content.startsWith('🖱️') || content.startsWith('🔧');
 
-  if (!isUser && !isCommandOutput) {
+  if (!isUser && !isToolOutput) {
     // 使用 marked.js 渲染 Markdown
     contentDiv.className = 'content markdown-content';
     // 检查 marked 是否已加载
@@ -63,14 +120,65 @@ function addMessage(content, isUser) {
   // 滚动到底部
   chatContainer.scrollTop = chatContainer.scrollHeight;
 
-  // 保存到历史
-  chatHistory.push({
-    role: isUser ? 'user' : 'assistant',
-    content: content
-  });
+  // 保存到历史（如果需要）
+  if (addToHistory) {
+    chatHistory.push({
+      role: isUser ? 'user' : 'assistant',
+      content: content
+    });
+  }
 }
 
-// 调用 DeepSeek API
+// 执行工具调用
+async function executeToolCall(toolName, toolArgs) {
+  console.log('执行工具调用:', toolName, toolArgs);
+
+  if (toolName === 'get_interactive_elements') {
+    const elements = await getCurrentTabDOM();
+
+    let output = `🔧 **工具调用结果 - get_interactive_elements**\n\n`;
+    output += `📄 当前标签页的可交互元素（共 ${elements.length} 个）：\n\n`;
+
+    elements.forEach(el => {
+      let desc = `[${el.id}] ${el.tag}`;
+      if (el.type) desc += `[type="${el.type}"]`;
+      if (el.role) desc += `[role="${el.role}"]`;
+      if (el.text) {
+        desc += ` - "${el.text}${el.text.length >= 50 ? '...' : ''}"`;
+      }
+      if (el.placeholder) {
+        desc += ` [placeholder: "${el.placeholder}"]`;
+      }
+      if (el.href) {
+        desc += ` → ${el.href}`;
+      }
+      if (el.idAttr) desc += ` #${el.idAttr}`;
+      if (el.className) desc += ` .${el.className.split(' ').join('.')}`;
+
+      output += desc + '\n';
+    });
+
+    output += `\n💡 提示：你可以使用这些元素 ID 来引用特定元素`;
+
+    return { success: true, result: output, elements: elements };
+  }
+  else if (toolName === 'click_element') {
+    const elementId = toolArgs.element_id;
+    const clickResult = await clickElement(elementId);
+
+    if (clickResult.success) {
+      const output = `🔧 **工具调用结果 - click_element**\n\n✅ ${clickResult.message}`;
+      return { success: true, result: output };
+    } else {
+      const output = `🔧 **工具调用结果 - click_element**\n\n❌ 点击失败: ${clickResult.error}`;
+      return { success: false, result: output, error: clickResult.error };
+    }
+  }
+
+  return { success: false, result: `❌ 未知的工具: ${toolName}` };
+}
+
+// 调用 DeepSeek API（支持工具调用）
 async function callDeepSeekAPI(messages) {
   try {
     const response = await fetch(`${API_CONFIG.baseURL}/v1/chat/completions`, {
@@ -82,6 +190,7 @@ async function callDeepSeekAPI(messages) {
       body: JSON.stringify({
         model: API_CONFIG.model,
         messages: messages,
+        tools: TOOLS,
         temperature: 0.7,
         max_tokens: 2000
       })
@@ -93,7 +202,7 @@ async function callDeepSeekAPI(messages) {
     }
 
     const data = await response.json();
-    return data.choices[0].message.content;
+    return data.choices[0].message;
   } catch (error) {
     console.error('API Error:', error);
     throw error;
@@ -279,116 +388,6 @@ async function sendMessage() {
   // 禁用发送按钮
   sendButton.disabled = true;
 
-  // 检查是否输入了 "DOM"
-  if (message.toUpperCase() === 'DOM') {
-    // 显示"正在获取..."提示
-    const thinkingDiv = document.createElement('div');
-    thinkingDiv.className = 'message bot';
-    thinkingDiv.innerHTML = `
-      <div class="sender">Bot</div>
-      <div class="content">📄 正在获取 DOM 内容...</div>
-    `;
-    chatContainer.appendChild(thinkingDiv);
-    chatContainer.scrollTop = chatContainer.scrollHeight;
-
-    try {
-      // 获取当前标签页的可交互元素
-      const elements = await getCurrentTabDOM();
-
-      // 移除"正在获取..."提示
-      thinkingDiv.remove();
-
-      // 格式化输出
-      let output = `📄 **当前标签页的可交互元素（共 ${elements.length} 个）：**\n\n`;
-
-      elements.forEach(el => {
-        let desc = `[${el.id}] ${el.tag}`;
-
-        // 添加类型或角色信息
-        if (el.type) desc += `[type="${el.type}"]`;
-        if (el.role) desc += `[role="${el.role}"]`;
-
-        // 添加文本内容
-        if (el.text) {
-          desc += ` - "${el.text}${el.text.length >= 50 ? '...' : ''}"`;
-        }
-
-        // 添加 placeholder
-        if (el.placeholder) {
-          desc += ` [placeholder: "${el.placeholder}"]`;
-        }
-
-        // 添加 href（链接）
-        if (el.href) {
-          desc += ` → ${el.href}`;
-        }
-
-        // 添加 id/class 信息
-        if (el.idAttr) desc += ` #${el.idAttr}`;
-        if (el.className) desc += ` .${el.className.split(' ').join('.')}`;
-
-        output += desc + '\n';
-      });
-
-      // 添加选择器说明
-      output += `\n💡 提示：可以使用元素 ID 来引用特定元素`;
-
-      addMessage(output, false);
-    } catch (error) {
-      // 移除"正在获取..."提示
-      thinkingDiv.remove();
-
-      // 显示错误消息
-      addMessage(`❌ 获取 DOM 失败: ${error.message}`, false);
-    } finally {
-      // 重新启用发送按钮
-      sendButton.disabled = false;
-      messageInput.focus();
-    }
-    return;
-  }
-
-  // 检查是否是 click 命令
-  const clickMatch = message.match(/^click\((\d+)\)$/i);
-  if (clickMatch) {
-    const elementId = parseInt(clickMatch[1]);
-
-    // 显示"正在点击..."提示
-    const thinkingDiv = document.createElement('div');
-    thinkingDiv.className = 'message bot';
-    thinkingDiv.innerHTML = `
-      <div class="sender">Bot</div>
-      <div class="content">🖱️ 正在点击元素 [${elementId}]...</div>
-    `;
-    chatContainer.appendChild(thinkingDiv);
-    chatContainer.scrollTop = chatContainer.scrollHeight;
-
-    try {
-      // 点击元素
-      const result = await clickElement(elementId);
-
-      // 移除"正在点击..."提示
-      thinkingDiv.remove();
-
-      if (result.success) {
-        addMessage(`✅ ${result.message}`, false);
-      } else {
-        addMessage(`❌ 点击失败: ${result.error}`, false);
-      }
-    } catch (error) {
-      // 移除"正在点击..."提示
-      thinkingDiv.remove();
-
-      // 显示错误消息
-      addMessage(`❌ 点击失败: ${error.message}`, false);
-    } finally {
-      // 重新启用发送按钮
-      sendButton.disabled = false;
-      messageInput.focus();
-    }
-    return;
-  }
-
   // 显示"正在思考..."提示
   const thinkingDiv = document.createElement('div');
   thinkingDiv.className = 'message bot';
@@ -400,17 +399,79 @@ async function sendMessage() {
   chatContainer.scrollTop = chatContainer.scrollHeight;
 
   try {
-    // 调用 API
-    const response = await callDeepSeekAPI(chatHistory);
+    let maxIterations = 10; // 防止无限循环
+    let currentMessage = message;
 
-    // 移除"正在思考..."提示
-    thinkingDiv.remove();
+    while (maxIterations-- > 0) {
+      // 构建完整的消息历史（包含系统提示词）
+      const messagesWithSystem = [
+        { role: 'system', content: SYSTEM_PROMPT },
+        ...chatHistory
+      ];
 
-    // 添加 Bot 回复
-    addMessage(response, false);
+      // 调用 API
+      const response = await callDeepSeekAPI(messagesWithSystem);
+
+      // 检查是否需要调用工具
+      if (response.tool_calls && response.tool_calls.length > 0) {
+        // AI 请求调用工具
+        const toolCall = response.tool_calls[0];
+        const toolName = toolCall.function.name;
+        const toolArgs = JSON.parse(toolCall.function.arguments);
+
+        console.log('AI 请求调用工具:', toolName, toolArgs);
+
+        // 将 assistant 的 tool_calls 消息添加到历史
+        chatHistory.push({
+          role: 'assistant',
+          content: response.content || null,
+          tool_calls: response.tool_calls
+        });
+
+        // 执行工具调用
+        const toolResult = await executeToolCall(toolName, toolArgs);
+
+        // 显示工具调用结果（不添加到历史，因为我们会以特定格式添加）
+        addMessage(toolResult.result, false, false);
+
+        // 将工具结果添加到历史
+        chatHistory.push({
+          role: 'tool',
+          tool_call_id: toolCall.id,
+          content: JSON.stringify(toolResult)
+        });
+
+        // 继续循环，让 AI 根据工具结果决定下一步
+        continue;
+      } else {
+        // AI 返回了普通文本回复
+        // 移除"正在思考..."提示
+        thinkingDiv.remove();
+
+        // 添加 Bot 回复到聊天界面和历史
+        if (response.content) {
+          addMessage(response.content, false, true);
+        } else {
+          // 如果没有内容，也要添加一个空的 assistant 消息
+          chatHistory.push({
+            role: 'assistant',
+            content: ''
+          });
+        }
+
+        // 结束循环
+        break;
+      }
+    }
+
+    if (maxIterations <= 0) {
+      addMessage('⚠️ 达到最大迭代次数，任务可能未完成', false);
+    }
   } catch (error) {
     // 移除"正在思考..."提示
-    thinkingDiv.remove();
+    if (thinkingDiv.parentNode) {
+      thinkingDiv.remove();
+    }
 
     // 显示错误消息
     addMessage(`❌ 请求失败: ${error.message}`, false);
