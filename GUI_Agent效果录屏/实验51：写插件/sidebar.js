@@ -19,16 +19,21 @@ const SYSTEM_PROMPT = `你是一个智能网页助手，可以帮助用户与当
 你拥有以下能力：
 1. 查看当前网页的所有可交互元素（按钮、链接、输入框等）
 2. 点击网页上的任何可交互元素
+3. 导航到指定的网址
 
 使用规则：
 - 当用户询问关于网页元素、想要点击按钮、提交表单、导航链接等操作时，先调用 get_interactive_elements 工具查看可用的元素
 - 获取元素列表后，根据用户的请求选择合适的元素 ID
 - 使用 click_element 工具点击目标元素
+- 当用户想要访问某个网站时，使用 navigate_to_url 工具导航到指定网址
 - 完成操作后，向用户说明执行了什么操作以及结果
 
 示例对话：
 用户：帮我点击登录按钮
 你：[调用 get_interactive_elements] → [看到登录按钮 ID 是 5] → [调用 click_element(5)] → [回复用户：已成功点击登录按钮]
+
+用户：打开百度
+你：[调用 navigate_to_url("https://www.baidu.com")] → [回复用户：已导航到百度]
 
 用户：页面上有什么可以点击的？
 你：[调用 get_interactive_elements] → [回复用户：页面上有以下可交互元素...]
@@ -65,6 +70,23 @@ const TOOLS = [
           }
         },
         required: ['element_id']
+      }
+    }
+  },
+  {
+    type: 'function',
+    function: {
+      name: 'navigate_to_url',
+      description: '在当前浏览器标签页中导航到指定的网址。当用户想要访问某个网站时调用此工具。',
+      parameters: {
+        type: 'object',
+        properties: {
+          url: {
+            type: 'string',
+            description: '要导航到的网址（需要包含协议，如 https://www.baidu.com）'
+          }
+        },
+        required: ['url']
       }
     }
   }
@@ -172,6 +194,18 @@ async function executeToolCall(toolName, toolArgs) {
     } else {
       const output = `🔧 **工具调用结果 - click_element**\n\n❌ 点击失败: ${clickResult.error}`;
       return { success: false, result: output, error: clickResult.error };
+    }
+  }
+  else if (toolName === 'navigate_to_url') {
+    const url = toolArgs.url;
+    const navResult = await navigateToUrl(url);
+
+    if (navResult.success) {
+      const output = `🔧 **工具调用结果 - navigate_to_url**\n\n✅ ${navResult.message}`;
+      return { success: true, result: output };
+    } else {
+      const output = `🔧 **工具调用结果 - navigate_to_url**\n\n❌ 导航失败: ${navResult.error}`;
+      return { success: false, result: output, error: navResult.error };
     }
   }
 
@@ -367,6 +401,36 @@ async function clickElement(elementId) {
     return results[0].result;
   } catch (error) {
     console.error('点击元素失败:', error);
+    throw error;
+  }
+}
+
+// 导航到指定网址
+async function navigateToUrl(url) {
+  try {
+    // 获取当前活动标签页
+    const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
+
+    if (!tab || !tab.id) {
+      throw new Error('无法获取当前标签页');
+    }
+
+    // 验证并格式化 URL
+    let formattedUrl = url.trim();
+    if (!formattedUrl.startsWith('http://') && !formattedUrl.startsWith('https://')) {
+      formattedUrl = 'https://' + formattedUrl;
+    }
+
+    // 更新标签页的 URL
+    await chrome.tabs.update(tab.id, { url: formattedUrl });
+
+    return {
+      success: true,
+      url: formattedUrl,
+      message: `已导航到: ${formattedUrl}`
+    };
+  } catch (error) {
+    console.error('导航失败:', error);
     throw error;
   }
 }
