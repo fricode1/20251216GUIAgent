@@ -35,7 +35,26 @@ function addMessage(content, isUser) {
 
   const contentDiv = document.createElement('div');
   contentDiv.className = 'content';
-  contentDiv.textContent = content;
+
+  // 判断是否需要渲染 Markdown
+  // 如果是用户消息或者是命令输出（DOM、click），使用纯文本
+  // 如果是 Bot 的普通回复，使用 Markdown 渲染
+  const isCommandOutput = content.startsWith('📄') || content.startsWith('✅') || content.startsWith('❌') || content.startsWith('🖱️');
+
+  if (!isUser && !isCommandOutput) {
+    // 使用 marked.js 渲染 Markdown
+    contentDiv.className = 'content markdown-content';
+    // 检查 marked 是否已加载
+    if (typeof marked !== 'undefined') {
+      contentDiv.innerHTML = marked.parse(content);
+    } else {
+      // 如果 marked 未加载，使用纯文本
+      contentDiv.textContent = content;
+    }
+  } else {
+    // 使用纯文本
+    contentDiv.textContent = content;
+  }
 
   messageDiv.appendChild(senderDiv);
   messageDiv.appendChild(contentDiv);
