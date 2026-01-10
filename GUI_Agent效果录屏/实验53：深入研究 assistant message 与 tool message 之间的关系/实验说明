@@ -1,0 +1,34 @@
+# 实验背景
+
+在实验48中，发现了现象内网跑不通nanobrowser，发现了原因：assistant message 后面不接 tool message 就报错。
+
+在实验51中，遇到类似的报错信息：An assistant message with 'tool_calls' must be followed by tool messages responding to each 'tool_call_id'. (insufficient tool messages following tool_calls message)。
+
+# 实验目的
+
+探究上述原因
+
+# 实验步骤
+
+## 问大模型
+
+gemini回复：LLM 本身是没有记忆的。为了让它“知道”工具执行的结果，你必须把执行结果放回对话历史。
+
+对话历史（Messages History）必须遵循一套严格的顺序逻辑。会进行校验。
+
+出现了一个 `role: assistant` 且带有 tool_calls 的对象，但紧随其后的不是 `role: tool` 的消息，或者 tool_calls 中的 ID 与后面 tool 消息的 ID 对应不上，则校验不通过。
+
+在 OpenAI 或 Gemini 的 API 格式中，在 assitant 消息中，tool_calls 是一个与 content 平级的独立字段
+
+## 实验51的报错是谁报的？
+
+我发现：不是我的代码里报的，因为我的代码里搜不到报错信息的表述。
+
+Gemini发现：这个报错是由 LLM API 的服务端（后端验证层） 报出的。
+
+至于实验48，涉及的环节是：vLLM 校验 OpenAI 格式消息序列的完整性部分。
+
+# 实验结果
+
+弄懂了原理。
+
