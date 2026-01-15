@@ -1,0 +1,9 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(powershell:*)",
+      "Bash(python:*)",
+      "Bash(dir \"c:\\\\Users\\\\admin\\\\Documents\\\\GitHub\\\\fri\\\\20251216GUIAgent\\\\GUI_Agent效果录屏\\\\实验61：研究跨页面的图像传递问题\")"
+    ]
+  }
+}
