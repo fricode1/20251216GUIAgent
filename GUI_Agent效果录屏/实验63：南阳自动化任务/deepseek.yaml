@@ -1,0 +1,12 @@
+llm:
+  model: "deepseek-chat"          # 或 deepseek-coder
+  api_key: "sk-your-deepseek-key"
+  api_base: "https://api.deepseek.com/v1"
+  temperature: 0                  # 代码任务建议 0，稳定输出
+  max_output: 4096
+
+computer:
+  import_computer_api: true       # 让 OI 具备本地执行代码能力
+
+multi_line: true
+version: 0.2.5
