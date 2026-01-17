@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<robot generator="Robot 7.4.1 (Python 3.13.9 on win32)" generated="2026-01-16T22:03:32.174254" rpa="false" schemaversion="5">
+<suite id="s1" name="A" source="C:\Users\admin\Documents\GitHub\fri\20251216GUIAgent\GUI_Agent效果录屏\实验65：研究开源RPA\a.robot">
+<test id="s1-t1" name="百度AI输入框文件上传测试" line="13">
+<kw name="打开百度并等待加载">
+<kw name="Open Browser" owner="SeleniumLibrary">
+<msg time="2026-01-16T22:03:33.577557" level="INFO">Opening browser 'Chrome' to base url 'https://www.baidu.com'.</msg>
+<arg>${URL}</arg>
+<arg>Chrome</arg>
+<doc>Opens a new browser instance to the optional ``url``.</doc>
+<status status="PASS" start="2026-01-16T22:03:33.577233" elapsed="15.040270"/>
+</kw>
+<kw name="Maximize Browser Window" owner="SeleniumLibrary">
+<doc>Maximizes current browser window.</doc>
+<status status="PASS" start="2026-01-16T22:03:48.618617" elapsed="0.091733"/>
+</kw>
+<kw name="Wait Until Element Is Visible" owner="SeleniumLibrary">
+<arg>${UPLOAD_BTN}</arg>
+<arg>timeout=15s</arg>
+<doc>Waits until the element ``locator`` is visible.</doc>
+<status status="PASS" start="2026-01-16T22:03:48.710645" elapsed="0.046487"/>
+</kw>
+<status status="PASS" start="2026-01-16T22:03:33.576049" elapsed="15.181407"/>
+</kw>
+<kw name="触发上传对话框">
+<kw name="Click Element" owner="SeleniumLibrary">
+<msg time="2026-01-16T22:03:48.758793" level="INFO">Clicking element 'xpath=//div[contains(@class, 'tool-item')][.//*[local-name()='svg']/*[contains(@d, 'M11.4405')]]'.</msg>
+<arg>${UPLOAD_BTN}</arg>
+<doc>Click the element identified by ``locator``.</doc>
+<status status="PASS" start="2026-01-16T22:03:48.758486" elapsed="0.108633"/>
+</kw>
+<kw name="Sleep" owner="BuiltIn">
+<msg time="2026-01-16T22:03:50.368097" level="INFO">Slept 1 second 500 milliseconds.</msg>
+<arg>1.5s</arg>
+<doc>Pauses the test executed for the given time.</doc>
+<status status="PASS" start="2026-01-16T22:03:48.867333" elapsed="1.501010"/>
+</kw>
+<status status="PASS" start="2026-01-16T22:03:48.758012" elapsed="1.610577"/>
+</kw>
+<kw name="处理系统窗口上传文件">
+<kw name="Type Text" owner="RPA.Desktop">
+<arg>${FILE_PATH}</arg>
+<doc>Type text one letter at a time.</doc>
+<status status="PASS" start="2026-01-16T22:03:50.369906" elapsed="0.075825"/>
+</kw>
+<kw name="Press Keys" owner="RPA.Desktop">
+<msg time="2026-01-16T22:03:50.446535" level="INFO">Pressing keys: Key.enter</msg>
+<arg>enter</arg>
+<doc>Press multiple keys down simultaneously.</doc>
+<status status="PASS" start="2026-01-16T22:03:50.446158" elapsed="0.101192"/>
+</kw>
+<kw name="Sleep" owner="BuiltIn">
+<msg time="2026-01-16T22:03:53.548963" level="INFO">Slept 3 seconds.</msg>
+<arg>3s</arg>
+<doc>Pauses the test executed for the given time.</doc>
+<status status="PASS" start="2026-01-16T22:03:50.547743" elapsed="3.001516"/>
+</kw>
+<status status="PASS" start="2026-01-16T22:03:50.369439" elapsed="3.180052"/>
+</kw>
+<kw name="校验上传状态">
+<kw name="Log" owner="BuiltIn">
+<msg time="2026-01-16T22:03:53.551990" level="INFO">文件上传指令已发送</msg>
+<arg>文件上传指令已发送</arg>
+<doc>Logs the given message with the given level.</doc>
+<status status="PASS" start="2026-01-16T22:03:53.551369" elapsed="0.000768"/>
+</kw>
+<status status="PASS" start="2026-01-16T22:03:53.550255" elapsed="0.002089"/>
+</kw>
+<kw name="Close Browser" owner="SeleniumLibrary" type="TEARDOWN">
+<doc>Closes the current browser.</doc>
+<status status="PASS" start="2026-01-16T22:03:53.553378" elapsed="2.436906"/>
+</kw>
+<doc>点击回形针图标并上传 Default.jpg</doc>
+<status status="PASS" start="2026-01-16T22:03:33.572177" elapsed="22.418517"/>
+</test>
+<status status="PASS" start="2026-01-16T22:03:32.176103" elapsed="23.815839"/>
+</suite>
+<statistics>
+<total>
+<stat pass="1" fail="0" skip="0">All Tests</stat>
+</total>
+<tag>
+</tag>
+<suite>
+<stat name="A" id="s1" pass="1" fail="0" skip="0">A</stat>
+</suite>
+</statistics>
+<errors>
+</errors>
+</robot>
