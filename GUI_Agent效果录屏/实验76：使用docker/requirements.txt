@@ -1,0 +1,6 @@
+rapidocr
+pillow
+DrissionPage
+fastapi
+onnxruntime
+minio
