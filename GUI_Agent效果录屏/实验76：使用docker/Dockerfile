@@ -30,3 +30,17 @@ RUN pip install --no-cache-dir \
     minio \
     uvicorn \
     -i https://pypi.tuna.tsinghua.edu.cn/simple
+
+RUN apt-get update && apt-get install -y curl && rm -rf /var/lib/apt/lists/*
+
+RUN curl -fsSL https://opencode.ai/install -o install_opencode.sh
+
+RUN bash install_opencode.sh
+
+# 安装 Node.js (V20 LTS) - Vue 开发环境必需
+
+RUN apt-get update && apt-get install -y ca-certificates curl gnupg && rm -rf /var/lib/apt/lists/*
+
+RUN curl -fsSL https://deb.nodesource.com/setup_20.x | bash - && \
+    apt-get install -y nodejs && \
+    rm -rf /var/lib/apt/lists/*
