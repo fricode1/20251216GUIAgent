@@ -147,12 +147,10 @@ async def dummy(place_text: str, time_text: str):
 
     async with httpx.AsyncClient() as client:
         for i in range(max_downloads):
-            print(i)
             try:
                 # Download image
                 response = await client.get(image_url)
                 if response.status_code == 200:
-                    print('图片下载成功')
                     # Generate unique filename
                     timestamp = datetime.now().strftime("%Y%m%d%H%M%S%f")
                     filename = f"violation_{place_text}_{time_text}_{timestamp}.jpg"
@@ -168,7 +166,14 @@ async def dummy(place_text: str, time_text: str):
                             content_type="image/jpeg"
                         )
                         minio_path = f"{MINIO_BUCKET}/{object_name}"
-                        print(minio_path)
+
+                        # Generate presigned URL (valid for 7 days)
+                        from datetime import timedelta
+                        presigned_url = minio_client.presigned_get_object(
+                            MINIO_BUCKET,
+                            object_name,
+                            expires=timedelta(days=7)
+                        )
 
                         # Save to SQLite
                         async with aiosqlite.connect(DB_PATH) as db:
@@ -184,6 +189,7 @@ async def dummy(place_text: str, time_text: str):
                         download_count += 1
                         yield {
                             "status": "success",
+                            "image_url": presigned_url,
                             "image_path": minio_path,
                             "time": time_text,
                             "location": place_text,
@@ -214,6 +220,7 @@ async def query_violations(request: QueryRequest):
     async def event_generator():
         async for result in dummy(parsed.location, parsed.time):
             import json
+            print('返回一条数据：', result)
             yield f"data: {json.dumps(result, ensure_ascii=False)}\n\n"
 
     return StreamingResponse(event_generator(), media_type="text/event-stream")
@@ -225,6 +232,7 @@ async def get_violations():
         async with db.execute("SELECT * FROM violations ORDER BY created_at DESC") as cursor:
             rows = await cursor.fetchall()
             columns = [description[0] for description in cursor.description]
+            print(len(rows))
             return [dict(zip(columns, row)) for row in rows]
 
 @app.get("/health")

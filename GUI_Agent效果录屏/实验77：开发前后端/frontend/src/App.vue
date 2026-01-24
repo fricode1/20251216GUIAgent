@@ -19,7 +19,7 @@
               <p>{{ msg.text }}</p>
               <div v-if="msg.images && msg.images.length > 0" class="images-grid">
                 <div v-for="(img, imgIndex) in msg.images" :key="imgIndex" class="image-card">
-                  <img :src="getImageUrl(img.minio_path)" alt="违法记录" @error="handleImageError" />
+                  <img :src="img.image_url || getImageUrl(img.minio_path)" alt="违法记录" @error="handleImageError" />
                   <div class="image-info">
                     <p><strong>时间:</strong> {{ img.time }}</p>
                     <p><strong>地点:</strong> {{ img.location }}</p>
