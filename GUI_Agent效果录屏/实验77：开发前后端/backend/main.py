@@ -86,12 +86,16 @@ def parse_question_with_llm(question: str) -> ParsedInfo:
     """Parse location and time from user question using LLM"""
     if llm_client:
         try:
+            # Get today's date for the prompt
+            today = datetime.now().strftime("%Y年%m月%d日")
+            today_yyyymmdd = datetime.now().strftime("%Y%m%d")
+
             response = llm_client.chat.completions.create(
                 model="glm-4",
                 messages=[
                     {
                         "role": "system",
-                        "content": "你是一个交通违章查询助手。从用户问题中提取地点和时间，时间格式为YYYYMMDD。请以JSON格式返回，包含location和time两个字段。"
+                        "content": f"你是一个交通违章查询助手。从用户问题中提取地点和时间，时间格式为YYYYMMDD。\n\n今天的日期是：{today}（{today_yyyymmdd}）\n\n请以JSON格式返回，包含location和time两个字段。"
                     },
                     {"role": "user", "content": question}
                 ],
