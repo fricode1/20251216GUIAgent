@@ -35,9 +35,12 @@ MINIO_BUCKET = "traffic-violations"
 # SQLite database path
 DB_PATH = "traffic_violations.db"
 
-# OpenAI client (replace with your LLM API)
-OPENAI_API_KEY = os.getenv("OPENAI_API_KEY", "")
-openai_client = OpenAI(api_key=OPENAI_API_KEY) if OPENAI_API_KEY else None
+# GLM-4 client (智谱AI)
+GLM_API_KEY = os.getenv("GLM_API_KEY", "c8f0c58aba1fad293a8ca62f4cb7942d.Zxxt5g3FX1cuiCuo")
+llm_client = OpenAI(
+    api_key=GLM_API_KEY,
+    base_url="https://open.bigmodel.cn/api/paas/v4"
+) if GLM_API_KEY else None
 
 # MinIO client
 minio_client = Minio(
@@ -81,38 +84,41 @@ class ParsedInfo(BaseModel):
 
 def parse_question_with_llm(question: str) -> ParsedInfo:
     """Parse location and time from user question using LLM"""
-    if openai_client:
+    if llm_client:
         try:
-            response = openai_client.chat.completions.create(
-                model="gpt-3.5-turbo",
+            response = llm_client.chat.completions.create(
+                model="glm-4",
                 messages=[
                     {
                         "role": "system",
-                        "content": "Extract location and time from the user's question about traffic violations. Return time in YYYYMMDD format."
+                        "content": "你是一个交通违章查询助手。从用户问题中提取地点和时间，时间格式为YYYYMMDD。请以JSON格式返回，包含location和time两个字段。"
                     },
                     {"role": "user", "content": question}
                 ],
-                functions=[
-                    {
-                        "name": "parse_traffic_query",
-                        "description": "Parse location and time from traffic violation query",
-                        "parameters": {
-                            "type": "object",
-                            "properties": {
-                                "location": {"type": "string", "description": "The location mentioned"},
-                                "time": {"type": "string", "description": "Time in YYYYMMDD format"}
-                            },
-                            "required": ["location", "time"]
-                        }
-                    }
-                ],
-                function_call={"name": "parse_traffic_query"}
+                temperature=0.3,
+                max_tokens=100
             )
-            function_call = response.choices[0].message.function_call
+            content = response.choices[0].message.content
+            print(content)
             import json
-            result = json.loads(function_call.arguments)
-            return ParsedInfo(location=result["location"], time=result["time"])
+
+            # Extract JSON from markdown code block if present
+            if "```json" in content:
+                # Extract content between ```json and ```
+                json_match = re.search(r'```json\s*(.*?)\s*```', content, re.DOTALL)
+                if json_match:
+                    content = json_match.group(1)
+            elif "```" in content:
+                # Extract content between ``` and ```
+                json_match = re.search(r'```\s*(.*?)\s*```', content, re.DOTALL)
+                if json_match:
+                    content = json_match.group(1)
+
+            # Try to extract JSON from response
+            result = json.loads(content.strip())
+            return ParsedInfo(location=result.get("location", "未知地点"), time=result.get("time", datetime.now().strftime("%Y%m%d")))
         except Exception as e:
+            print(e)
             print(f"LLM parsing error: {e}")
 
     # Fallback: simple regex parsing
@@ -220,7 +226,6 @@ async def query_violations(request: QueryRequest):
     async def event_generator():
         async for result in dummy(parsed.location, parsed.time):
             import json
-            print('返回一条数据：', result)
             yield f"data: {json.dumps(result, ensure_ascii=False)}\n\n"
 
     return StreamingResponse(event_generator(), media_type="text/event-stream")

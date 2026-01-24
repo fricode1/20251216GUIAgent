@@ -8,7 +8,7 @@
 - **后端**: Python FastAPI
 - **数据库**: SQLite
 - **对象存储**: MinIO
-- **LLM**: OpenAI API (可选，支持正则表达式回退)
+- **LLM**: 智谱AI GLM-4 (可选，支持正则表达式回退)
 
 ## 功能特点
 
@@ -63,7 +63,7 @@ cat > .env << EOF
 MINIO_ENDPOINT=localhost:9000
 MINIO_ACCESS_KEY=minioadmin
 MINIO_SECRET_KEY=minioadmin
-OPENAI_API_KEY=your_openai_api_key_here
+GLM_API_KEY=your_glm_api_key_here
 EOF
 
 # 启动服务
@@ -166,6 +166,6 @@ npm run dev
 ## 注意事项
 
 1. 确保 MinIO 服务正常运行
-2. 如需使用 LLM 解析，需配置 OPENAI_API_KEY
+2. 如需使用 LLM 解析，需配置 GLM_API_KEY (智谱AI)
 3. 默认使用正则表达式解析，不需要 API Key
 4. 图像 URL 为示例 URL，实际使用时需替换为真实数据源
