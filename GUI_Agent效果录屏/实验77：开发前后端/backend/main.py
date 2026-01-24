@@ -4,6 +4,7 @@ from fastapi.responses import StreamingResponse
 from pydantic import BaseModel
 import httpx
 import asyncio
+import io
 import aiofiles
 import aiosqlite
 from minio import Minio
@@ -146,10 +147,12 @@ async def dummy(place_text: str, time_text: str):
 
     async with httpx.AsyncClient() as client:
         for i in range(max_downloads):
+            print(i)
             try:
                 # Download image
                 response = await client.get(image_url)
                 if response.status_code == 200:
+                    print('图片下载成功')
                     # Generate unique filename
                     timestamp = datetime.now().strftime("%Y%m%d%H%M%S%f")
                     filename = f"violation_{place_text}_{time_text}_{timestamp}.jpg"
@@ -160,11 +163,12 @@ async def dummy(place_text: str, time_text: str):
                         minio_client.put_object(
                             MINIO_BUCKET,
                             object_name,
-                            data=response.content,
+                            data=io.BytesIO(response.content),
                             length=len(response.content),
                             content_type="image/jpeg"
                         )
                         minio_path = f"{MINIO_BUCKET}/{object_name}"
+                        print(minio_path)
 
                         # Save to SQLite
                         async with aiosqlite.connect(DB_PATH) as db:
@@ -186,7 +190,8 @@ async def dummy(place_text: str, time_text: str):
                             "name": "张三",
                             "id_number": "370982199001011234"
                         }
-                    except S3Error as e:
+                    except Exception as e:
+                        print(e)
                         yield {"status": "error", "message": f"MinIO error: {e}"}
 
                 await asyncio.sleep(1)  # Delay between downloads
@@ -204,6 +209,7 @@ async def query_violations(request: QueryRequest):
     """Parse user question and return streaming image data"""
     # Parse location and time
     parsed = parse_question_with_llm(request.question)
+    print(parsed)
 
     async def event_generator():
         async for result in dummy(parsed.location, parsed.time):
