@@ -181,8 +181,8 @@ const sendMessage = async () => {
   flex: 1;
   display: flex;
   flex-direction: column;
-  max-width: 1200px;
-  width: 100%;
+  max-width: 1800px;
+  width: 95%;
   margin: 0 auto;
   background: white;
   box-shadow: 0 0 10px rgba(0,0,0,0.1);
@@ -222,7 +222,7 @@ const sendMessage = async () => {
 }
 
 .message-content {
-  max-width: 70%;
+  max-width: 95%;
   padding: 12px 16px;
   border-radius: 12px;
   word-wrap: break-word;
@@ -244,10 +244,11 @@ const sendMessage = async () => {
 }
 
 .images-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  display: flex;
+  flex-wrap: wrap;
   gap: 15px;
   margin-top: 10px;
+  justify-content: flex-start;
 }
 
 .image-card {
@@ -255,11 +256,13 @@ const sendMessage = async () => {
   border-radius: 8px;
   overflow: hidden;
   background: white;
+  flex: 0 0 calc(25% - 12px);
+  max-width: calc(25% - 12px);
 }
 
 .image-card img {
   width: 100%;
-  height: 180px;
+  height: 160px;
   object-fit: cover;
 }
 
