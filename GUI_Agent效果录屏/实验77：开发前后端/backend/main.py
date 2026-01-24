@@ -225,7 +225,6 @@ async def query_violations(request: QueryRequest):
     """Parse user question and return streaming image data"""
     # Parse location and time
     parsed = parse_question_with_llm(request.question)
-    print(parsed)
 
     async def event_generator():
         async for result in dummy(parsed.location, parsed.time):

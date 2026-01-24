@@ -42,17 +42,13 @@ RUN curl -fsSL https://deb.nodesource.com/setup_20.x | bash - \
 # 放在后面是因为开发过程中改动最频繁
 RUN pip install --no-cache-dir \
     opencv-python-headless \
-    rapidocr \
+    rapidocr-onnxruntime \
     pillow \
     DrissionPage \
     fastapi \
     onnxruntime \
     minio \
     uvicorn \
-    httpx \
-    aiofiles \
-    aiosqlite \
-    openai \
     -i https://pypi.tuna.tsinghua.edu.cn/simple
 
 # 4. 安装 Opencode
@@ -61,7 +57,11 @@ RUN curl -fsSL https://opencode.ai/install -o install_opencode.sh \
     && bash install_opencode.sh \
     && rm install_opencode.sh
 
-RUN pip install --no-chche-dir httpx aiofiles -i https://pypi.tuna.tsinghua.edu.cn/simple
+RUN pip install --no-cache-dir httpx aiofiles aiosqlite openai -i https://pypi.tuna.tsinghua.edu.cn/simple
+
+RUN apt-get update && apt-get install -y --no-install-recommends wget && rm -rf /var/lib/apt/lists/*
+
+RUN wget https://dl.min.io/server/minio/release/linux-amd64/minio && chmod +x minio
 
 # 如果有代码需要复制，通常放在最后
 # COPY . .
