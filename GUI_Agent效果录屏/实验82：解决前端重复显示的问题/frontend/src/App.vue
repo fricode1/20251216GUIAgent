@@ -106,39 +106,53 @@ const sendMessage = async () => {
   })
   await scrollToBottom()
 
+  let lastProcessedIndex = 0
   try {
     // Make SSE request to backend
     await axios({
       method: 'post',
       url: `${API_BASE_URL}/api/query`,
       data: { question },
-      responseType: 'stream',
+      responseType: 'text',
       headers: {
         'Content-Type': 'application/json',
       },
       onDownloadProgress: (progressEvent) => {
         const xhr = progressEvent.event.target
         const { responseText } = xhr
-        const lines = responseText.split('\n')
+        const newText = responseText.substring(lastProcessedIndex)
+        const lines = newText.split('\n')
+        
+        // Only process if we have at least one complete line (ends with \n)
+        if (newText.includes('\n')) {
+          const completeLines = newText.substring(0, newText.lastIndexOf('\n') + 1).split('\n')
+          lastProcessedIndex += newText.lastIndexOf('\n') + 1
 
-        lines.forEach(line => {
-          if (line.startsWith('data: ')) {
-            try {
-              const data = JSON.parse(line.slice(6))
+          completeLines.forEach(line => {
+            if (line.startsWith('data: ')) {
+              try {
+                const data = JSON.parse(line.slice(6))
 
-              if (data.status === 'success') {
-                // Update bot message with new image
-                messages.value[botMessageIndex].images.push(data)
-                messages.value[botMessageIndex].loading = false
-                scrollToBottom()
-              } else if (data.status === 'error') {
-                console.error('Error:', data.message)
+                if (data.status === 'success') {
+                  // Update bot message with new image
+                  // Check if image already exists to be extra safe
+                  const isDuplicate = messages.value[botMessageIndex].images.some(
+                    img => img.image_path === data.image_path
+                  )
+                  if (!isDuplicate) {
+                    messages.value[botMessageIndex].images.push(data)
+                    messages.value[botMessageIndex].loading = false
+                    scrollToBottom()
+                  }
+                } else if (data.status === 'error') {
+                  console.error('Error:', data.message)
+                }
+              } catch (e) {
+                console.error('Parse error:', e)
               }
-            } catch (e) {
-              console.error('Parse error:', e)
             }
-          }
-        })
+          })
+        }
       }
     })
 
