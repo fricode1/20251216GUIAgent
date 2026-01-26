@@ -1,6 +1,6 @@
 services:
   webtop2:
-    image: lscr.io/linuxserver/webtop
+    build: .
     container_name: webtop-nginx-chromium
     security_opt:
       - seccomp=unconfined

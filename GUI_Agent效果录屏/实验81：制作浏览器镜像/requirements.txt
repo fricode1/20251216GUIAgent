@@ -1,0 +1,12 @@
+DrissionPage
+fastapi
+opencv-python
+pillow
+onnxruntime
+rapidocr
+minio
+uvicorn
+httpx
+aiofiles
+aiosqlite
+openai
