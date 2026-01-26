@@ -11,6 +11,10 @@ services:
     ports:
       - "3000:3000"
       - "3001:3001"
+      - "3002:3002"
+      - "8000:8000"
+      - "9000:9000"
+      - "9001:9001"
       - "9222:9227"
     volumes:
       - /path/to/data:/config
@@ -24,7 +28,7 @@ services:
         sleep 20
         # 启动自定义服务
         export DISPLAY=:1
-        chromium --remote-debugging-port=9222 --no-sandbox --no-first-run --disable-gpu --user-data-dir=/tmp/chrome &
+        chromium --remote-debugging-port=9222 --no-sandbox --no-first-run --window-size=1920,1080 --ignore-certificate-errors --disable-gpu --user-data-dir=/tmp/chrome &
         nginx -c /etc/nginx/nginx2.conf &
         echo 'Custom services started'
         # 保持容器运行
