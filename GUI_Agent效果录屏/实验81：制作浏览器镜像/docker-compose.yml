@@ -1,6 +1,6 @@
 services:
   webtop2:
-    build: .
+    image: auto-web:v2.0
     container_name: webtop-nginx-chromium
     security_opt:
       - seccomp=unconfined

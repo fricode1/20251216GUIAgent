@@ -1,6 +1,5 @@
 DrissionPage
 fastapi
-opencv-python
 pillow
 onnxruntime
 rapidocr

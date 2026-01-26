@@ -1,8 +1,10 @@
-FROM lscr.io/linuxserver/webtop
+FROM lscr.io/linuxserver/webtop:ubuntu-xfce
+
+WORKDIR /app
 
 # 更新软件源并安装 tmux 和 micro
 RUN apt-get update && \
-    apt-get install -y tmux micro && \
+    apt-get install -y wget tmux micro && \
     rm -rf /var/lib/apt/lists/*
 
 # 安装 node.js
@@ -11,5 +13,12 @@ RUN curl -fsSL https://deb.nodesource.com/setup_20.x | bash - \
     && npm install -g yarn \ 
     && rm -rf /var/lib/apt/lists/*
 
+# 安装minio
+RUN wget https://dl.min.io/server/minio/release/linux-amd64/minio && chmod +x minio
+
 # 安装 Python 依赖
+COPY requirements.txt .
+
 RUN pip install --no-cache-dir -r requirements.txt -i https://pypi.tuna.tsinghua.edu.cn/simple
+
+COPY . .
