@@ -1,19 +1,16 @@
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, HTTPException, Query
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import StreamingResponse
-from pydantic import BaseModel
-import httpx
+from pydantic import BaseModel, Field
 import asyncio
 import io
-import aiofiles
 import aiosqlite
 from minio import Minio
 from minio.error import S3Error
-from datetime import datetime
+from datetime import datetime, timedelta
 import os
-from openai import OpenAI
-import re
-from typing import Optional
+from typing import Optional, Dict
+import concurrent.futures
+import uuid
 
 import spider
 from rapidocr import RapidOCR
@@ -41,12 +38,10 @@ MINIO_BUCKET = "traffic-violations"
 # SQLite database path
 DB_PATH = "traffic_violations.db"
 
-# GLM-4 client (智谱AI)
-GLM_API_KEY = os.getenv("GLM_API_KEY", "c8f0c58aba1fad293a8ca62f4cb7942d.Zxxt5g3FX1cuiCuo")
-llm_client = OpenAI(
-    api_key=GLM_API_KEY,
-    base_url="https://open.bigmodel.cn/api/paas/v4"
-) if GLM_API_KEY else None
+# Background task storage
+running_tasks: Dict[int, asyncio.Task] = {}
+
+
 
 # MinIO client
 minio_client = Minio(
@@ -68,199 +63,406 @@ async def init_minio():
 # Initialize SQLite database
 async def init_db():
     async with aiosqlite.connect(DB_PATH) as db:
+        # Applications table
         await db.execute("""
-            CREATE TABLE IF NOT EXISTS violations (
+            CREATE TABLE IF NOT EXISTS applications (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
+                name TEXT NOT NULL,
+                start_time TEXT NOT NULL,
+                end_time TEXT NOT NULL,
+                address TEXT NOT NULL,
+                status TEXT NOT NULL DEFAULT 'Ready',
+                created_at TEXT DEFAULT (datetime('now', 'localtime'))
+            )
+        """)
+        
+        # Images table
+        await db.execute("""
+            CREATE TABLE IF NOT EXISTS images (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                application_id INTEGER NOT NULL,
                 minio_path TEXT NOT NULL,
+                url TEXT NOT NULL,
                 time TEXT NOT NULL,
                 location TEXT NOT NULL,
                 name TEXT NOT NULL,
                 id_number TEXT NOT NULL,
-                created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+                created_at TEXT DEFAULT (datetime('now', 'localtime')),
+                FOREIGN KEY (application_id) REFERENCES applications(id) ON DELETE CASCADE
             )
         """)
+        
         await db.commit()
 
-class QueryRequest(BaseModel):
-    question: str
+# Request Models
+class CreateApplicationRequest(BaseModel):
+    name: str = Field(..., description="应用名称")
+    start_time: str = Field(..., description="开始日期 yyyy-MM-dd HH:mm:ss")
+    end_time: str = Field(..., description="结束日期 yyyy-MM-dd HH:mm:ss")
+    address: str = Field(..., description="地址")
 
-class ParsedInfo(BaseModel):
-    location: str
-    time: str
+# Response Models
+class StandardResponse(BaseModel):
+    code: str
+    msg: str
 
-def parse_question_with_llm(question: str) -> ParsedInfo:
-    """Parse location and time from user question using LLM"""
-    if llm_client:
-        try:
-            # Get today's date for the prompt
-            today = datetime.now().strftime("%Y年%m月%d日")
-            today_yyyymmdd = datetime.now().strftime("%Y%m%d")
+class ApplicationItem(BaseModel):
+    id: int
+    name: str
+    created_at: str
+    status: str
+    address: str
+    start_time: str
+    end_time: str
 
-            response = llm_client.chat.completions.create(
-                model="glm-4",
-                messages=[
-                    {
-                        "role": "system",
-                        "content": f"你是一个交通违章查询助手。从用户问题中提取地点和时间，时间格式为YYYYMMDD。\n\n今天的日期是：{today}（{today_yyyymmdd}）\n\n请以JSON格式返回，包含location和time两个字段。"
-                    },
-                    {"role": "user", "content": question}
-                ],
-                temperature=0.3,
-                max_tokens=100
-            )
-            content = response.choices[0].message.content
-            print(content)
-            import json
+class ApplicationListData(BaseModel):
+    list: list[ApplicationItem]
+    total: int
+    pageNo: int
+    pageSize: int
 
-            # Extract JSON from markdown code block if present
-            if "```json" in content:
-                # Extract content between ```json and ```
-                json_match = re.search(r'```json\s*(.*?)\s*```', content, re.DOTALL)
-                if json_match:
-                    content = json_match.group(1)
-            elif "```" in content:
-                # Extract content between ``` and ```
-                json_match = re.search(r'```\s*(.*?)\s*```', content, re.DOTALL)
-                if json_match:
-                    content = json_match.group(1)
+class ApplicationListResponse(BaseModel):
+    code: str
+    msg: str
+    data: ApplicationListData
 
-            # Try to extract JSON from response
-            result = json.loads(content.strip())
-            return ParsedInfo(location=result.get("location", "未知地点"), time=result.get("time", datetime.now().strftime("%Y%m%d")))
-        except Exception as e:
-            print(e)
-            print(f"LLM parsing error: {e}")
+class ImageItem(BaseModel):
+    created_at: str
+    url: str
 
-    # Fallback: simple regex parsing
-    location = "未知地点"
-    time = datetime.now().strftime("%Y%m%d")
+class ImageListData(BaseModel):
+    list: list[ImageItem]
+    total: int
+    pageNo: int
+    pageSize: int
 
-    # Try to extract location (any Chinese characters or common patterns)
-    location_match = re.search(r'([一-龥]+路|[一-龥]+街|[一-龥]+道)', question)
-    if location_match:
-        location = location_match.group(1)
+class ImageListResponse(BaseModel):
+    code: str
+    msg: str = Field(alias="message")
+    data: ImageListData
 
-    # Try to extract time keywords
-    if "昨天" in question:
-        yesterday = datetime.now().timestamp() - 86400
-        time = datetime.fromtimestamp(yesterday).strftime("%Y%m%d")
-    elif "前天" in question:
-        day_before = datetime.now().timestamp() - 172800
-        time = datetime.fromtimestamp(day_before).strftime("%Y%m%d")
-    elif "今天" in question:
-        time = datetime.now().strftime("%Y%m%d")
+    class Config:
+        populate_by_name = True
 
-    return ParsedInfo(location=location, time=time)
-
-async def run_real_spider(place_text: str, time_text: str):
-    """
-    Run the real spider and store in MinIO and SQLite
-    """
-    # Convert YYYYMMDD to YYYY/MM/DD if needed
-    if len(time_text) == 8 and time_text.isdigit():
-        data_str = f"{time_text[:4]}/{time_text[4:6]}/{time_text[6:]}"
-    else:
-        # Fallback to current date if format is unexpected
-        data_str = datetime.now().strftime("%Y/%m/%d")
-
-    # The spider is synchronous, so we run it in a thread pool to avoid blocking
-    import concurrent.futures
-    
-    def spider_worker():
-        try:
-            return spider.spider_one_day_dummy(data_str, place_text, None, ocr_engine)
-        except Exception as e:
-            print(f"Spider login/start error: {e}")
-            return []
-
-    loop = asyncio.get_event_loop()
-    with concurrent.futures.ThreadPoolExecutor() as pool:
-        # Start the spider and get the generator
-        gen = await loop.run_in_executor(pool, spider_worker)
+async def get_application_status(start_time_str: str, end_time_str: str) -> str:
+    """Determine application status based on time window"""
+    try:
+        start_time = datetime.strptime(start_time_str, "%Y-%m-%d %H:%M:%S")
+        end_time = datetime.strptime(end_time_str, "%Y-%m-%d %H:%M:%S")
+        now = datetime.now()
         
-        # Iterate over the generator (this also needs to be in a thread if it blocks)
-        while True:
+        if now < start_time:
+            return "Ready"
+        elif start_time <= now <= end_time:
+            return "Running"
+        else:
+            return "Finished"
+    except Exception as e:
+        print(f"Error parsing time: {e}")
+        return "Ready"
+
+async def run_spider_for_application(app_id: int, address: str, start_time: str, end_time: str):
+    """
+    Run spider for a specific application
+    """
+    try:
+        # Parse time range to get date
+        start_dt = datetime.strptime(start_time, "%Y-%m-%d %H:%M:%S")
+        data_str = start_dt.strftime("%Y/%m/%d")
+        
+        # The spider is synchronous, run it in thread pool
+        def spider_worker():
             try:
-                # Get next result from generator in thread
-                result = await loop.run_in_executor(pool, next, gen, None)
-                if result is None:
-                    break
-                
-                # Save to MinIO
-                object_name = result["image_name"]
-                image_content = result["image_content"]
-                
-                minio_client.put_object(
-                    MINIO_BUCKET,
-                    object_name,
-                    data=io.BytesIO(image_content),
-                    length=len(image_content),
-                    content_type="image/png"
-                )
-                minio_path = f"{MINIO_BUCKET}/{object_name}"
-                
-                # Generate presigned URL
-                from datetime import timedelta
-                presigned_url = minio_client.presigned_get_object(
-                    MINIO_BUCKET,
-                    object_name,
-                    expires=timedelta(days=7)
-                )
-                
-                # Save to SQLite
-                async with aiosqlite.connect(DB_PATH) as db:
-                    await db.execute(
-                        """
-                        INSERT INTO violations (minio_path, time, location, name, id_number)
-                        VALUES (?, ?, ?, ?, ?)
-                        """,
-                        (minio_path, result["time"], result["location"], result["name"], result["id_number"])
-                    )
-                    await db.commit()
-                
-                yield {
-                    "status": "success",
-                    "image_url": presigned_url,
-                    "image_path": minio_path,
-                    "time": result["time"],
-                    "location": result["location"],
-                    "name": result["name"],
-                    "id_number": result["id_number"]
-                }
-            except StopIteration:
-                break
+                return spider.spider_one_day_dummy(data_str, address, None, ocr_engine)
             except Exception as e:
-                print(f"Error processing spider result: {e}")
-                yield {"status": "error", "message": str(e)}
-                break
+                print(f"Spider error: {e}")
+                return iter([])
+        
+        loop = asyncio.get_event_loop()
+        with concurrent.futures.ThreadPoolExecutor() as pool:
+            gen = await loop.run_in_executor(pool, spider_worker)
+            
+            while True:
+                try:
+                    result = await loop.run_in_executor(pool, next, gen, None)
+                    if result is None:
+                        break
+                    
+                    # Save to MinIO
+                    object_name = result["image_name"]
+                    image_content = result["image_content"]
+                    
+                    minio_client.put_object(
+                        MINIO_BUCKET,
+                        object_name,
+                        data=io.BytesIO(image_content),
+                        length=len(image_content),
+                        content_type="image/png"
+                    )
+                    minio_path = f"{MINIO_BUCKET}/{object_name}"
+                    
+                    # Generate presigned URL
+                    presigned_url = minio_client.presigned_get_object(
+                        MINIO_BUCKET,
+                        object_name,
+                        expires=timedelta(days=7)
+                    )
+                    
+                    # Save to SQLite
+                    async with aiosqlite.connect(DB_PATH) as db:
+                        await db.execute(
+                            """
+                            INSERT INTO images (application_id, minio_path, url, time, location, name, id_number)
+                            VALUES (?, ?, ?, ?, ?, ?, ?)
+                            """,
+                            (app_id, minio_path, presigned_url, result["time"], result["location"], result["name"], result["id_number"])
+                        )
+                        await db.commit()
+                    
+                    print(f"Saved image for app {app_id}: {result['name']} at {result['location']}")
+                    
+                except StopIteration:
+                    break
+                except Exception as e:
+                    print(f"Error processing spider result: {e}")
+                    break
+        
+        # Mark application as finished
+        async with aiosqlite.connect(DB_PATH) as db:
+            await db.execute(
+                "UPDATE applications SET status = ? WHERE id = ?",
+                ("Finished", app_id)
+            )
+            await db.commit()
+        
+    except Exception as e:
+        print(f"Error in spider task for app {app_id}: {e}")
+        async with aiosqlite.connect(DB_PATH) as db:
+            await db.execute(
+                "UPDATE applications SET status = ? WHERE id = ?",
+                ("Stopped", app_id)
+            )
+            await db.commit()
+
+async def check_and_start_tasks():
+    """Background task to check and start applications based on time window"""
+    while True:
+        try:
+            async with aiosqlite.connect(DB_PATH) as db:
+                async with db.execute(
+                    "SELECT id, name, start_time, end_time, address, status FROM applications"
+                ) as cursor:
+                    rows = await cursor.fetchall()
+                    
+                    for row in rows:
+                        app_id, name, start_time, end_time, address, status = row
+                        new_status = await get_application_status(start_time, end_time)
+                        
+                        # Update status if changed
+                        if new_status != status:
+                            await db.execute(
+                                "UPDATE applications SET status = ? WHERE id = ?",
+                                (new_status, app_id)
+                            )
+                            await db.commit()
+                            
+                            # Start spider task if status changed to Running
+                            if new_status == "Running" and app_id not in running_tasks:
+                                print(f"Starting spider task for application {app_id}")
+                                task = asyncio.create_task(
+                                    run_spider_for_application(app_id, address, start_time, end_time)
+                                )
+                                running_tasks[app_id] = task
+                            
+                            # Stop spider task if status is no longer Running
+                            elif new_status != "Running" and app_id in running_tasks:
+                                print(f"Stopping spider task for application {app_id}")
+                                running_tasks[app_id].cancel()
+                                del running_tasks[app_id]
+            
+            # Check every 10 seconds
+            await asyncio.sleep(10)
+        except Exception as e:
+            print(f"Error in background task checker: {e}")
+            await asyncio.sleep(10)
 
 @app.on_event("startup")
 async def startup_event():
     await init_minio()
     await init_db()
+    # Start background task checker
+    asyncio.create_task(check_and_start_tasks())
 
-@app.post("/api/query")
-async def query_violations(request: QueryRequest):
-    """Parse user question and return streaming image data"""
-    # Parse location and time
-    parsed = parse_question_with_llm(request.question)
+@app.post("/violation", response_model=StandardResponse)
+async def create_application(request: CreateApplicationRequest):
+    """创建新的违章监控应用"""
+    try:
+        print(f"Received request: {request}")
+        
+        # Validate time format
+        try:
+            datetime.strptime(request.start_time, "%Y-%m-%d %H:%M:%S")
+            datetime.strptime(request.end_time, "%Y-%m-%d %H:%M:%S")
+        except ValueError as ve:
+            return StandardResponse(code="400", msg=f"Invalid time format: {str(ve)}")
+        
+        # Determine initial status
+        status = await get_application_status(request.start_time, request.end_time)
+        
+        async with aiosqlite.connect(DB_PATH) as db:
+            cursor = await db.execute(
+                """
+                INSERT INTO applications (name, start_time, end_time, address, status)
+                VALUES (?, ?, ?, ?, ?)
+                """,
+                (request.name, request.start_time, request.end_time, request.address, status)
+            )
+            await db.commit()
+            app_id = cursor.lastrowid
+        
+        print(f"Created application {app_id} with status {status}")
+        
+        # If status is Running, start spider immediately
+        if status == "Running" and app_id not in running_tasks:
+            task = asyncio.create_task(
+                run_spider_for_application(app_id, request.address, request.start_time, request.end_time)
+            )
+            running_tasks[app_id] = task
+        
+        return StandardResponse(code="0", msg="success")
+    except Exception as e:
+        print(f"Error creating application: {e}")
+        import traceback
+        traceback.print_exc()
+        raise HTTPException(status_code=500, detail=str(e))
 
-    async def event_generator():
-        async for result in run_real_spider(parsed.location, parsed.time):
-            import json
-            yield f"data: {json.dumps(result, ensure_ascii=False)}\n\n"
+@app.get("/violation", response_model=ApplicationListResponse)
+async def get_applications(
+    pageSize: int = Query(10, description="每页条数"),
+    pageNo: int = Query(1, description="页码")
+):
+    """查询应用列表（支持分页）"""
+    try:
+        async with aiosqlite.connect(DB_PATH) as db:
+            # Get total count
+            async with db.execute("SELECT COUNT(*) FROM applications") as cursor:
+                row = await cursor.fetchone()
+                total = row[0]
+            
+            # Get paginated results
+            offset = (pageNo - 1) * pageSize
+            async with db.execute(
+                """
+                SELECT id, name, created_at, status, address, start_time, end_time
+                FROM applications
+                ORDER BY created_at DESC
+                LIMIT ? OFFSET ?
+                """,
+                (pageSize, offset)
+            ) as cursor:
+                rows = await cursor.fetchall()
+                
+                applications = [
+                    ApplicationItem(
+                        id=row[0],
+                        name=row[1],
+                        created_at=row[2],
+                        status=row[3],
+                        address=row[4],
+                        start_time=row[5],
+                        end_time=row[6]
+                    )
+                    for row in rows
+                ]
+        
+        return ApplicationListResponse(
+            code="0",
+            msg="success",
+            data=ApplicationListData(
+                list=applications,
+                total=total,
+                pageNo=pageNo,
+                pageSize=pageSize
+            )
+        )
+    except Exception as e:
+        print(f"Error getting applications: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
 
-    return StreamingResponse(event_generator(), media_type="text/event-stream")
+@app.delete("/violation/{id}", response_model=StandardResponse)
+async def delete_application(id: int):
+    """删除应用"""
+    try:
+        # Stop running task if exists
+        if id in running_tasks:
+            running_tasks[id].cancel()
+            del running_tasks[id]
+        
+        async with aiosqlite.connect(DB_PATH) as db:
+            # Check if application exists
+            async with db.execute("SELECT id FROM applications WHERE id = ?", (id,)) as cursor:
+                row = await cursor.fetchone()
+                if not row:
+                    raise HTTPException(status_code=404, detail="Application not found")
+            
+            # Delete application (cascade will delete related images)
+            await db.execute("DELETE FROM applications WHERE id = ?", (id,))
+            await db.commit()
+        
+        return StandardResponse(code="0", msg="success")
+    except HTTPException:
+        raise
+    except Exception as e:
+        print(f"Error deleting application: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
 
-@app.get("/api/violations")
-async def get_violations():
-    """Get all violations from database"""
-    async with aiosqlite.connect(DB_PATH) as db:
-        async with db.execute("SELECT * FROM violations ORDER BY created_at DESC") as cursor:
-            rows = await cursor.fetchall()
-            columns = [description[0] for description in cursor.description]
-            print(len(rows))
-            return [dict(zip(columns, row)) for row in rows]
+@app.get("/violation/images", response_model=ImageListResponse)
+async def get_images(
+    pageSize: int = Query(10, description="每页条数"),
+    pageNo: int = Query(1, description="页码")
+):
+    """查询图片列表（支持分页）"""
+    try:
+        async with aiosqlite.connect(DB_PATH) as db:
+            # Get total count
+            async with db.execute("SELECT COUNT(*) FROM images") as cursor:
+                row = await cursor.fetchone()
+                total = row[0]
+            
+            # Get paginated results
+            offset = (pageNo - 1) * pageSize
+            async with db.execute(
+                """
+                SELECT created_at, url
+                FROM images
+                ORDER BY created_at DESC
+                LIMIT ? OFFSET ?
+                """,
+                (pageSize, offset)
+            ) as cursor:
+                rows = await cursor.fetchall()
+                
+                images = [
+                    ImageItem(
+                        created_at=row[0],
+                        url=row[1]
+                    )
+                    for row in rows
+                ]
+        
+        return ImageListResponse(
+            code="0",
+            msg="success",
+            data=ImageListData(
+                list=images,
+                total=total,
+                pageNo=pageNo,
+                pageSize=pageSize
+            )
+        )
+    except Exception as e:
+        print(f"Error getting images: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
 
 @app.get("/health")
 async def health_check():
