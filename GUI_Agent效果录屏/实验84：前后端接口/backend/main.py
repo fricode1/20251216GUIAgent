@@ -172,7 +172,10 @@ async def run_spider_for_application(app_id: int, address: str, start_time: str,
         # The spider is synchronous, run it in thread pool
         def spider_worker():
             try:
-                return spider.spider_one_day_dummy(data_str, address, None, ocr_engine)
+                # 使用整合后的 spider_run 函数
+                return spider.spider_run(data_str, address)
+                # 测试时使用假数据生成器（注释掉真实爬虫）
+                # return spider.spider_one_day_dummy(data_str, address, None, ocr_engine)
             except Exception as e:
                 print(f"Spider error: {e}")
                 return iter([])
