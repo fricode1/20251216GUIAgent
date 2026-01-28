@@ -58,12 +58,37 @@ def ocr_image(image_path, engine):
         return True
 
 
-def spider_run(data_str, place_str, username='370982199305061831', password='Abc@123456'):
+def spider_run_dummy(start_time_str, end_time_str, place_str, username='370982199305061831', password='Abc@123456'):
+    # ==================== 3. 遍历所有页面抓取数据 ====================
+    while True:
+        for person_idx in range(10):
+
+            with open('/home/zcc/zhbli/projects/实验84：前后端接口/backend/4.png', 'rb') as f:
+                image_content = f.read()
+
+            print('开始返回')
+            
+            yield {
+                "status": "success",
+                "image_name": "1",
+                "image_content": image_content,
+                "location": "place_name",
+                "time": "time_str",
+                "name": "person_name",
+                "id_number": "id_number"
+            }
+
+
+        time.sleep(3)
+
+
+def spider_run(start_time_str, end_time_str, place_str, username='370982199305061831', password='Abc@123456'):
     """
     完整的爬虫流程：登录 -> 搜索 -> 抓取 -> 返回结果
     
     Args:
-        data_str: 日期字符串，格式 '2026/01/02'
+        start_time_str: 开始时间字符串，格式 '20250123010203' (YYYYMMDDHHmmss)
+        end_time_str: 结束时间字符串，格式 '20250123235959' (YYYYMMDDHHmmss)
         place_str: 地点字符串，如 '凤瑞路七峰大道东南角向北'
         username: 登录用户名
         password: 登录密码
@@ -74,6 +99,11 @@ def spider_run(data_str, place_str, username='370982199305061831', password='Abc
     engine = RapidOCR()
     
     # ==================== 1. 登录流程 ====================
+    
+    # 转换时间格式：'2026-01-02 01:02:03' -> '20260102010203'
+    start_time_str = start_time_str.replace('-', '').replace(':', '').replace(' ', '')
+    end_time_str = end_time_str.replace('-', '').replace(':', '').replace(' ', '')
+
     print('开始登录')
     co = ChromiumOptions()
     co.ignore_certificate_errors()
@@ -136,9 +166,6 @@ def spider_run(data_str, place_str, username='370982199305061831', password='Abc
     page.ele('text= 特征搜索 ').click()
     print('进入特征搜索')
 
-    start_time = data_str + ' 00:00:00'
-    end_time = data_str + ' 23:59:59'
-
     # 设置地点
     print('开始设置地点')
     page.ele('.el-input__icon h-icon-arrow_right').click()
@@ -169,13 +196,13 @@ def spider_run(data_str, place_str, username='370982199305061831', password='Abc
     element = page.ele('css:input[placeholder="开始时间"]')
     element.click()
     element.run_js('this.select();')
-    element.input(start_time)
+    element.input(start_time_str)
 
     # 设置结束时间
     element = page.ele('css:input[placeholder="结束时间"]')
     element.click()
     element.run_js('this.select();')
-    element.input(end_time)
+    element.input(end_time_str)
 
     # 点击查询按钮
     element = page.ele('.el-button primary_search-but el-button--primary')
@@ -255,24 +282,34 @@ def spider_run(data_str, place_str, username='370982199305061831', password='Abc
             print(person_name)
             id_number = "未知身份证号"
             if person_name != '未知身份':
-                # 获取身份证号
-                form_wrap = page.ele('xpath=//div[@class="form-wrap"]')
-                id_number_element = form_wrap.ele(
-                    'xpath=.//span[text="身份证号"]/following-sibling::span[@class="form-value"]')
+                # # 获取身份证号
+                # form_wrap = page.ele('xpath=//div[@class="form-wrap"]')
+                # id_number_element = form_wrap.ele(
+                #     'xpath=.//span[text="身份证号"]/following-sibling::span[@class="form-value"]')
 
-                if id_number_element:
-                    id_number = id_number_element.attr('title') or id_number_element.text
-                    print("身份证号：", id_number)
+                # if id_number_element:
+                #     id_number = id_number_element.attr('title') or id_number_element.text
+                #     print("身份证号：", id_number)
+                # else:
+                #     print("不存在身份证号")
+                try:
+                    id_number = page.ele('text=身份证号').parent().text[4:]
+                except Exception as e:
+                    print(e)
 
                 # 重命名图片
+                print('开始重命名图片')
                 image_name = '{}_{}_{}_{}.png'.format(place_name, time_str, id_number, person_name)
                 if os.path.exists(image_name):
                     os.remove(image_name)
                 os.rename(image_path, image_name)
+                print('重命名完成')
                 
                 # 读取图片内容并yield结果
                 with open(image_name, 'rb') as f:
                     image_content = f.read()
+
+                print('开始返回')
                 
                 yield {
                     "status": "success",
@@ -312,10 +349,14 @@ def spider_run(data_str, place_str, username='370982199305061831', password='Abc
 
 
 def main():
-    for result in spider_run('2026/01/03', '凤瑞路七峰大道东南角向北'):
+    # 示例：搜索 2026年1月3日 00:00:00 到 23:59:59
+    for result in spider_run('20260103000000', '20260103235959', '凤瑞路七峰大道东南角向北'):
         print(f"Found violation: {result['name']} at {result['location']}")
 
 
 if __name__ == '__main__':
-    main()
+    from DrissionPage import Chromium
+    browser = Chromium(9222)
+    tab = browser.latest_tab
+    print(tab.title)
 

@@ -144,38 +144,17 @@ class ImageListResponse(BaseModel):
     data: ImageListData
 
 async def get_application_status(start_time_str: str, end_time_str: str) -> str:
-    """Determine application status based on time window"""
-    try:
-        start_time = datetime.strptime(start_time_str, "%Y-%m-%d %H:%M:%S")
-        end_time = datetime.strptime(end_time_str, "%Y-%m-%d %H:%M:%S")
-        now = datetime.now()
-        
-        if now < start_time:
-            return "Ready"
-        elif start_time <= now <= end_time:
-            return "Running"
-        else:
-            return "Finished"
-    except Exception as e:
-        print(f"Error parsing time: {e}")
-        return "Ready"
+    return "Running"
 
 async def run_spider_for_application(app_id: int, address: str, start_time: str, end_time: str):
     """
     Run spider for a specific application
     """
-    try:
-        # Parse time range to get date
-        start_dt = datetime.strptime(start_time, "%Y-%m-%d %H:%M:%S")
-        data_str = start_dt.strftime("%Y/%m/%d")
-        
+    try:        
         # The spider is synchronous, run it in thread pool
         def spider_worker():
             try:
-                # 使用整合后的 spider_run 函数
-                return spider.spider_run(data_str, address)
-                # 测试时使用假数据生成器（注释掉真实爬虫）
-                # return spider.spider_one_day_dummy(data_str, address, None, ocr_engine)
+                return spider.spider_run(start_time, end_time, address)
             except Exception as e:
                 print(f"Spider error: {e}")
                 return iter([])
@@ -191,6 +170,7 @@ async def run_spider_for_application(app_id: int, address: str, start_time: str,
                         break
                     
                     # Save to MinIO
+                    print('保存到MinIO中')
                     object_name = result["image_name"]
                     image_content = result["image_content"]
                     
