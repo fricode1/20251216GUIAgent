@@ -138,11 +138,8 @@ class ImageListData(BaseModel):
 
 class ImageListResponse(BaseModel):
     code: str
-    msg: str = Field(alias="message")
+    msg: str
     data: ImageListData
-
-    class Config:
-        populate_by_name = True
 
 async def get_application_status(start_time_str: str, end_time_str: str) -> str:
     """Determine application status based on time window"""
