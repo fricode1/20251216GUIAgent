@@ -116,3 +116,65 @@ try:
         print("边界处理: ✓ 正常（返回空列表）")
 except Exception as e:
     print(f"错误: {e}")
+
+print("\n" + "=" * 60)
+print("测试 7: 按应用ID过滤图片（新功能）")
+print("=" * 60)
+# 先获取所有应用ID
+try:
+    apps_response = requests.get("http://127.0.0.1:8000/violation", params={"pageSize": 10})
+    if apps_response.status_code == 200:
+        apps_data = apps_response.json()
+        if apps_data['data']['list']:
+            # 取第一个应用的ID
+            test_app_id = apps_data['data']['list'][0]['id']
+            print(f"使用应用ID: {test_app_id} 进行过滤查询")
+            
+            # 查询该应用的图片
+            params = {
+                "id": test_app_id,
+                "pageSize": 10,
+                "pageNo": 1
+            }
+            print(f"请求参数: {params}")
+            
+            response = requests.get(base_url, params=params)
+            if response.status_code == 200:
+                data = response.json()
+                print(f"状态码: {response.status_code}")
+                print(f"该应用的图片总数: {data['data']['total']}")
+                print(f"返回图片数: {len(data['data']['list'])}")
+                
+                if data['data']['list']:
+                    print("\n前3张图片:")
+                    for idx, img in enumerate(data['data']['list'][:3], 1):
+                        print(f"  {idx}. {img['created_at']}")
+                else:
+                    print("该应用暂无图片数据")
+        else:
+            print("当前没有应用，无法测试按ID过滤功能")
+            print("提示: 请先创建应用并等待爬虫运行")
+except Exception as e:
+    print(f"错误: {e}")
+
+print("\n" + "=" * 60)
+print("测试 8: 过滤不存在的应用ID")
+print("=" * 60)
+params = {
+    "id": 99999,
+    "pageSize": 10
+}
+print(f"请求参数: {params}")
+try:
+    response = requests.get(base_url, params=params)
+    if response.status_code == 200:
+        data = response.json()
+        print(f"状态码: {response.status_code}")
+        print(f"总记录数: {data['data']['total']}")
+        print(f"返回记录数: {len(data['data']['list'])}")
+        if data['data']['total'] == 0:
+            print("✓ 正确处理: 不存在的应用ID返回空列表")
+        else:
+            print("✗ 错误处理: 不存在的应用ID返回空列表")
+except Exception as e:
+    print(f"错误: {e}")

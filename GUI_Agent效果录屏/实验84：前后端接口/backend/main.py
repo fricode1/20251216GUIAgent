@@ -306,8 +306,8 @@ async def create_application(request: CreateApplicationRequest):
         except ValueError as ve:
             return StandardResponse(code="400", msg=f"Invalid time format: {str(ve)}")
         
-        # Determine initial status
-        status = await get_application_status(request.start_time, request.end_time)
+        # Set initial status to Running (immediate execution)
+        status = "Running"
         
         async with aiosqlite.connect(DB_PATH) as db:
             cursor = await db.execute(
@@ -322,12 +322,13 @@ async def create_application(request: CreateApplicationRequest):
         
         print(f"Created application {app_id} with status {status}")
         
-        # If status is Running, start spider immediately
-        if status == "Running" and app_id not in running_tasks:
+        # Start spider immediately upon creation
+        if app_id not in running_tasks:
             task = asyncio.create_task(
                 run_spider_for_application(app_id, request.address, request.start_time, request.end_time)
             )
             running_tasks[app_id] = task
+            print(f"Started spider task immediately for application {app_id}")
         
         return StandardResponse(code="0", msg="success")
     except Exception as e:
@@ -419,27 +420,60 @@ async def delete_application(id: int):
 @app.get("/violation/images", response_model=ImageListResponse)
 async def get_images(
     pageSize: int = Query(10, description="每页条数"),
-    pageNo: int = Query(1, description="页码")
+    pageNo: int = Query(1, description="页码"),
+    id: Optional[int] = Query(None, description="应用id")
 ):
-    """查询图片列表（支持分页）"""
+    """查询图片列表（支持分页和按应用id过滤）"""
     try:
+        print(f"Received query params: pageSize={pageSize}, pageNo={pageNo}, id={id}")
+        
         async with aiosqlite.connect(DB_PATH) as db:
-            # Get total count
-            async with db.execute("SELECT COUNT(*) FROM images") as cursor:
-                row = await cursor.fetchone()
-                total = row[0]
-            
-            # Get paginated results
-            offset = (pageNo - 1) * pageSize
-            async with db.execute(
+            # Build query based on whether id is provided
+            if id is not None:
+                print(f"Filtering by application_id = {id}")
+                # Filter by application_id
+                count_query = "SELECT COUNT(*) FROM images WHERE application_id = ?"
+                select_query = """
+                    SELECT created_at, url
+                    FROM images
+                    WHERE application_id = ?
+                    ORDER BY created_at DESC
+                    LIMIT ? OFFSET ?
                 """
-                SELECT created_at, url
-                FROM images
-                ORDER BY created_at DESC
-                LIMIT ? OFFSET ?
-                """,
-                (pageSize, offset)
-            ) as cursor:
+                count_params = (id,)
+                
+                # Get total count
+                async with db.execute(count_query, count_params) as cursor:
+                    row = await cursor.fetchone()
+                    total = row[0]
+                print(f"Total images for application {id}: {total}")
+                
+                # Get paginated results
+                offset = (pageNo - 1) * pageSize
+                select_params = (id, pageSize, offset)
+            else:
+                print("Fetching all images (no id filter)")
+                # Get all images
+                count_query = "SELECT COUNT(*) FROM images"
+                select_query = """
+                    SELECT created_at, url
+                    FROM images
+                    ORDER BY created_at DESC
+                    LIMIT ? OFFSET ?
+                """
+                
+                # Get total count
+                async with db.execute(count_query) as cursor:
+                    row = await cursor.fetchone()
+                    total = row[0]
+                print(f"Total images (all): {total}")
+                
+                # Get paginated results
+                offset = (pageNo - 1) * pageSize
+                select_params = (pageSize, offset)
+            
+            # Execute select query
+            async with db.execute(select_query, select_params) as cursor:
                 rows = await cursor.fetchall()
                 
                 images = [
@@ -462,6 +496,8 @@ async def get_images(
         )
     except Exception as e:
         print(f"Error getting images: {e}")
+        import traceback
+        traceback.print_exc()
         raise HTTPException(status_code=500, detail=str(e))
 
 @app.get("/health")
