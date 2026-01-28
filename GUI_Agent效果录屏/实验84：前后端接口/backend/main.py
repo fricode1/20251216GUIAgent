@@ -127,7 +127,9 @@ class ApplicationListResponse(BaseModel):
     data: ApplicationListData
 
 class ImageItem(BaseModel):
-    created_at: str
+    capture_time: str
+    person_name: str
+    person_id: str
     url: str
 
 class ImageListData(BaseModel):
@@ -431,7 +433,7 @@ async def get_images(
                 # Filter by application_id
                 count_query = "SELECT COUNT(*) FROM images WHERE application_id = ?"
                 select_query = """
-                    SELECT created_at, url
+                    SELECT time, name, id_number, url
                     FROM images
                     WHERE application_id = ?
                     ORDER BY created_at DESC
@@ -453,7 +455,7 @@ async def get_images(
                 # Get all images
                 count_query = "SELECT COUNT(*) FROM images"
                 select_query = """
-                    SELECT created_at, url
+                    SELECT time, name, id_number, url
                     FROM images
                     ORDER BY created_at DESC
                     LIMIT ? OFFSET ?
@@ -475,8 +477,10 @@ async def get_images(
                 
                 images = [
                     ImageItem(
-                        created_at=row[0],
-                        url=row[1]
+                        capture_time=row[0],
+                        person_name=row[1],
+                        person_id=row[2],
+                        url=row[3]
                     )
                     for row in rows
                 ]
