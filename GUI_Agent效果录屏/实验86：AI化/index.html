@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>流程自动化Agent</title>
+    <script src="libs/vue.global.js"></script>
+    <script src="libs/marked.min.js"></script>
+    <script src="libs/tailwindcss.js"></script>
+    <style>
+        .chat-container { 
+            height: calc(100vh - 180px);
+            scrollbar-width: thin;
+            scrollbar-color: #cbd5e1 #f1f5f9;
+        }
+        .chat-container::-webkit-scrollbar {
+            width: 6px;
+        }
+        .chat-container::-webkit-scrollbar-track {
+            background: #f1f5f9;
+        }
+        .chat-container::-webkit-scrollbar-thumb {
+            background-color: #cbd5e1;
+            border-radius: 20px;
+        }
+        .message-bubble { 
+            max-width: 85%;
+            transition: all 0.3s ease;
+        }
+        .markdown-body ul { list-style-type: disc; padding-left: 1.5rem; margin-bottom: 0.75rem; }
+        .markdown-body ol { list-style-type: decimal; padding-left: 1.5rem; margin-bottom: 0.75rem; }
+        .markdown-body p { margin-bottom: 0.75rem; line-height: 1.6; }
+        .markdown-body code { background: rgba(0,0,0,0.05); padding: 0.1rem 0.3rem; border-radius: 0.2rem; font-family: 'Fira Code', monospace; font-size: 0.9em; }
+        .markdown-body pre { background: #1e293b; color: #f8fafc; padding: 1.25rem; border-radius: 0.75rem; overflow-x: auto; margin: 1rem 0; box-shadow: inset 0 2px 4px 0 rgba(0, 0, 0, 0.06); }
+        .gradient-bg {
+            background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+        }
+        .user-bubble {
+            background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+            color: white;
+            box-shadow: 0 4px 6px -1px rgba(59, 130, 246, 0.2);
+        }
+        .ai-bubble {
+            background: white;
+            color: #1e293b;
+            border: 1px solid #e2e8f0;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+        }
+    </style>
+</head>
+<body class="gradient-bg font-sans text-slate-900">
+    <div id="app" class="max-w-4xl mx-auto h-screen flex flex-col p-4 md:p-6">
+        <!-- Header -->
+        <header class="flex items-center justify-between mb-6 px-2">
+            <div class="flex items-center gap-3">
+                <div class="bg-blue-600 p-2 rounded-xl shadow-lg shadow-blue-200">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                    </svg>
+                </div>
+                <div>
+                    <h1 class="text-xl font-bold text-slate-800">流程自动化 Agent</h1>
+                    <p class="text-xs text-slate-500 flex items-center gap-1">
+                        <span class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span>
+                        AI 助手已就绪 (内网环境)
+                    </p>
+                </div>
+            </div>
+            <div class="flex gap-2">
+                <button @click="messages = []" class="text-slate-400 hover:text-red-500 transition-colors" title="清除对话">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                    </svg>
+                </button>
+            </div>
+        </header>
+
+        <!-- Chat Area -->
+        <main class="chat-container flex-1 overflow-y-auto px-2 space-y-6 mb-4" ref="chatBox">
+            <!-- Welcome View -->
+            <div v-if="messages.length === 0" class="h-full flex flex-col items-center justify-center text-center space-y-6 opacity-60">
+                <div class="bg-white p-6 rounded-full shadow-sm">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-16 h-16 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+                    </svg>
+                </div>
+                <div>
+                    <h2 class="text-2xl font-semibold mb-2 text-slate-700">您好！我是流程自动化助手</h2>
+                    <p class="text-slate-500 max-w-sm">我可以根据 SOP 文档为您提供操作指导，并生成或执行自动化脚本。</p>
+                </div>
+            </div>
+
+            <!-- Messages -->
+            <div v-for="(msg, index) in messages" :key="index" 
+                :class="['flex gap-3', msg.role === 'user' ? 'flex-row-reverse' : 'flex-row']">
+                <!-- Avatar -->
+                <div :class="['w-8 h-8 rounded-lg flex-shrink-0 flex items-center justify-center shadow-sm', 
+                    msg.role === 'user' ? 'bg-blue-600' : 'bg-white border border-slate-200']">
+                    <svg v-if="msg.role === 'user'" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-white" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd" />
+                    </svg>
+                    <svg v-else xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                    </svg>
+                </div>
+                
+                <div :class="['message-bubble p-4 rounded-2xl markdown-body', 
+                    msg.role === 'user' ? 'user-bubble rounded-tr-none' : 'ai-bubble rounded-tl-none']"
+                    v-html="renderMarkdown(msg.content)">
+                </div>
+            </div>
+
+            <!-- Loading Indicator -->
+            <div v-if="loading" class="flex gap-3">
+                <div class="w-8 h-8 rounded-lg bg-white border border-slate-200 flex items-center justify-center shadow-sm">
+                    <svg class="animate-spin h-4 w-4 text-blue-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                    </svg>
+                </div>
+                <div class="ai-bubble p-4 rounded-2xl rounded-tl-none flex items-center gap-2">
+                    <span class="flex gap-1">
+                        <span class="w-1.5 h-1.5 bg-slate-300 rounded-full animate-bounce"></span>
+                        <span class="w-1.5 h-1.5 bg-slate-300 rounded-full animate-bounce" style="animation-delay: 0.2s"></span>
+                        <span class="w-1.5 h-1.5 bg-slate-300 rounded-full animate-bounce" style="animation-delay: 0.4s"></span>
+                    </span>
+                </div>
+            </div>
+        </main>
+
+        <!-- Input Area -->
+        <footer class="space-y-4 px-2">
+            <!-- Quick Actions -->
+            <div v-if="messages.length === 0" class="flex flex-wrap justify-center gap-2">
+                <button @click="sendDefault" class="bg-white hover:bg-blue-50 text-slate-700 hover:text-blue-600 px-5 py-2.5 rounded-xl border border-slate-200 hover:border-blue-200 transition-all shadow-sm text-sm font-medium flex items-center gap-2 group">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-slate-400 group-hover:text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                    我想确认张三丰的身份
+                </button>
+            </div>
+
+            <!-- Message Input -->
+            <div class="relative bg-white rounded-2xl shadow-xl shadow-slate-200/60 border border-slate-200 focus-within:ring-2 focus-within:ring-blue-500/20 focus-within:border-blue-500 transition-all">
+                <input v-model="userInput" @keyup.enter="sendMessage"
+                    class="w-full bg-transparent border-none px-6 py-4 focus:outline-none text-slate-700"
+                    placeholder="请输入您的问题..." :disabled="loading">
+                <div class="absolute right-2 top-2 bottom-2 flex items-center">
+                    <button @click="sendMessage" :disabled="loading"
+                        class="bg-blue-600 text-white p-2.5 rounded-xl hover:bg-blue-700 disabled:bg-slate-300 transition-all shadow-lg shadow-blue-500/30">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                            <path d="M10.894 2.553a1 1 0 00-1.788 0l-7 14a1 1 0 001.169 1.409l5-1.429A1 1 0 009 15.571V11a1 1 0 112 0v4.571a1 1 0 00.725.962l5 1.428a1 1 0 001.17-1.408l-7-14z" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+            <p class="text-[10px] text-center text-slate-400">基于智能流程自动化技术 · 实验 86</p>
+        </footer>
+    </div>
+
+    <script>
+        const { createApp, ref, nextTick } = Vue;
+
+        createApp({
+            setup() {
+                const messages = ref([]);
+                const userInput = ref('');
+                const loading = ref(false);
+                const chatBox = ref(null);
+                const stage = ref('chat'); // chat, gen_confirm, exec_confirm
+
+                const renderMarkdown = (content) => {
+                    return marked.parse(content);
+                };
+
+                const scrollToBottom = async () => {
+                    await nextTick();
+                    if (chatBox.value) {
+                        chatBox.value.scrollTop = chatBox.value.scrollHeight;
+                    }
+                };
+
+                const sendDefault = () => {
+                    userInput.value = "我想确认张三丰的身份";
+                    sendMessage();
+                };
+
+                const sendMessage = async () => {
+                    if (!userInput.value.trim() || loading.value) return;
+
+                    const userMsg = userInput.value;
+                    messages.value.push({ role: 'user', content: userMsg });
+                    userInput.value = '';
+                    loading.value = true;
+                    await scrollToBottom();
+
+                    try {
+                        let endpoint = '/chat';
+                        if (stage.value === 'gen_confirm') {
+                            if (userMsg.includes('是') || userMsg.includes('好') || userMsg.toLowerCase().includes('yes') || userMsg.includes('确认')) {
+                                endpoint = '/generate_script';
+                                stage.value = 'exec_confirm';
+                            } else {
+                                stage.value = 'chat';
+                            }
+                        } else if (stage.value === 'exec_confirm') {
+                            if (userMsg.includes('是') || userMsg.includes('好') || userMsg.toLowerCase().includes('yes') || userMsg.includes('确认')) {
+                                endpoint = '/execute_script';
+                                stage.value = 'chat';
+                            } else {
+                                stage.value = 'chat';
+                            }
+                        }
+
+                        const response = await fetch(`http://localhost:8000${endpoint}`, {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({ message: userMsg })
+                        });
+
+                        if (endpoint === '/execute_script') {
+                            const reader = response.body.getReader();
+                            const decoder = new TextDecoder();
+                            let aiMsg = { role: 'assistant', content: '```\n' };
+                            messages.value.push(aiMsg);
+                            const msgIndex = messages.value.length - 1;
+
+                            while (true) {
+                                const { done, value } = await reader.read();
+                                if (done) break;
+                                const chunk = decoder.decode(value, { stream: true });
+                                messages.value[msgIndex].content += chunk;
+                                await scrollToBottom();
+                            }
+                            messages.value[msgIndex].content += '\n```';
+                        } else {
+                            const data = await response.json();
+                            messages.value.push({ role: 'assistant', content: data.reply });
+                        }
+                        
+                        // Automatically set stage if needed
+                        if (endpoint === '/chat') {
+                            stage.value = 'gen_confirm';
+                        }
+                        
+                    } catch (error) {
+                        messages.value.push({ role: 'assistant', content: '抱歉，发生了错误：' + error.message });
+                    } finally {
+                        loading.value = false;
+                        await scrollToBottom();
+                    }
+                };
+
+                return {
+                    messages,
+                    userInput,
+                    loading,
+                    chatBox,
+                    sendDefault,
+                    sendMessage,
+                    renderMarkdown
+                };
+            }
+        }).mount('#app');
+    </script>
+</body>
+</html>
