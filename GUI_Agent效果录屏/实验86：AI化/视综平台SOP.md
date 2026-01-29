@@ -1,4 +1,11 @@
-进入登录页：tab.get('https://62.168.12.20:8443/')
+打开浏览器：
+```python
+from DrissionPage import Chromium
+browser = Chromium()
+tab = browser.latest_tab
+```
+
+进入登录页：tab.get('https://62.168.12.20:8443/', retry=0, timeout=2) # 若无法连接，则会返回False
 
 在登录页输入用户名：tab.ele('.form-cut-item-username').ele('.el-input__inner').input('370982199305061831')
 
