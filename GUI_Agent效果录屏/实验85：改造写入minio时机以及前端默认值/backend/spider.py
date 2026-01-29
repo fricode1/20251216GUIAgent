@@ -122,7 +122,7 @@ def spider_run(start_time_str, end_time_str, place_str, username='37098219930506
     co.ignore_certificate_errors()
     co.auto_port()
     co.headless()
-    co.set_argument('--windows-size', '1920,1080')
+    co.set_argument('--window-size', '1920,1080')
     co.set_argument('--ignore-certificate-errors')
     co.set_argument('--ignore-ssl-errors')
 
