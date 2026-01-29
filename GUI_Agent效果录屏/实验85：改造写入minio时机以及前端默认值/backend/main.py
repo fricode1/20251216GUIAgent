@@ -63,6 +63,7 @@ async def init_minio():
 # Initialize SQLite database
 async def init_db():
     async with aiosqlite.connect(DB_PATH) as db:
+        await db.execute("PRAGMA foreign_keys = ON")
         # Applications table
         await db.execute("""
             CREATE TABLE IF NOT EXISTS applications (
@@ -87,6 +88,18 @@ async def init_db():
                 location TEXT NOT NULL,
                 name TEXT NOT NULL,
                 id_number TEXT NOT NULL,
+                created_at TEXT DEFAULT (datetime('now', 'localtime')),
+                FOREIGN KEY (application_id) REFERENCES applications(id) ON DELETE CASCADE
+            )
+        """)
+        
+        # Logs table
+        await db.execute("""
+            CREATE TABLE IF NOT EXISTS logs (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                application_id INTEGER NOT NULL,
+                message TEXT NOT NULL,
+                level TEXT NOT NULL DEFAULT 'INFO',
                 created_at TEXT DEFAULT (datetime('now', 'localtime')),
                 FOREIGN KEY (application_id) REFERENCES applications(id) ON DELETE CASCADE
             )
@@ -143,6 +156,31 @@ class ImageListResponse(BaseModel):
     msg: str
     data: ImageListData
 
+class LogItem(BaseModel):
+    id: int
+    message: str
+    level: str
+    created_at: str
+
+class LogListResponse(BaseModel):
+    code: str
+    msg: str
+    data: list[LogItem]
+
+async def add_log(app_id: int, message: str, level: str = "INFO"):
+    """Add a log entry to the database and print to console"""
+    now = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    print(f"[{now}] [{level}] [App {app_id}] {message}")
+    try:
+        async with aiosqlite.connect(DB_PATH) as db:
+            await db.execute(
+                "INSERT INTO logs (application_id, message, level) VALUES (?, ?, ?)",
+                (app_id, message, level)
+            )
+            await db.commit()
+    except Exception as e:
+        print(f"Failed to add log to DB: {e}")
+
 async def get_application_status(start_time_str: str, end_time_str: str) -> str:
     return "Running"
 
@@ -151,15 +189,20 @@ async def run_spider_for_application(app_id: int, address: str, start_time: str,
     Run spider for a specific application
     """
     try:        
-        # The spider is synchronous, run it in thread pool
-        def spider_worker():
-            try:
-                return spider.spider_run(start_time, end_time, address)
-            except Exception as e:
-                print(f"Spider error: {e}")
-                return iter([])
+        await add_log(app_id, f"开始执行爬虫任务，地址: {address}, 时间范围: {start_time} 至 {end_time}")
         
         loop = asyncio.get_event_loop()
+        
+        # The spider is synchronous, run it in thread pool
+        def spider_worker():
+            def log_sync(msg, level="INFO"):
+                asyncio.run_coroutine_threadsafe(add_log(app_id, msg, level), loop)
+                
+            try:
+                return spider.spider_run(start_time, end_time, address, log_callback=log_sync)
+            except Exception as e:
+                return iter([])
+        
         with concurrent.futures.ThreadPoolExecutor() as pool:
             gen = await loop.run_in_executor(pool, spider_worker)
             
@@ -170,7 +213,7 @@ async def run_spider_for_application(app_id: int, address: str, start_time: str,
                         break
                     
                     # Save to MinIO
-                    print('保存到MinIO中')
+                    await add_log(app_id, f"发现违章: {result['name']} at {result['location']}, 正在保存图片到MinIO")
                     object_name = result["image_name"]
                     image_content = result["image_content"]
                     
@@ -201,12 +244,12 @@ async def run_spider_for_application(app_id: int, address: str, start_time: str,
                         )
                         await db.commit()
                     
-                    print(f"Saved image for app {app_id}: {result['name']} at {result['location']}")
+                    await add_log(app_id, f"已保存违章图片: {result['name']} at {result['location']}")
                     
                 except StopIteration:
                     break
                 except Exception as e:
-                    print(f"Error processing spider result: {e}")
+                    await add_log(app_id, f"处理爬虫结果时出错: {e}", "ERROR")
                     break
         
         # Mark application as finished
@@ -216,9 +259,10 @@ async def run_spider_for_application(app_id: int, address: str, start_time: str,
                 ("Finished", app_id)
             )
             await db.commit()
+        await add_log(app_id, "爬虫任务执行完成")
         
     except Exception as e:
-        print(f"Error in spider task for app {app_id}: {e}")
+        await add_log(app_id, f"应用 {app_id} 的爬虫任务异常中断: {e}", "ERROR")
         async with aiosqlite.connect(DB_PATH) as db:
             await db.execute(
                 "UPDATE applications SET status = ? WHERE id = ?",
@@ -482,6 +526,30 @@ async def get_images(
         print(f"Error getting images: {e}")
         import traceback
         traceback.print_exc()
+        raise HTTPException(status_code=500, detail=str(e))
+
+@app.get("/violation/{id}/logs", response_model=LogListResponse)
+async def get_application_logs(id: int):
+    """查询指定应用的日志"""
+    try:
+        async with aiosqlite.connect(DB_PATH) as db:
+            async with db.execute(
+                "SELECT id, message, level, created_at FROM logs WHERE application_id = ? ORDER BY created_at ASC",
+                (id,)
+            ) as cursor:
+                rows = await cursor.fetchall()
+                logs = [
+                    LogItem(
+                        id=row[0],
+                        message=row[1],
+                        level=row[2],
+                        created_at=row[3]
+                    )
+                    for row in rows
+                ]
+        return LogListResponse(code="0", msg="success", data=logs)
+    except Exception as e:
+        print(f"Error getting logs: {e}")
         raise HTTPException(status_code=500, detail=str(e))
 
 @app.get("/health")

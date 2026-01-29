@@ -14,7 +14,7 @@ import {
   Space,
   Image,
 } from 'antd';
-import { PlusOutlined, DeleteOutlined, EyeOutlined } from '@ant-design/icons';
+import { PlusOutlined, DeleteOutlined, EyeOutlined, FileTextOutlined } from '@ant-design/icons';
 import dayjs from 'dayjs';
 import { violationAPI } from './api';
 
@@ -28,7 +28,10 @@ function App() {
   const [imageLoading, setImageLoading] = useState(false);
   const [createModalVisible, setCreateModalVisible] = useState(false);
   const [imageModalVisible, setImageModalVisible] = useState(false);
+  const [logModalVisible, setLogModalVisible] = useState(false);
   const [selectedAppId, setSelectedAppId] = useState(null);
+  const [logs, setLogs] = useState([]);
+  const [logLoading, setLogLoading] = useState(false);
   const [form] = Form.useForm();
   
   // 分页状态
@@ -119,6 +122,31 @@ function App() {
     setSelectedAppId(appId);
     setImageModalVisible(true);
     fetchImages(appId, 1, imagePagination.pageSize);
+  };
+
+  // 查看日志
+  const handleViewLogs = async (appId) => {
+    setSelectedAppId(appId);
+    setLogModalVisible(true);
+    fetchLogs(appId);
+  };
+
+  // 获取日志列表
+  const fetchLogs = async (appId) => {
+    setLogLoading(true);
+    try {
+      const response = await violationAPI.getLogs(appId);
+      if (response.code === '0') {
+        setLogs(response.data);
+      } else {
+        message.error(response.msg || '获取日志失败');
+      }
+    } catch (error) {
+      message.error('获取日志失败');
+      console.error(error);
+    } finally {
+      setLogLoading(false);
+    }
   };
 
   // 获取图片列表
@@ -212,6 +240,13 @@ function App() {
             onClick={() => handleViewImages(record.id)}
           >
             查看图片
+          </Button>
+          <Button
+            type="link"
+            icon={<FileTextOutlined />}
+            onClick={() => handleViewLogs(record.id)}
+          >
+            查看日志
           </Button>
           <Popconfirm
             title="确定要删除这个应用吗？"
@@ -392,6 +427,46 @@ function App() {
                   </Space>
                 </div>
               </div>
+            )}
+          </div>
+        </Modal>
+        {/* 查看日志模态框 */}
+        <Modal
+          title="运行日志"
+          open={logModalVisible}
+          onCancel={() => {
+            setLogModalVisible(false);
+            setLogs([]);
+            setSelectedAppId(null);
+          }}
+          footer={null}
+          width={800}
+        >
+          <div 
+            style={{ 
+              maxHeight: '500px', 
+              overflowY: 'auto', 
+              background: '#001529', 
+              color: '#fff', 
+              padding: '16px',
+              fontFamily: 'monospace',
+              borderRadius: '4px'
+            }}
+          >
+            {logLoading ? (
+              <div style={{ textAlign: 'center', color: '#aaa' }}>加载中...</div>
+            ) : logs.length === 0 ? (
+              <div style={{ textAlign: 'center', color: '#aaa' }}>暂无日志</div>
+            ) : (
+              logs.map((log) => (
+                <div key={log.id} style={{ marginBottom: '8px', borderBottom: '1px solid #333', paddingBottom: '4px' }}>
+                  <span style={{ color: '#52c41a', marginRight: '8px' }}>[{log.created_at}]</span>
+                  <span style={{ color: log.level === 'ERROR' ? '#ff4d4f' : '#1890ff', marginRight: '8px' }}>
+                    [{log.level}]
+                  </span>
+                  <span>{log.message}</span>
+                </div>
+              ))
             )}
           </div>
         </Modal>

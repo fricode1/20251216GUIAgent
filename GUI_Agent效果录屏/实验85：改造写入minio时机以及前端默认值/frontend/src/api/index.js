@@ -47,6 +47,11 @@ export const violationAPI = {
   getImages: (params) => {
     return api.get('/images', { params });
   },
+  
+  // 查询日志列表
+  getLogs: (id) => {
+    return api.get(`/${id}/logs`);
+  },
 };
 
 export default api;

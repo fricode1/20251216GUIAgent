@@ -58,7 +58,13 @@ def ocr_image(image_path, engine):
         return True
 
 
-def spider_run_dummy(start_time_str, end_time_str, place_str, username='370982199305061831', password='Abc@123456'):
+def spider_run_dummy(start_time_str, end_time_str, place_str, username='370982199305061831', password='Abc@123456', log_callback=None):
+    def log(msg, level="INFO"):
+        now = time.strftime("%Y-%m-%d %H:%M:%S")
+        if log_callback:
+            log_callback(msg, level)
+        print(f"[{now}] [{level}] {msg}")
+
     # ==================== 3. 遍历所有页面抓取数据 ====================
     while True:
         for person_idx in range(10):
@@ -66,7 +72,7 @@ def spider_run_dummy(start_time_str, end_time_str, place_str, username='37098219
             with open('/home/zcc/zhbli/projects/实验84：前后端接口/backend/4.png', 'rb') as f:
                 image_content = f.read()
 
-            print('开始返回')
+            log('开始返回')
             
             yield {
                 "status": "success",
@@ -82,7 +88,7 @@ def spider_run_dummy(start_time_str, end_time_str, place_str, username='37098219
         time.sleep(3)
 
 
-def spider_run(start_time_str, end_time_str, place_str, username='370982199305061831', password='Abc@123456'):
+def spider_run(start_time_str, end_time_str, place_str, username='370982199305061831', password='Abc@123456', log_callback=None):
     """
     完整的爬虫流程：登录 -> 搜索 -> 抓取 -> 返回结果
     
@@ -92,10 +98,17 @@ def spider_run(start_time_str, end_time_str, place_str, username='37098219930506
         place_str: 地点字符串，如 '凤瑞路七峰大道东南角向北'
         username: 登录用户名
         password: 登录密码
+        log_callback: 日志回调函数 (message, level)
     
     Yields:
         dict: 包含图片信息的字典
     """
+    def log(msg, level="INFO"):
+        now = time.strftime("%Y-%m-%d %H:%M:%S")
+        if log_callback:
+            log_callback(msg, level)
+        print(f"[{now}] [{level}] {msg}")
+
     engine = RapidOCR()
     
     # ==================== 1. 登录流程 ====================
@@ -104,70 +117,72 @@ def spider_run(start_time_str, end_time_str, place_str, username='37098219930506
     start_time_str = start_time_str.replace('-', '').replace(':', '').replace(' ', '')
     end_time_str = end_time_str.replace('-', '').replace(':', '').replace(' ', '')
 
-    print('开始登录')
+    log('开始登录')
     co = ChromiumOptions()
     co.ignore_certificate_errors()
+    co.auto_port()
+    co.headless()
+    co.set_argument('--windows-size', '1920,1080')
     co.set_argument('--ignore-certificate-errors')
     co.set_argument('--ignore-ssl-errors')
 
     login_page = ChromiumPage(addr_or_opts=co)
-    print('开始进入登录页面')
+    log('开始进入登录页面')
     login_page.get('https://62.168.12.20:8443/')
     time.sleep(1)
-    print(login_page.title)
+    log(f"页面标题: {login_page.title}")
     
     if login_page.title == '62.168.12.20:8443':
         login_page.ele('.form-cut-item-username').ele('.el-input__inner').input(username)
         login_page.ele('.form-cut-item-password').ele('.el-input__inner').input(password)
         wait_time = 15
-        print('已经输入用户名和密码，正在等待{}秒'.format(wait_time))
+        log('已经输入用户名和密码，正在等待{}秒'.format(wait_time))
         for i in range(wait_time):
-            print(i+1)
+            log(f"等待中... {i+1}")
             time.sleep(1)
         login_page.ele('.form-cut-item-btn').focus().click()
-        print('已经点击登录按钮')
+        log('已经点击登录按钮')
         time.sleep(3)
 
     if '62.168.12.20' != login_page.title:
-        print('未能成功登录')
-        print(login_page.title)
+        log(f'未能成功登录，当前标题: {login_page.title}', "ERROR")
         return
     
-    print('成功登录')
-    print('进入视综平台')
+    log('成功登录')
+    log('进入视综平台')
     time.sleep(1)
     
     while True:
         try:
             time.sleep(2)
             login_page.ele('text=公共安全视频监控共享平台').click()
-            print('已经进入视频综合图像平台')
+            log('已经进入视频综合图像平台')
             break
         except Exception as e:
-            print('未能进入，报错信息为：{}。当前页面内容为：{}'.format(e, login_page.text))
+            log('未能进入，报错信息为：{}。当前页面内容为：{}'.format(e, login_page.text), "WARNING")
 
     time.sleep(4)
 
     tabs = login_page.get_tabs()
-    print('已经打开的标签页如下：')
+    log('已经打开的标签页如下：')
     page = None
     for tab in tabs:
-        print(tab.title)
+        log(f"标签页: {tab.title}")
         if tab.title == '视频图像综合应用平台':
             page = tab
             break
     
     if page is None:
-        print('未能打开视频图像综合应用平台')
+        log('未能打开视频图像综合应用平台', "ERROR")
         return
 
     # ==================== 2. 进入特征搜索并设置参数 ====================
-    print(page.title)
+    log(f"当前页面: {page.title}")
     page.ele('text= 特征搜索 ').click()
-    print('进入特征搜索')
+    log('进入特征搜索')
 
     # 设置地点
-    print('开始设置地点')
+    log('开始设置地点')
     page.ele('.el-input__icon h-icon-arrow_right').click()
 
     while True:
@@ -177,7 +192,7 @@ def spider_run(start_time_str, end_time_str, place_str, username='37098219930506
             page.ele('.el-input__icon h-icon-search').click()
             break
         except Exception as e:
-            print('等待"选择点位"动态元素加载', e)
+            log(f'等待"选择点位"动态元素加载: {e}', "DEBUG")
 
     # 选中摄像机
     time.sleep(2)
@@ -190,7 +205,7 @@ def spider_run(start_time_str, end_time_str, place_str, username='37098219930506
     # 点击确定按钮
     time.sleep(1)
     page.ele("text=确定").parent().click()
-    print('完成设置地点')
+    log('完成设置地点')
 
     # 设置开始时间
     element = page.ele('css:input[placeholder="开始时间"]')
@@ -207,15 +222,16 @@ def spider_run(start_time_str, end_time_str, place_str, username='37098219930506
     # 点击查询按钮
     element = page.ele('.el-button primary_search-but el-button--primary')
     element.click()
+    log('已点击查询按钮，等待数据加载...')
     time.sleep(10)
 
     # 点击 表格模式 按钮
-    print('开始点击"表格模式"按钮')
+    log('开始点击"表格模式"按钮')
     try:
         page.ele('text= 表格模式 ').click()
     except Exception as e:
         page.get_screenshot()
-        print(e)
+        log(f"点击表格模式失败: {e}", "ERROR")
         return
     time.sleep(1)
 
@@ -227,35 +243,35 @@ def spider_run(start_time_str, end_time_str, place_str, username='37098219930506
     while True:
         # 处理当前页面
         persons = page.eles('.el-table__row ') + page.eles('.el-table__row current-row') + page.eles('.el-table__row')
-        print('共{}个人员'.format(len(persons)))
+        log('当前页面共发现 {} 条人员记录'.format(len(persons)))
         
         for person_idx, person_row in enumerate(persons):
-            print('-----------行人{}------------'.format(person_idx + 1))
-            print(person_row.text)
+            log('----------- 处理行人 {} ------------'.format(person_idx + 1))
+            # log(person_row.text, "DEBUG")
 
             archive_button = person_row.eles('css:button[title="查看档案"]')
             if len(archive_button) == 0:
-                print('不存在档案')
+                log('该记录不存在档案，跳过')
                 continue
             else:
-                print('存在档案')
+                log('存在档案，开始进一步检查')
 
             # 判断是否被抓拍
             person_row.click()
             time.sleep(3)
             img_element = page.ele('xpath=//img[@class="iu-img-view__img"]')
             src = img_element.attr('src')
-            print(src)
+            log(f"图片源地址: {src}", "DEBUG")
             image_path = '{}.png'.format(person_idx + 1)
             if os.path.exists(image_path):
                 os.remove(image_path)
             page.download(src, verify=False, rename=image_path)
             is_caught = ocr_image(image_path, engine)
             if not is_caught:
-                print('未被抓拍')
+                log('OCR检测结果：未发现违法抓拍标记，跳过')
                 continue
             else:
-                print('被抓拍')
+                log('OCR检测结果：确认存在违法抓拍标记！')
 
             # 获取抓拍地点和时间
             place_name = '未知地点'
@@ -275,41 +291,32 @@ def spider_run(start_time_str, end_time_str, place_str, username='37098219930506
             person_name_elements = page.eles('.ellipsis')
             time.sleep(4)
             if len(person_name_elements) == 0:
-                print("不存在姓名")
+                log("未能获取人员姓名，跳过", "WARNING")
                 continue
 
             person_name = person_name_elements[0].text
-            print(person_name)
+            log(f"获取到姓名: {person_name}")
             id_number = "未知身份证号"
             if person_name != '未知身份':
-                # # 获取身份证号
-                # form_wrap = page.ele('xpath=//div[@class="form-wrap"]')
-                # id_number_element = form_wrap.ele(
-                #     'xpath=.//span[text="身份证号"]/following-sibling::span[@class="form-value"]')
-
-                # if id_number_element:
-                #     id_number = id_number_element.attr('title') or id_number_element.text
-                #     print("身份证号：", id_number)
-                # else:
-                #     print("不存在身份证号")
                 try:
                     id_number = page.ele('text=身份证号').parent().text[4:]
+                    log(f"获取到身份证号: {id_number}", "DEBUG")
                 except Exception as e:
-                    print(e)
+                    log(f"获取身份证号失败: {e}", "WARNING")
 
                 # 重命名图片
-                print('开始重命名图片')
+                log('正在生成规范命名的图片文件...')
                 image_name = '{}_{}_{}_{}.png'.format(place_name, time_str, id_number, person_name)
                 if os.path.exists(image_name):
                     os.remove(image_name)
                 os.rename(image_path, image_name)
-                print('重命名完成')
+                log(f'图片已保存为: {image_name}')
                 
                 # 读取图片内容并yield结果
                 with open(image_name, 'rb') as f:
                     image_content = f.read()
 
-                print('开始返回')
+                log(f'正在向主程序返回抓拍结果: {person_name}')
                 
                 yield {
                     "status": "success",
@@ -326,6 +333,7 @@ def spider_run(start_time_str, end_time_str, place_str, username='37098219930506
             element.click()
 
             # 关闭人员标签页
+            log('正在清理标签页...')
             while True:
                 try:
                     element = page.ele('.lidaicon-h-more-vertical btn-icon-more')
@@ -335,16 +343,16 @@ def spider_run(start_time_str, end_time_str, place_str, username='37098219930506
                     element.click()
                     break
                 except Exception as e:
-                    print('关闭档案窗口失败，重试', e)
+                    log(f'关闭档案窗口失败，重试: {e}', "WARNING")
 
         # 翻页处理
         next_page_button = page.ele('.btn-next')
         if next_page_button and next_page_button.attr('disabled') is None:
-            print('处理下一页')
+            log('处理下一页数据...')
             next_page_button.click()
             time.sleep(5)
         else:
-            print('所有页面分析完成')
+            log('所有页面处理完毕')
             break
 
 
