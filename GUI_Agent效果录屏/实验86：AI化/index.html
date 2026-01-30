@@ -190,7 +190,8 @@
                 const userInput = ref('');
                 const loading = ref(false);
                 const chatBox = ref(null);
-                const stage = ref('chat'); // chat, gen_confirm, exec_confirm
+                const stage = ref('chat'); // chat, gen_confirm, exec_confirm, exec_existing_confirm
+                const currentScript = ref(null);
 
                 const renderMarkdown = (content) => {
                     let processed = content;
@@ -232,7 +233,13 @@
 
                     try {
                         let endpoint = '/chat';
-                        if (stage.value === 'gen_confirm') {
+                        let body = { message: userMsg };
+                        if (stage.value === 'exec_existing_confirm' && (userMsg.includes('是') || userMsg.includes('好') || userMsg.toLowerCase().includes('yes') || userMsg.includes('确认'))) {
+                            endpoint = '/execute_script';
+                            body.script_name = currentScript.value.script_name;
+                            body.args = currentScript.value.args;
+                            stage.value = 'chat';
+                        } else if (stage.value === 'gen_confirm') {
                             if (userMsg.includes('是') || userMsg.includes('好') || userMsg.toLowerCase().includes('yes') || userMsg.includes('确认')) {
                                 endpoint = '/generate_script';
                                 stage.value = 'exec_confirm';
@@ -251,7 +258,7 @@
                         const response = await fetch(`http://localhost:8000${endpoint}`, {
                             method: 'POST',
                             headers: { 'Content-Type': 'application/json' },
-                            body: JSON.stringify({ message: userMsg })
+                            body: JSON.stringify(body)
                         });
 
                         if (endpoint === '/execute_script' || endpoint === '/chat' || endpoint === '/generate_script') {
@@ -274,17 +281,32 @@
                             } else if (endpoint === '/generate_script') {
                                 messages.value.push({ role: 'assistant', content: "脚本已生成。需要我为你执行该脚本文件吗？" });
                                 await scrollToBottom();
+                            } else if (endpoint === '/chat') {
+                                const fullContent = messages.value[msgIndex].content;
+                                if (fullContent.includes('[MATCH_SCRIPT]')) {
+                                    let scriptInfo = {};
+                                    let displayMessage = "";
+                                    
+                                    const nameMatch = fullContent.match(/script_name:\s*(.+)/);
+                                    const argsMatch = fullContent.match(/args:\s*({.+})/);
+                                    const msgMatch = fullContent.match(/message:\s*(.+)/);
+                                    
+                                    if (nameMatch) scriptInfo.script_name = nameMatch[1].trim();
+                                    if (argsMatch) {
+                                        try {
+                                            scriptInfo.args = JSON.parse(argsMatch[1].trim());
+                                        } catch (e) { console.error("Parse args error", e); }
+                                    }
+                                    if (msgMatch) displayMessage = msgMatch[1].trim();
+                                    
+                                    currentScript.value = scriptInfo;
+                                    messages.value[msgIndex].content = displayMessage || "发现已有脚本可以处理您的请求。我已经为您准备好了参数，是否立即执行？";
+                                    stage.value = 'exec_existing_confirm';
+                                } else {
+                                    stage.value = 'gen_confirm';
+                                }
                             }
-                        } else {
-                            const data = await response.json();
-                            messages.value.push({ role: 'assistant', content: data.reply });
                         }
-                        
-                        // Automatically set stage if needed
-                        if (endpoint === '/chat') {
-                            stage.value = 'gen_confirm';
-                        }
-                        
                     } catch (error) {
                         messages.value.push({ role: 'assistant', content: '抱歉，发生了错误：' + error.message });
                     } finally {

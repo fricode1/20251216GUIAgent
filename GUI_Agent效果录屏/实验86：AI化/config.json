@@ -1,5 +1,5 @@
 {
-    "api_key": "172423d8-0ab8-4e60-659b-de3cda928f95",
-    "api_base": "http://44.71.1.34:8088/lm/v2/chat/completions",
-    "model": "qwen3-235b-a22b"
+    "api_key": "sk-6fda4f18a54140c6ae408fdd13cfe97d",
+    "api_base": "https://api.deepseek.com",
+    "model": "deepseek-reasoner"
 }

@@ -35,6 +35,8 @@ with open('视综平台SOP.md', 'r', encoding='utf-8') as f:
 class ChatRequest(BaseModel):
     message: str
     history: list = []
+    script_name: str = None
+    args: dict = None
 
 def clean_response(text: str) -> str:
     """去除 LLM 响应中的 <think>...</think> 标签及其内容"""
@@ -46,14 +48,35 @@ async def root():
 
 @app.post("/chat")
 async def chat(request: ChatRequest):
+    # 定义现有脚本及其描述
+    available_scripts = {
+        "pedestrian_violation.py": {
+            "description": "查询行人违章记录。需要参数：start_time (YYYYMMDDHHmmss), end_time (YYYYMMDDHHmmss), place (地点名称)。",
+            "args": ["start_time", "end_time", "place"]
+        },
+        "zhihu_collect.py": {
+            "description": "抓取知乎收藏夹内容。需要参数：url (收藏夹URL)。",
+            "args": ["url"]
+        }
+    }
+
     prompt = f"""你是一个流程自动化助手。
 以下是《视综平台SOP.md》的内容：
 {sop_content}
 
+现有已生成的脚本列表：
+{json.dumps(available_scripts, ensure_ascii=False, indent=2)}
+
 用户的问题是：{request.message}
 
-请根据SOP，用自然语言告诉用户该如何操作。
-在回答的最后，必须问用户：“需要我为你生成自动化脚本吗？”
+任务：
+1. 判断用户的问题是否可以由现有的脚本直接完成。
+2. 如果可以，请以以下格式回复：
+   [MATCH_SCRIPT]
+   script_name: 脚本文件名
+   args: {{"参数名": "提取的值"}}
+   message: 发现已有脚本可以处理您的请求。我已经为您准备好了参数，是否立即执行？
+3. 如果不可以，请根据SOP，用自然语言告诉用户该如何操作。在回答的最后，必须问用户：“需要我为你生成自动化脚本吗？”
 """
     
     response = client.chat.completions.create(
@@ -130,14 +153,20 @@ SOP内容：
 
 @app.post("/execute_script")
 async def execute_script(request: ChatRequest):
-    script_path = "generated_script.py"
+    script_path = request.script_name if request.script_name else "generated_script.py"
     if not os.path.exists(script_path):
-        raise HTTPException(status_code=404, detail="Script not found")
+        raise HTTPException(status_code=404, detail=f"Script {script_path} not found")
     
+    # 构造执行命令
+    cmd = ["python", "-u", script_path]
+    if request.args:
+        for key, value in request.args.items():
+            cmd.extend([f"--{key}", str(value)])
+            
     async def log_generator():
         # Start subprocess
         process = subprocess.Popen(
-            ["python", "-u", script_path], # -u for unbuffered output
+            cmd, # -u for unbuffered output
             stdout=subprocess.PIPE,
             stderr=subprocess.STDOUT,
             text=True,

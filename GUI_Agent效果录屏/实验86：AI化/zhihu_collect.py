@@ -77,5 +77,9 @@ def save_to_csv(data):
     print(f"总计抓取 {len(data)} 条数据，已保存至 zhihu_collection.csv")
 
 if __name__ == '__main__':
-    collection_url = 'https://www.zhihu.com/collection/19928423'
-    scrape_zhihu_collection(collection_url)
+    import argparse
+    parser = argparse.ArgumentParser(description='Zhihu Collection Scraper')
+    parser.add_argument('--url', type=str, help='Zhihu Collection URL', default='https://www.zhihu.com/collection/19928423')
+    args = parser.parse_args()
+    
+    scrape_zhihu_collection(args.url)
