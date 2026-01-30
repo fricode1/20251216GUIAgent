@@ -2,6 +2,7 @@ import json
 import os
 import subprocess
 import asyncio
+import re
 from fastapi import FastAPI, HTTPException
 from fastapi.responses import StreamingResponse
 from pydantic import BaseModel
@@ -35,6 +36,10 @@ class ChatRequest(BaseModel):
     message: str
     history: list = []
 
+def clean_response(text: str) -> str:
+    """去除 LLM 响应中的 <think>...</think> 标签及其内容"""
+    return re.sub(r'<think>.*?</think>', '', text, flags=re.DOTALL).strip()
+
 @app.get("/")
 async def root():
     return {"message": "流程自动化 Agent 后端 API 正在运行。请通过 8080 端口访问前端界面。"}
@@ -57,7 +62,8 @@ async def chat(request: ChatRequest):
         temperature=0.7
     )
     
-    return {"reply": response.choices[0].message.content}
+    reply = clean_response(response.choices[0].message.content)
+    return {"reply": reply}
 
 @app.post("/generate_script")
 async def generate_script(request: ChatRequest):
@@ -82,11 +88,22 @@ SOP内容：
         temperature=0.1
     )
     
-    code = response.choices[0].message.content.strip()
+    full_content = response.choices[0].message.content.strip()
+    # 先去除思考过程
+    cleaned_content = clean_response(full_content)
+    
+    # 提取代码块
+    code = cleaned_content
     if code.startswith("```python"):
-        code = code[9:-3]
+        code = code[9:]
+        if code.endswith("```"):
+            code = code[:-3]
     elif code.startswith("```"):
-        code = code[3:-3]
+        code = code[3:]
+        if code.endswith("```"):
+            code = code[:-3]
+    
+    code = code.strip()
         
     script_path = "generated_script.py"
     with open(script_path, "w", encoding="utf-8") as f:
