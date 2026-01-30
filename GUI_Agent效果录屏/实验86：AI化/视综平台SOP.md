@@ -5,9 +5,12 @@ browser = Chromium()
 tab = browser.latest_tab
 ```
 
-进入登录页：tab.get('https://62.168.12.20:8443/', retry=1, timeout=4) # 若无法连接，则会返回False
+进入登录页：tab.get('https://62.168.12.20:8443/', retry=1, timeout=4)
 
-这时会出现两种可能。一种是会直接跳转到【应用市场页】 http://62.168.12.20/#/home，这说明已经登录成功。否则，就需要登录：
+这时会出现三种可能：
+（1）若无法连接，则会返回False
+（2）成功连接，且直接跳转到【应用市场页】 http://62.168.12.20/#/home，这说明已经登录成功。
+（3）否则，就需要登录：
 
 - 在登录页输入用户名：tab.ele('.form-cut-item-username').ele('.el-input__inner').input('370982199305061831')
 
