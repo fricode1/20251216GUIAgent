@@ -59,11 +59,18 @@ async def chat(request: ChatRequest):
     response = client.chat.completions.create(
         model=config['model'],
         messages=[{"role": "system", "content": "你是一个专业的流程自动化助手。"}, {"role": "user", "content": prompt}],
-        temperature=0.7
+        temperature=0.7,
+        stream=True
     )
     
-    reply = clean_response(response.choices[0].message.content)
-    return {"reply": reply}
+    async def chat_generator():
+        for chunk in response:
+            content = chunk.choices[0].delta.content
+            if content:
+                yield content
+            await asyncio.sleep(0.01)
+
+    return StreamingResponse(chat_generator(), media_type="text/plain")
 
 @app.post("/generate_script")
 async def generate_script(request: ChatRequest):
@@ -85,31 +92,41 @@ SOP内容：
     response = client.chat.completions.create(
         model=config['model'],
         messages=[{"role": "user", "content": prompt}],
-        temperature=0.1
+        temperature=0.1,
+        stream=True
     )
     
-    full_content = response.choices[0].message.content.strip()
-    # 先去除思考过程
-    cleaned_content = clean_response(full_content)
-    
-    # 提取代码块
-    code = cleaned_content
-    if code.startswith("```python"):
-        code = code[9:]
-        if code.endswith("```"):
-            code = code[:-3]
-    elif code.startswith("```"):
-        code = code[3:]
-        if code.endswith("```"):
-            code = code[:-3]
-    
-    code = code.strip()
+    async def script_generator_wrapper():
+        full_content = ""
+        for chunk in response:
+            content = chunk.choices[0].delta.content
+            if content:
+                full_content += content
+                yield content
+            await asyncio.sleep(0.01)
+            
+        # 脚本生成完成后，保存到文件
+        # 用户在前端能看到思考过程，但我们保存时必须剔除它
+        cleaned_content = clean_response(full_content)
         
-    script_path = "generated_script.py"
-    with open(script_path, "w", encoding="utf-8") as f:
-        f.write(code)
+        # 提取代码块
+        code = cleaned_content
+        if code.startswith("```python"):
+            code = code[9:]
+            if code.endswith("```"):
+                code = code[:-3]
+        elif code.startswith("```"):
+            code = code[3:]
+            if code.endswith("```"):
+                code = code[:-3]
         
-    return {"reply": "脚本已生成。需要我为你执行该脚本文件吗？", "script_path": script_path}
+        code = code.strip()
+            
+        script_path = "generated_script.py"
+        with open(script_path, "w", encoding="utf-8") as f:
+            f.write(code)
+            
+    return StreamingResponse(script_generator_wrapper(), media_type="text/plain")
 
 @app.post("/execute_script")
 async def execute_script(request: ChatRequest):

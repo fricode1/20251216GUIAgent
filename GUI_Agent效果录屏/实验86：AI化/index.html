@@ -46,6 +46,29 @@
             border: 1px solid #e2e8f0;
             box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
         }
+        /* Thinking Process Style */
+        .think-block {
+            display: block;
+            background: #f8fafc;
+            border-left: 4px solid #cbd5e1;
+            padding: 0.75rem 1rem;
+            margin: 0.5rem 0 1rem 0;
+            font-style: italic;
+            color: #64748b;
+            font-size: 0.9em;
+            border-radius: 0.25rem;
+            position: relative;
+        }
+        .think-block::before {
+            content: "思考中...";
+            display: block;
+            font-size: 0.75rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            color: #94a3b8;
+            margin-bottom: 0.25rem;
+            font-style: normal;
+        }
     </style>
 </head>
 <body class="gradient-bg font-sans text-slate-900">
@@ -170,7 +193,20 @@
                 const stage = ref('chat'); // chat, gen_confirm, exec_confirm
 
                 const renderMarkdown = (content) => {
-                    return marked.parse(content);
+                    let processed = content;
+                    // 处理未闭合标签，防止流式输出过程中样式泄露到全文
+                    const thinkStartCount = (processed.match(/<think>/g) || []).length;
+                    const thinkEndCount = (processed.match(/<\/think>/g) || []).length;
+                    
+                    if (thinkStartCount > thinkEndCount) {
+                        processed += '\n\n</div>\n\n'; // 自动闭合正在进行的思考块
+                    }
+                    
+                    // 将 <think> 替换为标准的 div 块，并确保其前后有空行，强制 marked 将其视为 HTML 块而不包裹在 p 中
+                    processed = processed.replace(/<think>/g, '\n\n<div class="think-block">\n\n');
+                    processed = processed.replace(/<\/think>/g, '\n\n</div>\n\n');
+                    
+                    return marked.parse(processed);
                 };
 
                 const scrollToBottom = async () => {
@@ -218,10 +254,10 @@
                             body: JSON.stringify({ message: userMsg })
                         });
 
-                        if (endpoint === '/execute_script') {
+                        if (endpoint === '/execute_script' || endpoint === '/chat' || endpoint === '/generate_script') {
                             const reader = response.body.getReader();
                             const decoder = new TextDecoder();
-                            let aiMsg = { role: 'assistant', content: '```\n' };
+                            let aiMsg = { role: 'assistant', content: endpoint === '/execute_script' ? '```\n' : '' };
                             messages.value.push(aiMsg);
                             const msgIndex = messages.value.length - 1;
 
@@ -232,7 +268,13 @@
                                 messages.value[msgIndex].content += chunk;
                                 await scrollToBottom();
                             }
-                            messages.value[msgIndex].content += '\n```';
+                            
+                            if (endpoint === '/execute_script') {
+                                messages.value[msgIndex].content += '\n```';
+                            } else if (endpoint === '/generate_script') {
+                                messages.value.push({ role: 'assistant', content: "脚本已生成。需要我为你执行该脚本文件吗？" });
+                                await scrollToBottom();
+                            }
                         } else {
                             const data = await response.json();
                             messages.value.push({ role: 'assistant', content: data.reply });
