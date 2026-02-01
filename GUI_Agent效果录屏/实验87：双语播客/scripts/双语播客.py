@@ -16,8 +16,9 @@ def get_access_token():
     return None
 
 def main():
-    file_path = "中文.txt"
-    output_filename = "最终合成.mp3"
+    file_name = 'Chapter 15'
+    file_path = r"C:\Users\admin\Documents\GitHub\fri\20251216GUIAgent\GUI_Agent效果录屏\实验87：双语播客\data\人类理解论第二卷\各章节\{}.txt".format(file_name)
+    output_filename = r"C:\Users\admin\Documents\GitHub\fri\20251216GUIAgent\GUI_Agent效果录屏\实验87：双语播客\data\人类理解论第二卷\各章节\{}.mp3".format(file_name)
     
     if not os.path.exists(file_path):
         print(f"错误：找不到文件 {file_path}")

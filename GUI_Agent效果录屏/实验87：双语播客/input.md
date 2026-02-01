@@ -1,0 +1,5 @@
+# **Chapter i: Ideas in general, and their origin**
+
+**1.** Everyone is conscious to himself that he thinks; and when thinking is going on, the mind is engaged with _ideas_ that it contains. So it’s past doubt that men have in their minds various ideas, such as are those expressed by the words ‘whiteness’, ‘hardness’, ‘sweetness’, ‘thinking’, ‘motion’, ‘man’, ‘elephant’, ‘army’, ‘drunkenness’, and others. The first question, then, is _How does he acquire these ideas?_ It is widely believed that men have ideas stamped upon their minds in their very first being.
+
+**2.** Let us then suppose the mind to have no ideas in it, to be like _white paper_ with nothing written on it. How then does it come to be written on? From where does it get that vast store which the busy and boundless imagination of man has painted on it—all the materials of reason and knowledge? To this I answer, in one word, from _experience_ .
