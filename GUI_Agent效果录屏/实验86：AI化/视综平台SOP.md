@@ -22,9 +22,23 @@ tab = browser.latest_tab
 
 切换到视综平台标签页：time.sleep(5); tab = browser.latest_tab; time.sleep(3);
 
-在视综平台，点击身份确认按钮：tab.eles('身份确认')[1].click() 进入身份确认页面
+在视综平台，点击身份确认按钮：tab.eles('身份确认')[1].click(); time.sleep(5) 进入【身份确认页面】
 
-在身份确认页面输入姓名：tab.ele('@placeholder=请输入精确姓名').click().input('张三丰')
+## 身份确认页面
+
+该页面有多种使用方式：根据图片确认身份、根据姓名确认身份。如果用户提供的是图片，则执行根据图片确认身份而非根据姓名确认身份。如果用户提供的是姓名，则执行根据姓名确认身份而非根据图片确认身份。
+
+### 根据图片确认身份
+
+在身份确认页面上传图像：tab.ele('.el-upload-dragger').click.to_upload('/home/zcc/zhbli/projects/实验86：AI化/face.png')
+
+获取图像对应的身份的姓名：tab.ele('.human-name').wait.enabled().text
+
+获取图像对应的身份的身份证号：tab.ele('.certificate-num').text
+
+### 根据姓名确认身份
+
+在身份确认页面输入姓名：tab.ele('@placeholder=请输入精确姓名').click().input(用户提供的想要查询的姓名)
 
 在身份确认页面，输入姓名后，点击查询按钮：tab.ele(' 查询 ').click() 获取所有该姓名的人的卡片
 
