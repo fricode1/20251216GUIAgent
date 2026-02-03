@@ -233,7 +233,16 @@
 
                     try {
                         let endpoint = '/chat';
-                        let body = { message: userMsg };
+                        // 准备对话历史，只保留 role 和 content，并过滤掉当前正在发送的消息之前的消息
+                        const history = messages.value.slice(0, -1).map(m => ({
+                            role: m.role,
+                            content: m.content
+                        }));
+                        
+                        let body = { 
+                            message: userMsg,
+                            history: history
+                        };
                         if (stage.value === 'exec_existing_confirm' && (userMsg.includes('是') || userMsg.includes('好') || userMsg.toLowerCase().includes('yes') || userMsg.includes('确认'))) {
                             endpoint = '/execute_script';
                             body.script_name = currentScript.value.script_name;

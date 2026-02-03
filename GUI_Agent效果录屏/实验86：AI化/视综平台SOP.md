@@ -26,7 +26,7 @@ tab = browser.latest_tab
 
 ## 身份确认页面
 
-该页面有多种使用方式：根据图片确认身份、根据姓名确认身份。如果用户提供的是图片，则执行根据图片确认身份而非根据姓名确认身份。如果用户提供的是姓名，则执行根据姓名确认身份而非根据图片确认身份。
+该页面有多种使用方式：根据图片确认身份、根据姓名确认身份、根据身份证号确认身份。
 
 ### 根据图片确认身份
 
@@ -49,6 +49,14 @@ tab = browser.latest_tab
 对于每个人的卡片，获取行人： person_card.ele('@class:text-ellipsis').text
 
 对于每个人的卡片，获取身份证号：person_card.ele('@class:text_certificateNumber').text
+
+### 根据身份证号确认身份
+
+在身份确认页面输入身份证号：tab.ele('@placeholder=请输入身份证号').wait.enabled().click().input(用户提供的想要查询的身份证号)
+
+在身份确认页面，输入身份证号后，点击查询按钮：tab.ele(' 查询 ').click() 获取该身份账号的人的卡片
+
+获取姓名：tab.ele('@class:text-ellipsis').wait.enabled().text
 
 ## 不得使用的错误语法
 
