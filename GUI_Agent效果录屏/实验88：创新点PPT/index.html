@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>基于语义拓扑地图重建的 Web Agent 架构研究</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@900&family=Noto+Sans+SC:wght@100;300;400;700;900&family=JetBrains+Mono&display=swap');
+        
+        body { 
+            font-family: 'Noto Sans SC', sans-serif; 
+            scroll-behavior: smooth;
+            background-color: #fff;
+        }
+        .serif { font-family: 'Noto Serif SC', serif; }
+        .mono { font-family: 'JetBrains+Mono', monospace; }
+        
+        /* 极度呼吸感间距 */
+        .full-screen-section {
+            min-height: 100vh;
+            padding: 20vh 10%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .huge-title {
+            font-size: clamp(3rem, 8vw, 6rem);
+            line-height: 1.1;
+            font-weight: 900;
+        }
+
+        .text-reveal {
+            border-left: 12px solid #6366f1;
+            padding-left: 3rem;
+            margin: 4rem 0;
+        }
+
+        .step-number {
+            font-size: 12rem;
+            font-weight: 900;
+            line-height: 1;
+            color: #f1f5f9;
+            position: absolute;
+            z-index: -1;
+            top: -2rem;
+            left: -4rem;
+        }
+
+        .highlight-card {
+            background: #f8fafc;
+            border-radius: 4rem;
+            padding: 6rem;
+            border: 1px solid #e2e8f0;
+        }
+
+        code { font-size: 1.1rem; }
+    </style>
+</head>
+<body class="text-slate-900 antialiased text-lg">
+
+    <!-- 1. 封面 -->
+    <header class="full-screen-section bg-slate-50 relative overflow-hidden">
+        <div class="absolute top-20 left-10 text-indigo-600 font-black tracking-tighter text-sm uppercase">Research Monograph 2024</div>
+        <h1 class="huge-title serif tracking-tighter">
+            基于<span class="text-indigo-600 underline decoration-indigo-200">语义拓扑地图</span>重建的 <br>Web Agent 架构研究
+        </h1>
+        <div class="mt-20 max-w-2xl">
+            <p class="text-3xl text-slate-400 font-light leading-relaxed">
+                “构建数字化世界的 GPS，将自回归推理沉淀为确定性资产。”
+            </p>
+        </div>
+    </header>
+
+    <!-- 2. N-Tree Intuition -->
+    <section class="full-screen-section">
+        <div class="max-w-4xl">
+            <span class="text-indigo-600 font-bold mono uppercase tracking-widest">Model Foundation</span>
+            <h2 class="text-7xl font-black mt-12 mb-16 serif">直觉建模：N 叉树地图</h2>
+            <p class="text-4xl text-slate-500 leading-tight">
+                虽然网站本质上是复杂的图（Graph），但在交互层级上，<span class="text-slate-900 font-bold">N 叉树（N-ary Tree）</span> 更符合人类对交互路径的直觉认知。
+            </p>
+        </div>
+    </section>
+
+    <!-- 3. Current Agent Crisis -->
+    <section class="full-screen-section bg-slate-950 text-white">
+        <div class="max-w-6xl">
+            <h2 class="text-5xl font-black mb-32 italic border-b border-white/10 pb-12">现状：Agent 的“直觉摸索”困局</h2>
+            
+            <div class="grid grid-cols-1 gap-40">
+                <div class="max-w-3xl">
+                    <h3 class="text-3xl font-bold mb-8 text-indigo-400">行动机制：分支路口的反复观察</h3>
+                    <p class="text-2xl leading-loose text-slate-300">
+                        目前的 Agent 在每一个分支路口，都必须停下，进行 OCR 识别、DOM 分析和推理，才能跨出下一步。
+                    </p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-20">
+                    <div class="space-y-6">
+                        <div class="text-indigo-500 font-bold mono text-sm uppercase tracking-widest">Pain Point 01</div>
+                        <h4 class="text-3xl font-bold">推理时延 (Latency)</h4>
+                        <p class="text-slate-400 text-xl">每前进一步都要调用一次大模型。在高频业务中，这意味着无法接受的交互成本。</p>
+                    </div>
+                    <div class="space-y-6">
+                        <div class="text-indigo-500 font-bold mono text-sm uppercase tracking-widest">Pain Point 02</div>
+                        <h4 class="text-3xl font-bold">概率依赖 (Probability)</h4>
+                        <p class="text-slate-400 text-xl">它在每一个 Step 都在做概率预测。一旦一个环节出错，整个链路即刻崩溃，容易迷路陷入死循环。</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 4. Metaphor Part 1: The Tourist -->
+    <section class="full-screen-section">
+        <div class="text-reveal max-w-4xl">
+            <h2 class="text-5xl font-black mb-12 serif text-slate-800 italic">比喻：初访异乡的游客</h2>
+            <p class="text-3xl text-slate-600 leading-relaxed">
+                现在的 Agent 就像一个初到异国他乡的游客。他能看懂路标（识别按钮），但他脑子里<span class="text-red-600 font-bold underline underline-offset-8">没有这张城市的全局地图</span>。
+            </p>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-12 mt-20">
+            <div class="bg-slate-50 p-12 rounded-[3rem]">
+                <p class="text-slate-500 italic">“每走到一个十字路口，都要分析 A、B、C 猜测哪个是火车站。”</p>
+            </div>
+            <div class="bg-slate-50 p-12 rounded-[3rem]">
+                <p class="text-slate-500 italic">“他可能走进了死胡同，或者在原地绕圈。”</p>
+            </div>
+            <div class="bg-indigo-600 p-12 rounded-[3rem] text-white">
+                <p class="font-bold italic">“最核心的问题：下一次去火车站，他还得重新分析一遍，因为他没有固化路径。”</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- 5. Metaphor Part 2: The Map & Auto-Pilot -->
+    <section class="full-screen-section bg-indigo-50">
+        <div class="max-w-5xl">
+            <h2 class="text-7xl font-black mb-20 text-indigo-900">核心演进：先测绘，后导航</h2>
+            <div class="space-y-24">
+                <div class="flex items-start gap-12">
+                    <span class="text-4xl font-black text-indigo-300">构建地图</span>
+                    <p class="text-2xl text-slate-700 leading-relaxed">
+                        我们的任务不是为了从 A 点到 B 点，而是为了<span class="text-indigo-600 font-bold underline underline-offset-8">跑遍全城的每一条路</span>，形成拓扑底座。
+                    </p>
+                </div>
+                <div class="flex items-start gap-12">
+                    <span class="text-4xl font-black text-indigo-300 italic">RPA 导航</span>
+                    <p class="text-2xl text-slate-700 leading-relaxed">
+                        RPA 是严格执行指令的自动驾驶车。它不需要理解“为什么要转弯”，它只需接收序列指令：
+                    </p>
+                </div>
+                <div class="bg-slate-900 p-12 rounded-[4rem] shadow-2xl">
+                    <div class="mono text-indigo-400 text-3xl">
+                        Drive(500m) -> TurnLeft -> Stop
+                    </div>
+                    <div class="mt-8 text-slate-500 text-lg italic">
+                        跳过思考与分析路标的时间，直接全速前进。
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 6. Methodology: Cartographer -->
+    <section class="full-screen-section relative">
+        <div class="step-number">01</div>
+        <h2 class="text-6xl font-black mb-16 serif">构建地图：专用智能体 (Cartographer)</h2>
+        <div class="highlight-card max-w-5xl">
+            <p class="text-3xl leading-loose text-slate-600">
+                开发一个<span class="text-slate-900 font-bold italic">“测绘绘图员”</span>。它不被分配具体任务，只负责在目标网站进行全量遍历。
+            </p>
+            <div class="mt-16 grid grid-cols-1 md:grid-cols-2 gap-20">
+                <div class="space-y-6">
+                    <h4 class="text-2xl font-black flex items-center"><span class="w-8 h-1 bg-indigo-600 mr-4"></span>节点持久化</h4>
+                    <p class="text-slate-500">所有的节点、按钮、输入框及其关联关系全部存储在 <span class="text-slate-900 font-bold">Neo4j 图数据库</span> 中。</p>
+                </div>
+                <div class="space-y-6">
+                    <h4 class="text-2xl font-black flex items-center"><span class="w-8 h-1 bg-indigo-600 mr-4"></span>DSL 语义定义</h4>
+                    <p class="text-slate-500">使用领域特定语言描述状态转移逻辑：</p>
+                    <div class="mono bg-slate-100 p-4 rounded-xl text-xs text-indigo-800">
+                        (State A) --[Action(input/click)]--> (State B)
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 7. Data Dependency & Human-in-the-loop -->
+    <section class="full-screen-section">
+        <div class="step-number">02</div>
+        <h2 class="text-6xl font-black mb-16 serif">条件路径与人工纠偏</h2>
+        <div class="space-y-20">
+            <div class="p-16 bg-slate-900 text-white rounded-[4rem] max-w-4xl">
+                <h4 class="text-3xl font-bold mb-8 italic">如何处理“动态路径”？</h4>
+                <p class="text-xl text-slate-400 leading-relaxed">
+                    例如：只有输入了正确的订单号，才会显示“退款”按钮。
+                </p>
+                <div class="mt-12 p-8 bg-white/5 border border-white/10 rounded-2xl">
+                    <p class="text-indigo-400 font-bold mb-2">属性增强（Pre-condition）：</p>
+                    <p class="mono text-2xl">Edge: { needs: "order_id" }</p>
+                </div>
+            </div>
+
+            <div class="flex flex-col md:flex-row gap-20 items-center">
+                <div class="flex-1">
+                    <h4 class="text-3xl font-black mb-6">人机协同标注</h4>
+                    <p class="text-xl text-slate-600 leading-relaxed">
+                        当 AI 自动探索失败时，自动通知标注员。标注员的一次点击即是对地图的实时纠偏与经验固化。
+                    </p>
+                </div>
+                <div class="flex-1 text-2xl font-black italic text-red-600 px-12 py-8 border-4 border-red-600 rounded-full text-center">
+                    构建阶段允许出错，<br>执行阶段绝不允许出错。
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 8. Component: Cartographer Logic -->
+    <section class="full-screen-section bg-slate-50">
+        <h2 class="text-5xl font-black mb-20 italic">组件分析：Cartographer 绘图员</h2>
+        <div class="max-w-4xl">
+            <p class="text-3xl leading-relaxed text-slate-600 mb-20">
+                绘图员本质是在对网站的 <span class="text-indigo-600 font-bold">业务逻辑状态机</span> 进行逆向工程。
+            </p>
+            <div class="bg-white p-16 rounded-[4rem] shadow-xl border border-slate-200">
+                <h4 class="text-3xl font-bold mb-8">规避“死循环”陷阱</h4>
+                <p class="text-xl text-slate-500 leading-relaxed">
+                    盲目遍历会导致陷入“万年历”或“复杂验证码”等死循环组件。我们的 AI 绘图员具备语义识别能力，会<span class="text-slate-900 font-bold underline">优先点击有意义的业务元素</span>，规避无效探索。
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- 9. Component: Navigator Logic -->
+    <section class="full-screen-section">
+        <h2 class="text-5xl font-black mb-20 italic text-indigo-700">组件分析：Navigator 导航员</h2>
+        <div class="grid grid-cols-1 gap-12">
+            <div class="p-12 border-b-2 border-slate-100 flex gap-20">
+                <div class="text-4xl font-black text-slate-200 mono">01</div>
+                <div>
+                    <h4 class="text-3xl font-bold mb-4 italic">语义对齐意图理解</h4>
+                    <p class="text-xl text-slate-500 italic mb-4">“我买的鼠标不好用，退钱。”</p>
+                    <p class="text-xl text-slate-600">
+                        Agent 识别到“退钱”即是地图中的“申请售后”节点，实现模糊指令到标准化路径的映射。
+                    </p>
+                </div>
+            </div>
+            <div class="p-12 border-b-2 border-slate-100 flex gap-20">
+                <div class="text-4xl font-black text-slate-200 mono">02</div>
+                <div>
+                    <h4 class="text-3xl font-bold mb-4">图路径寻找</h4>
+                    <p class="text-xl text-slate-600">在 Neo4j 中查找从首页到下载页的最短语义合规路径。</p>
+                </div>
+            </div>
+            <div class="p-12 flex gap-20 bg-indigo-50 rounded-[3rem]">
+                <div class="text-4xl font-black text-indigo-200 mono">03</div>
+                <div>
+                    <h4 class="text-3xl font-bold mb-4">RPA 全速执行</h4>
+                    <p class="text-xl text-slate-600 mb-6">将路径一次性转化为高效的 Python 代码：</p>
+                    <code class="mono text-indigo-800 bg-indigo-100 p-4 rounded-xl font-bold">DrissionPage.click("@text=申请售后")</code>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 10. Research Significance -->
+    <section class="full-screen-section bg-slate-950 text-white">
+        <h2 class="text-sm font-bold tracking-[0.4em] text-indigo-500 uppercase mb-24">Strategic Significance</h2>
+        <div class="space-y-40">
+            <div class="max-w-4xl">
+                <h3 class="text-6xl font-bold mb-12 serif italic">数字化资产沉淀</h3>
+                <p class="text-2xl text-slate-400 leading-relaxed">
+                    当我们拥有了数百个业务系统的完整地图时，这本身就是巨大的<span class="text-white font-bold underline">环境知识库</span>。
+                    它是实现跨业务系统流程自动化、打破数据孤岛的关键基础设施。
+                </p>
+            </div>
+            <div class="max-w-4xl">
+                <h3 class="text-6xl font-bold mb-12 serif italic text-indigo-400">模型能力的增强补丁</h3>
+                <p class="text-2xl text-slate-400 leading-relaxed">
+                    网站地图相当于为通用大模型注入了领域专业先验。地图本身就是模型能力的补丁，大幅降低了对顶级模型端侧推理能力的依赖。
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- 11. Footer -->
+    <footer class="py-40 bg-white text-center border-t border-slate-100">
+        <div class="serif text-8xl font-black text-slate-100 mb-20 uppercase tracking-tighter">FINISH</div>
+        <p class="text-slate-300 mono text-sm tracking-widest uppercase">GUI Agent Architecture: Semantic Topology Mapping Research</p>
+    </footer>
+
+</body>
+</html>
