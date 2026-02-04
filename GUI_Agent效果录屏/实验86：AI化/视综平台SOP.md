@@ -26,11 +26,13 @@ tab = browser.latest_tab
 
 在【视综平台】，点击身份确认按钮：tab.eles('身份确认')[1].click(); time.sleep(5) 进入【身份确认页面】
 
-在【视综平台】，点击身份确认按钮：tab.eles('特征搜索')[1].wait.enabled().click() 进入【特征搜索页面】
+在【视综平台】，点击身份确认按钮：tab.eles('特征搜索')[1].wait.enabled().click(); time.sleep(8) 进入【特征搜索页面】
 
 ## 特征搜索页面
 
-点击正常过车信息按钮：tab.ele('正常过车信息').wait.enabled().click(); time.sleep(3) 可加载机动车信息查询界面。
+### 正常过车信息
+
+点击正常过车信息按钮：tab.ele('正常过车信息').wait.enabled().click(); time.sleep(4) 可加载机动车信息查询界面。
 
 在机动车信息查询界面，输入车牌号码 tab.ele('车牌号码').wait.enabled().parent().parent().ele('.el-input__inner').input(车牌号码)
 
@@ -41,6 +43,16 @@ tab = browser.latest_tab
 对于每一个查询结果 result = tab.eles('.BS-snap-card card-item')[i]，其：
 - 抓拍地点是：result.eles('.info-item')[0].text
 - 抓拍时间是：result.eles('.info-item')[0].text
+
+### 监控点位信息
+
+点击正常过车信息按钮：tab.ele('监控点位信息').wait.enabled().click(); time.sleep(3) 可加载监控点位信息查询界面。
+
+在监控点位信息查询界面，点击查询按钮：tab.ele( '查询 ').wait.enabled().click() 可获得各监控点信息
+
+查询结果是一个个的卡片，表示各监控点信息：tab.eles('.card-item basic-wrap BS-subInfoCard_wrap')
+
+对于每一个监控点信息卡片 result = tab.eles('.card-item basic-wrap BS-subInfoCard_wrap')[i]，其监控点名称为：result.ele('.item-value text-ellipsis).text
 
 ## 身份确认页面
 
