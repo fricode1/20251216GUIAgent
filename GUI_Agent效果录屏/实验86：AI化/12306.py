@@ -29,7 +29,14 @@ tab.actions.type(Keys.CTRL_A)
 tab.actions.type('2026-02-09')
 
 ele = tab.ele('#search_one')  # 人眼能看见这个元素时，点击这个元素才有效。所以必须之前要先点击一下日历图标，让日历消失。
-print(ele)
 
 tab.actions.move_to(ele_or_loc=ele)
 tab.actions.click(ele)
+
+# 切换到新标签页
+
+tab = Chromium().latest_tab
+
+ele = tab.ele('#queryLeftTable')  # id=xxx 用 # 表示
+
+print(ele.text)
