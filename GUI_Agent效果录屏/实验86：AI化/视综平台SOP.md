@@ -20,9 +20,27 @@ tab = browser.latest_tab
 
 在【应用市场页】，点击公共安全视频监控平台按钮： tab.ele('text=公共安全视频监控共享平台').click() 弹出视综平台标签页
 
-切换到视综平台标签页：time.sleep(5); tab = browser.latest_tab; time.sleep(3);
+切换到【视综平台】标签页：time.sleep(5); tab = browser.latest_tab; time.sleep(3);
 
-在视综平台，点击身份确认按钮：tab.eles('身份确认')[1].click(); time.sleep(5) 进入【身份确认页面】
+【视综平台】具有多个入口：身份确认、特征搜索。
+
+在【视综平台】，点击身份确认按钮：tab.eles('身份确认')[1].click(); time.sleep(5) 进入【身份确认页面】
+
+在【视综平台】，点击身份确认按钮：tab.eles('特征搜索')[1].wait.enabled().click() 进入【特征搜索页面】
+
+## 特征搜索页面
+
+点击正常过车信息按钮：tab.ele('正常过车信息').wait.enabled().click(); time.sleep(3) 可加载机动车信息查询界面。
+
+在机动车信息查询界面，输入车牌号码 tab.ele('车牌号码').wait.enabled().parent().parent().ele('.el-input__inner').input(车牌号码)
+
+点击查询按钮：tab.ele( '查询 ').wait.enabled().click()
+
+查询结果是一个个的卡片，表示该车牌号对应的抓拍结果：tab.eles('.BS-snap-card card-item')
+
+对于每一个查询结果 result = tab.eles('.BS-snap-card card-item')[i]，其：
+- 抓拍地点是：result.eles('.info-item')[0].text
+- 抓拍时间是：result.eles('.info-item')[0].text
 
 ## 身份确认页面
 
