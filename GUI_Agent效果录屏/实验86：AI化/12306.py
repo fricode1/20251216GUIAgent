@@ -37,6 +37,10 @@ tab.actions.click(ele)
 
 tab = Chromium().latest_tab
 
-ele = tab.ele('#queryLeftTable')  # id=xxx 用 # 表示
+trains = tab.eles('css:tr[bed_level_info]')
 
-print(ele.text)
+for train in trains:
+    print('--------------------')
+    print('软座：', train.ele('css:[id^="RZ_"]').text)
+    print('硬卧：', train.ele('css:[id^="YW_"]').text)
+    print('软卧：', train.ele('css:[id^="RW_"]').text)
