@@ -357,19 +357,19 @@
                 
                 <div class="grid md:grid-cols-3 gap-6 pl-20">
                     <div class="bg-gradient-to-br from-green-50 to-emerald-50 rounded-2xl p-6 border-2 border-green-300 shadow-lg">
-                        <div class="list-item advantage text-lg">
-                            <span class="font-bold">优点：</span>不必为每个任务写rpa脚本。
-                        </div>
+                        <p class="text-lg text-green-700 font-semibold">
+                            <span class="font-bold">✓ 优点：</span>不必为每个任务写rpa脚本。
+                        </p>
                     </div>
                     <div class="bg-gradient-to-br from-red-50 to-rose-50 rounded-2xl p-6 border-2 border-red-300 shadow-lg">
-                        <div class="list-item disadvantage text-lg">
-                            <span class="font-bold">缺点1:</span>太慢。每前进一步都要调用一次大模型。
-                        </div>
+                        <p class="text-lg text-red-700 font-semibold">
+                            <span class="font-bold">✗ 缺点1:</span>太慢。每前进一步都要调用一次大模型。
+                        </p>
                     </div>
                     <div class="bg-gradient-to-br from-red-50 to-rose-50 rounded-2xl p-6 border-2 border-red-300 shadow-lg">
-                        <div class="list-item disadvantage text-lg">
-                            <span class="font-bold">缺点2:</span>只在局部探索,会迷路。目前的 Agent 是在每一个 Step 都在做概率预测。
-                        </div>
+                        <p class="text-lg text-red-700 font-semibold">
+                            <span class="font-bold">✗ 缺点2:</span>只在局部探索,会迷路。目前的 Agent 是在每一个 Step 都在做概率预测。
+                        </p>
                     </div>
                 </div>
             </div>
@@ -390,14 +390,14 @@
                 
                 <div class="grid md:grid-cols-2 gap-6 pl-20">
                     <div class="bg-gradient-to-br from-green-50 to-emerald-50 rounded-2xl p-8 border-2 border-green-300 shadow-lg transform hover:scale-105 transition-all">
-                        <div class="list-item advantage text-lg">
-                            <span class="font-bold">优点:</span>正确性。速度快。
-                        </div>
+                        <p class="text-lg text-green-700 font-semibold">
+                            <span class="font-bold">✓ 优点:</span>正确性。速度快。
+                        </p>
                     </div>
                     <div class="bg-gradient-to-br from-red-50 to-rose-50 rounded-2xl p-8 border-2 border-red-300 shadow-lg transform hover:scale-105 transition-all">
-                        <div class="list-item disadvantage text-lg">
-                            <span class="font-bold">缺点:</span>每个任务都要写rpa.
-                        </div>
+                        <p class="text-lg text-red-700 font-semibold">
+                            <span class="font-bold">✗ 缺点:</span>每个任务都要写rpa.
+                        </p>
                     </div>
                 </div>
             </div>
@@ -571,19 +571,19 @@
                             </div>
                             <div class="space-y-4 pl-20">
                                 <div class="bg-white rounded-xl p-6 shadow-md">
-                                    <div class="list-item text-lg">
+                                    <p class="text-lg text-slate-700 leading-relaxed">
                                         就像是一个初次来到异国他乡的游客。他能看懂路标（识别按钮），但他脑子里没有这张城市的全局地图。
-                                    </div>
+                                    </p>
                                 </div>
                                 <div class="bg-white rounded-xl p-6 shadow-md">
-                                    <div class="list-item text-lg">
+                                    <p class="text-lg text-slate-700 leading-relaxed">
                                         每走到一个十字路口，他都要停下来分析路标 A、B、C 分别代表什么，然后猜测"去火车站应该走左边"。
-                                    </div>
+                                    </p>
                                 </div>
                                 <div class="bg-white rounded-xl p-6 shadow-md">
-                                    <div class="list-item text-lg">
+                                    <p class="text-lg text-slate-700 leading-relaxed">
                                         他可能走进了死胡同，或者在原地绕圈。最关键的是，下一次他再去火车站，他还得重新分析一遍，因为他没有把路径固化下来。
-                                    </div>
+                                    </p>
                                 </div>
                             </div>
                         </div>
@@ -969,132 +969,347 @@ Clicked
             </div>
         </div>
 
-        <!-- AI局限性分析 -->
+       <!-- AI局限性分析 -->
         <div class="section-card">
-            <div class="bg-orange-50 rounded-2xl shadow-xl p-12">
-                <p class="text-xl text-slate-700 leading-relaxed mb-8">
-                    例如，很多像 12306 这样的复杂前端，会监听键盘事件（keydown, keyup）。
-                </p>
+            <div class="glass-card rounded-3xl p-12 relative overflow-hidden">
+                <div class="flex items-center gap-4 mb-10">
+                    <div class="icon-circle bg-gradient-to-br from-orange-400 to-red-600">
+                        🔬
+                    </div>
+                    <h3 class="text-3xl font-black text-slate-800">AI的局限性分析</h3>
+                </div>
                 
-                <p class="text-xl text-slate-700 leading-relaxed mb-4">
-                    input('taian') 通常只是修改了 DOM 元素的 value 属性，没有触发 JS 监听器。
-                </p>
-                
-                <p class="text-xl text-slate-700 leading-relaxed mb-8">
-                    type('taian') 模拟了真实的物理按键，会触发整套事件流。
-                </p>
-                
-                <p class="text-xl text-slate-700 leading-relaxed">
-                    AI 的局限： 现有的 AI Agent 大多是在静态 HTML 或截图上训练的，它们缺乏对网页动态交互逻辑（Event Listeners）的感知。AI 知道它是输入框，但不知道这个输入框背后有一双"盯着键盘看"的眼睛。
-                </p>
+                <div class="space-y-8">
+                    <div class="bg-gradient-to-r from-orange-50 to-red-50 rounded-2xl p-8 border-l-4 border-orange-500 shadow-lg">
+                        <p class="text-xl text-slate-700 leading-relaxed mb-6">
+                            例如，很多像 12306 这样的复杂前端，会监听键盘事件（keydown, keyup）。
+                        </p>
+                        
+                        <div class="grid md:grid-cols-2 gap-6">
+                            <div class="bg-white rounded-xl p-6 shadow-md">
+                                <p class="text-lg font-bold text-red-700 mb-3">⛔ input('taian')</p>
+                                <p class="text-base text-slate-700 leading-relaxed">
+                                    通常只是修改了 DOM 元素的 value 属性，<span class="font-bold text-red-600">没有触发 JS 监听器</span>。
+                                </p>
+                            </div>
+                            
+                            <div class="bg-white rounded-xl p-6 shadow-md">
+                                <p class="text-lg font-bold text-green-700 mb-3">✓ type('taian')</p>
+                                <p class="text-base text-slate-700 leading-relaxed">
+                                    模拟了真实的物理按键，<span class="font-bold text-green-600">会触发整套事件流</span>。
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-gradient-to-br from-red-100 to-orange-100 rounded-3xl p-10 border-4 border-red-300 shadow-2xl">
+                        <div class="flex items-center gap-3 mb-6">
+                            <span class="text-4xl">🚨</span>
+                            <p class="text-2xl font-black text-red-700">AI 的局限</p>
+                        </div>
+                        <p class="text-xl text-slate-700 leading-relaxed">
+                            现有的 AI Agent 大多是在静态 HTML 或截图上训练的，它们<span class="font-black text-red-600">缺乏对网页动态交互逻辑（Event Listeners）的感知</span>。AI 知道它是输入框，但不知道这个输入框背后有一双<span class="font-black text-orange-600">"盯着键盘看"的眼睛</span>。
+                        </p>
+                    </div>
+                </div>
             </div>
         </div>
 
         <!-- 目标：训练AI具有能力 -->
         <div class="section-card">
-            <div class="bg-teal-50 rounded-2xl shadow-xl p-12">
-                <h4 class="text-2xl font-bold text-slate-800 mb-8">目标：训练AI具有能力</h4>
+            <div class="glass-card rounded-3xl p-14 relative overflow-hidden">
+                <div class="absolute -top-20 -left-20 w-80 h-80 bg-teal-300 rounded-full opacity-10 blur-3xl"></div>
+                <div class="absolute -bottom-20 -right-20 w-80 h-80 bg-cyan-300 rounded-full opacity-10 blur-3xl"></div>
                 
-                <div class="mb-8">
-                    <p class="text-xl font-bold text-slate-800 mb-4">训练输入（Input）</p>
-                    <div class="ml-8 space-y-4">
-                        <div class="list-item">
-                            当前页面的简化 DOM (Simplified DOM)：只保留关键标签（input, button, a）及其关键属性（id, class, placeholder, text, aria-label）。
-                        </div>
-                        <div class="list-item">
-                            用户的原子意图 (Atomic Intent)："在出发地输入泰安"。
-                        </div>
+                <div class="flex items-center gap-4 mb-10 relative z-10">
+                    <div class="icon-circle bg-gradient-to-br from-teal-400 to-cyan-600">
+                        🎯
                     </div>
+                    <h4 class="text-3xl font-black text-slate-800">目标：训练AI具有能力</h4>
                 </div>
                 
-                <div class="mb-8">
-                    <p class="text-xl font-bold text-slate-800 mb-4">训练目标（Label）：</p>
-                    <div class="bg-white rounded-xl p-6">
-                        <code class="text-lg">tab.actions.click('#fromStationText'); tab.actions.type('taian')</code>
+                <div class="space-y-10 relative z-10">
+                    <div class="bg-white rounded-2xl p-10 shadow-xl border-l-4 border-teal-500">
+                        <p class="text-2xl font-black text-teal-700 mb-6">训练输入（Input）</p>
+                        <div class="space-y-4">
+                            <div class="bg-gradient-to-r from-teal-50 to-cyan-50 rounded-xl p-6 border-2 border-teal-200">
+                                <p class="text-lg text-slate-700 leading-relaxed">
+                                    <span class="font-bold text-teal-700">1.</span> 当前页面的简化 DOM (Simplified DOM)：只保留关键标签（input, button, a）及其关键属性（id, class, placeholder, text, aria-label）。
+                                </p>
+                            </div>
+                            <div class="bg-gradient-to-r from-teal-50 to-cyan-50 rounded-xl p-6 border-2 border-teal-200">
+                                <p class="text-lg text-slate-700 leading-relaxed">
+                                    <span class="font-bold text-teal-700">2.</span> 用户的原子意图 (Atomic Intent)："在出发地输入泰安"。
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-white rounded-2xl p-10 shadow-xl border-l-4 border-cyan-500">
+                        <p class="text-2xl font-black text-cyan-700 mb-6">训练目标（Label）：</p>
+                        <div class="bg-slate-800 rounded-xl p-6 shadow-lg">
+                            <code class="text-xl text-green-400 font-mono">tab.actions.click('#fromStationText'); tab.actions.type('taian')</code>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-gradient-to-r from-amber-50 to-orange-50 rounded-2xl p-8 border-2 border-amber-300 shadow-lg">
+                        <p class="text-xl text-slate-700 leading-relaxed text-center font-semibold italic">
+                            网站地图里的元素ID、含义、操作，是AI生成的还是手工编制的，<span class="text-red-600 font-black">这是根本性的变化</span>。
+                        </p>
                     </div>
                 </div>
-                
-                <p class="text-xl text-slate-700 leading-relaxed">
-                    网站地图里的元素ID、含义、操作，是AI生成的还是手工编制的，这是根本性的变化。
-                </p>
             </div>
         </div>
 
-        <!-- 架构 -->
+         <!-- 架构 -->
         <div class="section-card">
-            <div class="bg-white rounded-2xl shadow-2xl p-12">
-                <h2 class="text-4xl font-bold text-slate-800 mb-8">架构</h2>
+            <div class="glass-card rounded-3xl p-12 relative overflow-hidden">
+                <div class="section-number">05</div>
+                <div class="icon-circle bg-gradient-to-br from-indigo-500 to-purple-600 mx-auto floating">
+                    🏛️
+                </div>
+                <h2 class="text-5xl font-black text-slate-800 mb-8 text-center">架构</h2>
+                <div class="h-1 w-32 bg-gradient-to-r from-indigo-500 to-purple-600 mx-auto mb-12 rounded-full"></div>
                 
-                <p class="text-xl text-slate-700 leading-relaxed mb-8">
-                    分为两个核心组件：
-                </p>
-                
-                <div class="list-item">
-                    Cartographer（绘图员）： 负责遍历网站，构建语义地图。
-                    <div class="ml-8 mt-4">
-                        <div class="list-item">
-                            本质是在逆向工程网站的业务逻辑状态机。
+                <div class="max-w-5xl mx-auto space-y-8">
+                    <div class="bg-gradient-to-r from-indigo-50 to-purple-50 rounded-2xl p-10 border-2 border-indigo-300 shadow-xl">
+                        <p class="text-2xl text-slate-700 leading-relaxed text-center font-bold">
+                            分为<span class="text-indigo-600">两个核心组件</span>：
+                        </p>
+                    </div>
+                    
+                    <div class="grid md:grid-cols-2 gap-8">
+                        <div class="bg-white rounded-3xl p-10 shadow-2xl border-4 border-indigo-300 transform hover:scale-105 transition-all">
+                            <div class="flex items-center gap-4 mb-6">
+                                <div class="w-16 h-16 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-2xl flex items-center justify-center text-3xl shadow-lg">
+                                    🗺
+                                </div>
+                                <div>
+                                    <p class="text-2xl font-black text-indigo-700">Cartographer</p>
+                                    <p class="text-lg text-indigo-600 font-semibold">绘图员</p>
+                                </div>
+                            </div>
+                            <p class="text-lg text-slate-700 leading-relaxed mb-4">
+                                负责遍历网站，构建语义地图。
+                            </p>
+                            <div class="bg-indigo-50 rounded-xl p-6 border-l-4 border-indigo-500">
+                                <p class="text-base text-slate-700 leading-relaxed italic">
+                                    本质是在逆向工程网站的业务逻辑状态机。
+                                </p>
+                            </div>
+                        </div>
+                        
+                        <div class="bg-white rounded-3xl p-10 shadow-2xl border-4 border-purple-300 transform hover:scale-105 transition-all">
+                            <div class="flex items-center gap-4 mb-6">
+                                <div class="w-16 h-16 bg-gradient-to-br from-purple-500 to-pink-600 rounded-2xl flex items-center justify-center text-3xl shadow-lg">
+                                    🧭
+                                </div>
+                                <div>
+                                    <p class="text-2xl font-black text-purple-700">Navigator</p>
+                                    <p class="text-lg text-purple-600 font-semibold">导航员</p>
+                                </div>
+                            </div>
+                            <p class="text-lg text-slate-700 leading-relaxed">
+                                接收任务，查询语义地图，一次性生成 RPA 脚本。
+                            </p>
                         </div>
                     </div>
-                </div>
-                
-                <div class="list-item">
-                    Navigator（导航员）： 接收任务，查询语义地图，一次性生成 RPA 脚本。
                 </div>
             </div>
         </div>
 
         <!-- Cartographer（绘图员） -->
         <div class="section-card">
-            <div class="bg-violet-50 rounded-2xl shadow-xl p-12">
-                <h3 class="text-3xl font-bold text-slate-800 mb-8">Cartographer（绘图员）</h3>
+            <div class="glass-card rounded-3xl p-12 relative overflow-hidden border-l-8 border-violet-500">
+                <div class="flex items-center gap-4 mb-8">
+                    <div class="icon-circle bg-gradient-to-br from-violet-400 to-purple-600">
+                        🗺️
+                    </div>
+                    <h3 class="text-3xl font-black text-slate-800">Cartographer（绘图员）</h3>
+                </div>
                 
-                <p class="text-xl text-slate-700 leading-relaxed">
-                    盲目遍历会导致陷入"死循环"（如万年历组件）。需要利用AI对网站的语义理解能力，优先点击有意义的元素。
-                </p>
+                <div class="bg-gradient-to-r from-violet-50 to-purple-50 rounded-2xl p-10 border-2 border-violet-300 shadow-xl">
+                    <p class="text-xl text-slate-700 leading-relaxed text-center font-semibold">
+                        盲目遍历会导致陷入<span class="text-red-600 font-bold">"死循环"</span>（如万年历组件）。需要利用AI对网站的语义理解能力，<span class="text-violet-700 font-black">优先点击有意义的元素</span>。
+                    </p>
+                </div>
             </div>
         </div>
 
         <!-- Navigator（导航员） -->
         <div class="section-card">
-            <div class="bg-sky-50 rounded-2xl shadow-xl p-12">
-                <h3 class="text-3xl font-bold text-slate-800 mb-8">Navigator（导航员）</h3>
+            <div class="glass-card rounded-3xl p-12 relative overflow-hidden border-l-8 border-sky-500">
+                <div class="flex items-center gap-4 mb-8">
+                    <div class="icon-circle bg-gradient-to-br from-sky-400 to-blue-600">
+                        🧭
+                    </div>
+                    <h3 class="text-3xl font-black text-slate-800">Navigator（导航员）</h3>
+                </div>
                 
-                <div class="list-item">
-                    <span class="font-semibold">意图理解：</span> 用户输入"我买的鼠标不好用，退钱。"。
-                    <div class="ml-8 mt-4">
-                        <div class="list-item">
-                            用户说"退钱"，地图上叫"申请售后"。Navigator利用AI的语义理解能力，能够正确识别用户的意图。
+                <div class="grid md:grid-cols-1 gap-6">
+                    <div class="bg-white rounded-2xl p-8 shadow-lg border-l-4 border-blue-500">
+                        <div class="flex items-center gap-3 mb-4">
+                            <span class="text-2xl">💡</span>
+                            <p class="text-xl font-black text-blue-700">意图理解</p>
                         </div>
+                        <p class="text-lg text-slate-700 leading-relaxed mb-4">
+                            用户输入：<span class="italic">"我买的鼠标不好用，退钱。"</span>
+                        </p>
+                        <p class="text-base text-slate-600 leading-relaxed pl-8">
+                            用户说<span class="font-bold text-red-600">"退钱"</span>，地图上叫<span class="font-bold text-green-600">"申请售后"</span。Navigator利用AI的语义理解能力，能够正确识别用户的意图。
+                        </p>
+                    </div>
+                    
+                    <div class="bg-white rounded-2xl p-8 shadow-lg border-l-4 border-purple-500">
+                        <div class="flex items-center gap-3 mb-4">
+                            <span class="text-2xl">🔍</span>
+                            <p class="text-xl font-black text-purple-700">路径查找</p>
+                        </div>
+                        <p class="text-lg text-slate-700 leading-relaxed">
+                            在语义地图中查找从首页到下载页的最短语义路径。
+                        </p>
+                    </div>
+                    
+                    <div class="bg-white rounded-2xl p-8 shadow-lg border-l-4 border-teal-500">
+                        <div class="flex items-center gap-3 mb-4">
+                            <span class="text-2xl">⚙️</span>
+                            <p class="text-xl font-black text-teal-700">脚本生成</p>
+                        </div>
+                        <p class="text-lg text-slate-700 leading-relaxed">
+                            将路径转化为 Python(DrissionPage) 代码一次性执行。
+                        </p>
                     </div>
                 </div>
+            </div>
+        </div>
+
+        <!-- 本架构的通用性分析 -->
+        <div class="section-card">
+            <div class="glass-card rounded-3xl p-16 relative overflow-hidden">
+                <div class="section-number">06</div>
+                <div class="absolute top-0 left-0 w-full h-4 bg-gradient-to-r from-blue-400 via-purple-500 to-pink-600"></div>
                 
-                <div class="list-item">
-                    <span class="font-semibold">路径查找：</span> 在语义地图中查找从首页到下载页的最短语义路径。
+                <div class="icon-circle bg-gradient-to-br from-blue-500 to-purple-600 mx-auto floating mb-6 mt-8">
+                    📊
                 </div>
+                <h2 class="text-5xl font-black text-slate-800 mb-8 text-center">本架构的通用性分析</h2>
+                <div class="h-1 w-32 bg-gradient-to-r from-blue-500 to-purple-600 mx-auto mb-12 rounded-full"></div>
                 
-                <div class="list-item">
-                    <span class="font-semibold">脚本生成：</span> 将路径转化为 Python(DrissionPage) 代码一次性执行。
+                <div class="max-w-5xl mx-auto space-y-10">
+                    <div class="grid md:grid-cols-2 gap-8">
+                        <div class="bg-gradient-to-br from-blue-50 to-cyan-50 rounded-3xl p-10 shadow-2xl border-4 border-blue-300">
+                            <div class="flex items-center gap-3 mb-6">
+                                <span class="text-4xl">💼</span>
+                                <p class="text-2xl font-black text-blue-700">商业逻辑 (Scalability)</p>
+                            </div>
+                            <p class="text-lg text-slate-700 leading-relaxed">
+                                如果一个产品需要靠人力堆代码去适配每一个城市、每一个网站，那这个产品的<span class="font-black text-red-600">边际成本太高</span>，不具备商业美感。
+                            </p>
+                        </div>
+                        
+                        <div class="bg-gradient-to-br from-purple-50 to-pink-50 rounded-3xl p-10 shadow-2xl border-4 border-purple-300">
+                            <div class="flex items-center gap-3 mb-6">
+                                <span class="text-4xl">🔧</span>
+                                <p class="text-2xl font-black text-purple-700">工程实践 (Reliability)</p>
+                            </div>
+                            <p class="text-lg text-slate-700 leading-relaxed">
+                                网页结构千奇百怪、动态加载、反爬机制、不规范的标签（如 12306），现有的 LLM + Web Agent 技术栈确实还没达到<span class="font-black text-red-600">"一刀切"的成熟度</span>。
+                            </p>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-white rounded-3xl p-12 shadow-2xl border-4 border-indigo-300">
+                        <p class="text-2xl font-black text-indigo-700 mb-8 text-center">💡 如何处理这个问题并推动项目落地：</p>
+                        
+                        <div class="bg-gradient-to-r from-indigo-50 to-purple-50 rounded-2xl p-10 border-2 border-indigo-300 shadow-lg">
+                            <p class="text-3xl font-black text-indigo-800 mb-6 text-center">重新定义"通用性"：不是"不进行适配"，而是"架构通用"</p>
+                            
+                            <div class="space-y-6">
+                                <div class="bg-white rounded-xl p-8 shadow-md">
+                                    <p class="text-xl text-slate-700 leading-relaxed mb-4">
+                                        我们<span class="font-bold text-indigo-600">不会</span>为每个网站做硬编码（Hard-coding）式的定制化。
+                                    </p>
+                                    <p class="text-xl text-slate-700 leading-relaxed">
+                                        通用性不代表"零适配"，而是<span class="font-black text-green-600">"低成本适配"</span>。
+                                    </p>
+                                </div>
+                                
+                                <div class="grid md:grid-cols-3 gap-4">
+                                    <div class="bg-red-50 rounded-xl p-6 border-2 border-red-300">
+                                        <p class="text-lg font-black text-red-700 mb-3">完全定制化（RPA时代）</p>
+                                        <p class="text-base text-slate-700 leading-relaxed">
+                                            为 A 站写一套 XPath 脚本，B 站写一套。网站一改版，脚本全挂。
+                                        </p>
+                                    </div>
+                                    
+                                    <div class="bg-amber-50 rounded-xl p-6 border-2 border-amber-300">
+                                        <p class="text-lg font-black text-amber-700 mb-3">理想通用化（AGI时代）</p>
+                                        <p class="text-base text-slate-700 leading-relaxed">
+                                            像人一样，看到任何网页都能直接上手。目前做不到（比如 12306 例子）。
+                                        </p>
+                                    </div>
+                                    
+                                    <div class="bg-green-50 rounded-xl p-6 border-2 border-green-400">
+                                        <p class="text-lg font-black text-green-700 mb-3">折中方案</p>
+                                        <p class="text-base text-slate-700 leading-relaxed font-bold">
+                                            <span class="text-blue-600">"通用大脑</span> + <span class="text-purple-600">插件式网站地图"</span>
+                                        </p>
+                                    </div>
+                                </div>
+                                
+                                <div class="bg-gradient-to-br from-green-100 to-emerald-100 rounded-2xl p-8 border-4 border-green-400 shadow-xl">
+                                    <p class="text-lg text-slate-700 leading-relaxed mb-4">
+                                        <span class="font-black text-green-700">核心逻辑</span>（如：拆解任务、处理异常、分析状态）是通用的。
+                                    </p>
+                                    <p class="text-lg text-slate-700 leading-relaxed">
+                                        针对不同业务系统的网站，只需要提供一份轻量级的<span class="font-black text-purple-700">"领域描述文件（Schema/Metadata）"</span>，而不是重写代码。
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
 
         <!-- 意义 -->
         <div class="section-card">
-            <div class="bg-gradient-to-r from-blue-50 via-purple-50 to-pink-50 rounded-2xl shadow-2xl p-12">
-                <h2 class="text-4xl font-bold text-slate-800 mb-8">意义</h2>
+            <div class="glass-card rounded-3xl p-16 relative overflow-hidden">
+                <div class="section-number">07</div>
+                <div class="absolute -top-32 -right-32 w-96 h-96 bg-gradient-to-br from-blue-300 to-purple-300 rounded-full opacity-10 blur-3xl"></div>
+                <div class="absolute -bottom-32 -left-32 w-96 h-96 bg-gradient-to-br from-pink-300 to-red-300 rounded-full opacity-10 blur-3xl"></div>
                 
-                <div class="list-item">
-                    当拥有了数百个政务系统的完整地图时，这本身就是巨大的数据资产。
-                    <div class="ml-8 mt-4">
-                        <div class="list-item">
-                            可进行跨业务系统的流程自动化。
+                <div class="icon-circle bg-gradient-to-br from-blue-500 via-purple-500 to-pink-600 mx-auto floating mb-6">
+                    🌟
+                </div>
+                <h2 class="text-5xl font-black text-slate-800 mb-8 text-center">意义</h2>
+                <div class="h-1 w-32 bg-gradient-to-r from-blue-500 via-purple-500 to-pink-600 mx-auto mb-12 rounded-full"></div>
+                
+                <div class="max-w-5xl mx-auto space-y-8 relative z-10">
+                    <div class="bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50 rounded-3xl p-12 shadow-2xl border-4 border-blue-300">
+                        <div class="flex items-center gap-4 mb-6">
+                            <span class="text-5xl">💾</span>
+                            <p class="text-3xl font-black text-blue-700">数据资产</p>
+                        </div>
+                        <p class="text-xl text-slate-700 leading-relaxed mb-6">
+                            当拥有了数百个政务系统的完整地图时，<span class="font-black text-blue-700">这本身就是巨大的数据资产</span>。
+                        </p>
+                        <div class="bg-white rounded-2xl p-8 shadow-lg border-l-4 border-blue-500">
+                            <p class="text-lg text-slate-700 leading-relaxed italic">
+                                可进行<span class="font-bold text-blue-600">跨业务系统的流程自动化</span>。
+                            </p>
                         </div>
                     </div>
-                </div>
-                
-                <div class="list-item">
-                    当拥有了网站的完整地图时，相当于为通用大模型注入了领域专业知识。地图本身就是模型能力的补丁。
+                    
+                    <div class="bg-gradient-to-br from-purple-50 via-pink-50 to-red-50 rounded-3xl p-12 shadow-2xl border-4 border-purple-300">
+                        <div class="flex items-center gap-4 mb-6">
+                            <span class="text-5xl">🧠</span>
+                            <p class="text-3xl font-black text-purple-700">知识注入</p>
+                        </div>
+                        <p class="text-xl text-slate-700 leading-relaxed">
+                            当拥有了网站的完整地图时，相当于为通用大模型注入了领域专业知识。<span class="font-black text-purple-700">地图本身就是模型能力的补丁</span>。
+                        </p>
+                    </div>
                 </div>
             </div>
         </div>
