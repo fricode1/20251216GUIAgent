@@ -3,293 +3,1125 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>基于语义拓扑地图重建的 Web Agent 架构研究</title>
+    <title>基于语义地图重建的 Web Agent 架构研究</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="style.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    spacing: {
+                        '128': '32rem',
+                        '144': '36rem',
+                    }
+                }
+            }
+        }
+    </script>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@900&family=Noto+Sans+SC:wght@100;300;400;700;900&family=JetBrains+Mono&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700;900&family=Noto+Serif+SC:wght@400;700;900&family=JetBrains+Mono:wght@400;500&display=swap');
         
-        body { 
-            font-family: 'Noto Sans SC', sans-serif; 
-            scroll-behavior: smooth;
-            background-color: #fff;
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
-        .serif { font-family: 'Noto Serif SC', serif; }
-        .mono { font-family: 'JetBrains+Mono', monospace; }
         
-        /* 极度呼吸感间距 */
-        .full-screen-section {
-            min-height: 100vh;
-            padding: 20vh 10%;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
+        body {
+            font-family: 'Noto Sans SC', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 25%, #f093fb 50%, #4facfe 75%, #00f2fe 100%);
+            background-size: 400% 400%;
+            animation: gradientShift 15s ease infinite;
+            overflow-x: hidden;
         }
-
-        .huge-title {
-            font-size: clamp(3rem, 8vw, 6rem);
-            line-height: 1.1;
-            font-weight: 900;
+        
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
         }
-
-        .text-reveal {
-            border-left: 12px solid #6366f1;
-            padding-left: 3rem;
-            margin: 4rem 0;
+        
+        h1, h2, h3 {
+            font-family: 'Noto Serif SC', serif;
         }
-
-        .step-number {
-            font-size: 12rem;
-            font-weight: 900;
-            line-height: 1;
-            color: #f1f5f9;
+        
+        .section-card {
+            margin-bottom: 10rem;
+            opacity: 0;
+            transform: translateY(60px) rotateX(10deg);
+            transition: all 1s cubic-bezier(0.16, 1, 0.3, 1);
+            perspective: 1000px;
+        }
+        
+        .section-card.visible {
+            opacity: 1;
+            transform: translateY(0) rotateX(0);
+        }
+        
+        .section-card:hover {
+            transform: translateY(-8px) scale(1.01);
+            transition: all 0.3s ease;
+        }
+        
+        .breathing {
+            animation: breathe 6s ease-in-out infinite;
+        }
+        
+        @keyframes breathe {
+            0%, 100% { 
+                transform: scale(1);
+                filter: brightness(1);
+            }
+            50% { 
+                transform: scale(1.03);
+                filter: brightness(1.1);
+            }
+        }
+        
+        .code-block {
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #334155 100%);
+            border: 1px solid rgba(59, 130, 246, 0.3);
+            box-shadow: 
+                inset 0 1px 0 0 rgba(255, 255, 255, 0.1),
+                0 20px 40px rgba(0, 0, 0, 0.3),
+                0 0 80px rgba(59, 130, 246, 0.2);
+            padding: 2.5rem;
+            border-radius: 1rem;
+            overflow-x: auto;
+            font-family: 'JetBrains Mono', 'Courier New', monospace;
+            color: #e2e8f0;
+            line-height: 1.8;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            position: relative;
+        }
+        
+        .code-block::before {
+            content: '';
             position: absolute;
-            z-index: -1;
-            top: -2rem;
-            left: -4rem;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 40px;
+            background: linear-gradient(90deg, #ef4444, #f59e0b, #10b981, #3b82f6, #8b5cf6, #ec4899);
+            border-radius: 1rem 1rem 0 0;
+            opacity: 0.3;
         }
-
-        .highlight-card {
-            background: #f8fafc;
-            border-radius: 4rem;
-            padding: 6rem;
-            border: 1px solid #e2e8f0;
+        
+        .formula {
+            font-family: 'Cambria Math', 'Times New Roman', serif;
+            font-size: 1.4rem;
+            text-align: center;
+            margin: 3rem 0;
+            padding: 2rem;
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(139, 92, 246, 0.1));
+            border-radius: 1rem;
+            color: #1e40af;
+            font-weight: 600;
+            box-shadow: 0 4px 20px rgba(59, 130, 246, 0.2);
         }
-
-        code { font-size: 1.1rem; }
+        
+        .waterfall-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 8rem 3rem;
+            position: relative;
+        }
+        
+        .waterfall-container::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at 20% 50%, rgba(255, 255, 255, 0.1) 0%, transparent 50%),
+                        radial-gradient(circle at 80% 80%, rgba(255, 255, 255, 0.1) 0%, transparent 50%);
+            pointer-events: none;
+            z-index: 0;
+        }
+        
+        .title-section {
+            text-align: center;
+            margin-bottom: 15rem;
+            padding: 6rem 0;
+            position: relative;
+        }
+        
+        .title-section::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 200px;
+            height: 4px;
+            background: linear-gradient(90deg, transparent, #667eea, #764ba2, transparent);
+            border-radius: 2px;
+        }
+        
+        .subsection {
+            margin-top: 4rem;
+            padding-left: 2.5rem;
+            border-left: 4px solid;
+            border-image: linear-gradient(to bottom, #3b82f6, #8b5cf6) 1;
+            position: relative;
+        }
+        
+        .subsection::before {
+            content: '';
+            position: absolute;
+            left: -8px;
+            top: 0;
+            width: 12px;
+            height: 12px;
+            background: #3b82f6;
+            border-radius: 50%;
+            box-shadow: 0 0 20px rgba(59, 130, 246, 0.6);
+        }
+        
+        .list-item {
+            margin: 2rem 0;
+            padding-left: 2.5rem;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+        
+        .list-item:hover {
+            padding-left: 3rem;
+        }
+        
+        .list-item::before {
+            content: "◆";
+            position: absolute;
+            left: 0;
+            color: #3b82f6;
+            font-size: 1.2rem;
+            line-height: 1.5rem;
+            transition: all 0.3s ease;
+        }
+        
+        .list-item:hover::before {
+            color: #8b5cf6;
+            transform: scale(1.3) rotate(45deg);
+        }
+        
+        .advantage {
+            color: #059669;
+            font-weight: 500;
+        }
+        
+        .advantage::before {
+            content: "✓" !important;
+            color: #059669 !important;
+            font-size: 1.5rem !important;
+        }
+        
+        .disadvantage {
+            color: #dc2626;
+            font-weight: 500;
+        }
+        
+        .disadvantage::before {
+            content: "✗" !important;
+            color: #dc2626 !important;
+            font-size: 1.5rem !important;
+        }
+        
+        .glass-card {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(20px) saturate(180%);
+            border: 1px solid rgba(255, 255, 255, 0.6);
+            box-shadow: 
+                0 20px 60px rgba(0, 0, 0, 0.15),
+                0 0 80px rgba(255, 255, 255, 0.3),
+                inset 0 1px 0 rgba(255, 255, 255, 0.8);
+        }
+        
+        .gradient-text {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .neon-border {
+            position: relative;
+            border: 2px solid transparent;
+            background: linear-gradient(white, white) padding-box,
+                        linear-gradient(135deg, #667eea, #764ba2, #f093fb) border-box;
+        }
+        
+        .floating {
+            animation: float 6s ease-in-out infinite;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+        
+        .highlight-box {
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(139, 92, 246, 0.1));
+            border-left: 5px solid;
+            border-image: linear-gradient(to bottom, #3b82f6, #8b5cf6) 1;
+            box-shadow: 0 10px 30px rgba(59, 130, 246, 0.2);
+        }
+        
+        .icon-circle {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+        
+        .section-number {
+            position: absolute;
+            top: -30px;
+            left: -30px;
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            font-weight: 900;
+            box-shadow: 0 10px 40px rgba(102, 126, 234, 0.4);
+            z-index: 10;
+        }
+        
+        @media (max-width: 768px) {
+            .waterfall-container {
+                padding: 4rem 1.5rem;
+            }
+            
+            .section-card {
+                margin-bottom: 6rem;
+            }
+        }
     </style>
 </head>
-<body class="text-slate-900 antialiased text-lg">
-
-    <!-- 1. 封面 -->
-    <header class="full-screen-section bg-slate-50 relative overflow-hidden">
-        <div class="absolute top-20 left-10 text-indigo-600 font-black tracking-tighter text-sm uppercase">Research Monograph 2024</div>
-        <h1 class="huge-title serif tracking-tighter">
-            基于<span class="text-indigo-600 underline decoration-indigo-200">语义拓扑地图</span>重建的 <br>Web Agent 架构研究
-        </h1>
-        <div class="mt-20 max-w-2xl">
-            <p class="text-3xl text-slate-400 font-light leading-relaxed">
-                “构建数字化世界的 GPS，将自回归推理沉淀为确定性资产。”
-            </p>
-        </div>
-    </header>
-
-    <!-- 2. N-Tree Intuition -->
-    <section class="full-screen-section">
-        <div class="max-w-4xl">
-            <span class="text-indigo-600 font-bold mono uppercase tracking-widest">Model Foundation</span>
-            <h2 class="text-7xl font-black mt-12 mb-16 serif">直觉建模：N 叉树地图</h2>
-            <p class="text-4xl text-slate-500 leading-tight">
-                虽然网站本质上是复杂的图（Graph），但在交互层级上，<span class="text-slate-900 font-bold">N 叉树（N-ary Tree）</span> 更符合人类对交互路径的直觉认知。
-            </p>
-        </div>
-    </section>
-
-    <!-- 3. Current Agent Crisis -->
-    <section class="full-screen-section bg-slate-950 text-white">
-        <div class="max-w-6xl">
-            <h2 class="text-5xl font-black mb-32 italic border-b border-white/10 pb-12">现状：Agent 的“直觉摸索”困局</h2>
-            
-            <div class="grid grid-cols-1 gap-40">
-                <div class="max-w-3xl">
-                    <h3 class="text-3xl font-bold mb-8 text-indigo-400">行动机制：分支路口的反复观察</h3>
-                    <p class="text-2xl leading-loose text-slate-300">
-                        目前的 Agent 在每一个分支路口，都必须停下，进行 OCR 识别、DOM 分析和推理，才能跨出下一步。
-                    </p>
-                </div>
-
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-20">
-                    <div class="space-y-6">
-                        <div class="text-indigo-500 font-bold mono text-sm uppercase tracking-widest">Pain Point 01</div>
-                        <h4 class="text-3xl font-bold">推理时延 (Latency)</h4>
-                        <p class="text-slate-400 text-xl">每前进一步都要调用一次大模型。在高频业务中，这意味着无法接受的交互成本。</p>
-                    </div>
-                    <div class="space-y-6">
-                        <div class="text-indigo-500 font-bold mono text-sm uppercase tracking-widest">Pain Point 02</div>
-                        <h4 class="text-3xl font-bold">概率依赖 (Probability)</h4>
-                        <p class="text-slate-400 text-xl">它在每一个 Step 都在做概率预测。一旦一个环节出错，整个链路即刻崩溃，容易迷路陷入死循环。</p>
-                    </div>
+<body class="min-h-screen">
+    <div class="waterfall-container">
+        
+        <!-- 标题 -->
+        <div class="title-section section-card breathing">
+            <div class="inline-block mb-6">
+                <div class="text-xl font-medium text-white bg-gradient-to-r from-purple-600 to-pink-600 px-8 py-3 rounded-full shadow-lg">
+                    🚀 创新研究
                 </div>
             </div>
-        </div>
-    </section>
-
-    <!-- 4. Metaphor Part 1: The Tourist -->
-    <section class="full-screen-section">
-        <div class="text-reveal max-w-4xl">
-            <h2 class="text-5xl font-black mb-12 serif text-slate-800 italic">比喻：初访异乡的游客</h2>
-            <p class="text-3xl text-slate-600 leading-relaxed">
-                现在的 Agent 就像一个初到异国他乡的游客。他能看懂路标（识别按钮），但他脑子里<span class="text-red-600 font-bold underline underline-offset-8">没有这张城市的全局地图</span>。
-            </p>
-        </div>
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-12 mt-20">
-            <div class="bg-slate-50 p-12 rounded-[3rem]">
-                <p class="text-slate-500 italic">“每走到一个十字路口，都要分析 A、B、C 猜测哪个是火车站。”</p>
-            </div>
-            <div class="bg-slate-50 p-12 rounded-[3rem]">
-                <p class="text-slate-500 italic">“他可能走进了死胡同，或者在原地绕圈。”</p>
-            </div>
-            <div class="bg-indigo-600 p-12 rounded-[3rem] text-white">
-                <p class="font-bold italic">“最核心的问题：下一次去火车站，他还得重新分析一遍，因为他没有固化路径。”</p>
+            <h1 class="text-7xl font-black gradient-text mb-8 leading-tight">基于语义地图重建的<br>Web Agent 架构研究</h1>
+            <div class="flex justify-center gap-4 mt-8">
+                <span class="px-6 py-2 bg-white/30 backdrop-blur-sm rounded-full text-white font-medium shadow-lg">AI自动化</span>
+                <span class="px-6 py-2 bg-white/30 backdrop-blur-sm rounded-full text-white font-medium shadow-lg">语义理解</span>
+                <span class="px-6 py-2 bg-white/30 backdrop-blur-sm rounded-full text-white font-medium shadow-lg">流程重构</span>
             </div>
         </div>
-    </section>
 
-    <!-- 5. Metaphor Part 2: The Map & Auto-Pilot -->
-    <section class="full-screen-section bg-indigo-50">
-        <div class="max-w-5xl">
-            <h2 class="text-7xl font-black mb-20 text-indigo-900">核心演进：先测绘，后导航</h2>
-            <div class="space-y-24">
-                <div class="flex items-start gap-12">
-                    <span class="text-4xl font-black text-indigo-300">构建地图</span>
-                    <p class="text-2xl text-slate-700 leading-relaxed">
-                        我们的任务不是为了从 A 点到 B 点，而是为了<span class="text-indigo-600 font-bold underline underline-offset-8">跑遍全城的每一条路</span>，形成拓扑底座。
-                    </p>
+         <!-- 现状分析 -->
+        <div class="section-card">
+            <div class="glass-card rounded-3xl p-12 relative overflow-hidden">
+                <div class="section-number">01</div>
+                <div class="icon-circle bg-gradient-to-br from-blue-500 to-purple-600 mx-auto floating">
+                    📊
                 </div>
-                <div class="flex items-start gap-12">
-                    <span class="text-4xl font-black text-indigo-300 italic">RPA 导航</span>
-                    <p class="text-2xl text-slate-700 leading-relaxed">
-                        RPA 是严格执行指令的自动驾驶车。它不需要理解“为什么要转弯”，它只需接收序列指令：
-                    </p>
-                </div>
-                <div class="bg-slate-900 p-12 rounded-[4rem] shadow-2xl">
-                    <div class="mono text-indigo-400 text-3xl">
-                        Drive(500m) -> TurnLeft -> Stop
-                    </div>
-                    <div class="mt-8 text-slate-500 text-lg italic">
-                        跳过思考与分析路标的时间，直接全速前进。
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- 6. Methodology: Cartographer -->
-    <section class="full-screen-section relative">
-        <div class="step-number">01</div>
-        <h2 class="text-6xl font-black mb-16 serif">构建地图：专用智能体 (Cartographer)</h2>
-        <div class="highlight-card max-w-5xl">
-            <p class="text-3xl leading-loose text-slate-600">
-                开发一个<span class="text-slate-900 font-bold italic">“测绘绘图员”</span>。它不被分配具体任务，只负责在目标网站进行全量遍历。
-            </p>
-            <div class="mt-16 grid grid-cols-1 md:grid-cols-2 gap-20">
-                <div class="space-y-6">
-                    <h4 class="text-2xl font-black flex items-center"><span class="w-8 h-1 bg-indigo-600 mr-4"></span>节点持久化</h4>
-                    <p class="text-slate-500">所有的节点、按钮、输入框及其关联关系全部存储在 <span class="text-slate-900 font-bold">Neo4j 图数据库</span> 中。</p>
-                </div>
-                <div class="space-y-6">
-                    <h4 class="text-2xl font-black flex items-center"><span class="w-8 h-1 bg-indigo-600 mr-4"></span>DSL 语义定义</h4>
-                    <p class="text-slate-500">使用领域特定语言描述状态转移逻辑：</p>
-                    <div class="mono bg-slate-100 p-4 rounded-xl text-xs text-indigo-800">
-                        (State A) --[Action(input/click)]--> (State B)
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- 7. Data Dependency & Human-in-the-loop -->
-    <section class="full-screen-section">
-        <div class="step-number">02</div>
-        <h2 class="text-6xl font-black mb-16 serif">条件路径与人工纠偏</h2>
-        <div class="space-y-20">
-            <div class="p-16 bg-slate-900 text-white rounded-[4rem] max-w-4xl">
-                <h4 class="text-3xl font-bold mb-8 italic">如何处理“动态路径”？</h4>
-                <p class="text-xl text-slate-400 leading-relaxed">
-                    例如：只有输入了正确的订单号，才会显示“退款”按钮。
-                </p>
-                <div class="mt-12 p-8 bg-white/5 border border-white/10 rounded-2xl">
-                    <p class="text-indigo-400 font-bold mb-2">属性增强（Pre-condition）：</p>
-                    <p class="mono text-2xl">Edge: { needs: "order_id" }</p>
-                </div>
-            </div>
-
-            <div class="flex flex-col md:flex-row gap-20 items-center">
-                <div class="flex-1">
-                    <h4 class="text-3xl font-black mb-6">人机协同标注</h4>
-                    <p class="text-xl text-slate-600 leading-relaxed">
-                        当 AI 自动探索失败时，自动通知标注员。标注员的一次点击即是对地图的实时纠偏与经验固化。
-                    </p>
-                </div>
-                <div class="flex-1 text-2xl font-black italic text-red-600 px-12 py-8 border-4 border-red-600 rounded-full text-center">
-                    构建阶段允许出错，<br>执行阶段绝不允许出错。
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- 8. Component: Cartographer Logic -->
-    <section class="full-screen-section bg-slate-50">
-        <h2 class="text-5xl font-black mb-20 italic">组件分析：Cartographer 绘图员</h2>
-        <div class="max-w-4xl">
-            <p class="text-3xl leading-relaxed text-slate-600 mb-20">
-                绘图员本质是在对网站的 <span class="text-indigo-600 font-bold">业务逻辑状态机</span> 进行逆向工程。
-            </p>
-            <div class="bg-white p-16 rounded-[4rem] shadow-xl border border-slate-200">
-                <h4 class="text-3xl font-bold mb-8">规避“死循环”陷阱</h4>
-                <p class="text-xl text-slate-500 leading-relaxed">
-                    盲目遍历会导致陷入“万年历”或“复杂验证码”等死循环组件。我们的 AI 绘图员具备语义识别能力，会<span class="text-slate-900 font-bold underline">优先点击有意义的业务元素</span>，规避无效探索。
+                <h2 class="text-5xl font-black text-slate-800 mb-8 text-center">现状分析：Web自动化的两种实现方案</h2>
+                <div class="h-1 w-32 bg-gradient-to-r from-blue-500 to-purple-600 mx-auto mb-8 rounded-full"></div>
+                <p class="text-2xl text-slate-700 leading-relaxed mb-8 text-center max-w-4xl mx-auto font-medium">
+                    在当前的 Web 自动化领域，存在两种主流方案，但它们各自面临着难以调和的<span class="text-red-600 font-bold">「不可能三角」</span>（速度、通用性、准确性）。
                 </p>
             </div>
         </div>
-    </section>
 
-    <!-- 9. Component: Navigator Logic -->
-    <section class="full-screen-section">
-        <h2 class="text-5xl font-black mb-20 italic text-indigo-700">组件分析：Navigator 导航员</h2>
-        <div class="grid grid-cols-1 gap-12">
-            <div class="p-12 border-b-2 border-slate-100 flex gap-20">
-                <div class="text-4xl font-black text-slate-200 mono">01</div>
-                <div>
-                    <h4 class="text-3xl font-bold mb-4 italic">语义对齐意图理解</h4>
-                    <p class="text-xl text-slate-500 italic mb-4">“我买的鼠标不好用，退钱。”</p>
-                    <p class="text-xl text-slate-600">
-                        Agent 识别到“退钱”即是地图中的“申请售后”节点，实现模糊指令到标准化路径的映射。
+        <!-- Web Agent -->
+        <div class="section-card">
+            <div class="glass-card rounded-3xl p-12 border-l-8 border-blue-500 relative">
+                <div class="flex items-center gap-4 mb-8">
+                    <div class="icon-circle bg-gradient-to-br from-blue-400 to-blue-600">
+                        🤖
+                    </div>
+                    <h3 class="text-4xl font-black text-slate-800">Web Agent</h3>
+                </div>
+                <p class="text-xl text-slate-700 leading-relaxed mb-10 pl-20 italic">
+                    把一个网站近似成一个树状地图。Agent在每一个分支路口,都要观察,分析,才能前进一步。
+                </p>
+                
+                <div class="grid md:grid-cols-3 gap-6 pl-20">
+                    <div class="bg-gradient-to-br from-green-50 to-emerald-50 rounded-2xl p-6 border-2 border-green-300 shadow-lg">
+                        <div class="list-item advantage text-lg">
+                            <span class="font-bold">优点：</span>不必为每个任务写rpa脚本。
+                        </div>
+                    </div>
+                    <div class="bg-gradient-to-br from-red-50 to-rose-50 rounded-2xl p-6 border-2 border-red-300 shadow-lg">
+                        <div class="list-item disadvantage text-lg">
+                            <span class="font-bold">缺点1:</span>太慢。每前进一步都要调用一次大模型。
+                        </div>
+                    </div>
+                    <div class="bg-gradient-to-br from-red-50 to-rose-50 rounded-2xl p-6 border-2 border-red-300 shadow-lg">
+                        <div class="list-item disadvantage text-lg">
+                            <span class="font-bold">缺点2:</span>只在局部探索,会迷路。目前的 Agent 是在每一个 Step 都在做概率预测。
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- rpa如何行动 -->
+        <div class="section-card">
+            <div class="glass-card rounded-3xl p-12 border-l-8 border-green-500 relative">
+                <div class="flex items-center gap-4 mb-8">
+                    <div class="icon-circle bg-gradient-to-br from-green-400 to-emerald-600">
+                        ⚡
+                    </div>
+                    <h3 class="text-4xl font-black text-slate-800">rpa如何行动</h3>
+                </div>
+                <p class="text-xl text-slate-700 leading-relaxed mb-10 pl-20 italic">
+                    人直接告诉rpa怎么走。
+                </p>
+                
+                <div class="grid md:grid-cols-2 gap-6 pl-20">
+                    <div class="bg-gradient-to-br from-green-50 to-emerald-50 rounded-2xl p-8 border-2 border-green-300 shadow-lg transform hover:scale-105 transition-all">
+                        <div class="list-item advantage text-lg">
+                            <span class="font-bold">优点:</span>正确性。速度快。
+                        </div>
+                    </div>
+                    <div class="bg-gradient-to-br from-red-50 to-rose-50 rounded-2xl p-8 border-2 border-red-300 shadow-lg transform hover:scale-105 transition-all">
+                        <div class="list-item disadvantage text-lg">
+                            <span class="font-bold">缺点:</span>每个任务都要写rpa.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 原因分析 -->
+        <div class="section-card">
+            <div class="glass-card rounded-3xl p-12 relative overflow-hidden">
+                <div class="section-number">02</div>
+                <div class="icon-circle bg-gradient-to-br from-purple-500 to-pink-600 mx-auto floating">
+                    🔍
+                </div>
+                <h2 class="text-5xl font-black text-slate-800 mb-6 text-center">原因分析</h2>
+                <div class="h-1 w-32 bg-gradient-to-r from-purple-500 to-pink-600 mx-auto rounded-full"></div>
+            </div>
+        </div>
+
+        <!-- "确认"是准确性的来源 -->
+        <div class="section-card">
+            <div class="glass-card rounded-3xl p-12 neon-border relative">
+                <div class="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-amber-400 via-orange-500 to-red-500 rounded-t-3xl"></div>
+                <div class="flex items-center gap-4 mb-8 mt-4">
+                    <div class="icon-circle bg-gradient-to-br from-amber-400 to-orange-600">
+                        ✓
+                    </div>
+                    <h3 class="text-4xl font-black text-slate-800">"确认"是准确性的来源</h3>
+                </div>
+                
+                <div class="space-y-8 pl-20">
+                    <div class="bg-gradient-to-r from-amber-50 to-orange-50 rounded-2xl p-8 border-l-4 border-amber-500 shadow-lg">
+                        <p class="text-xl text-slate-700 leading-relaxed">
+                            日常使用大模型应用时，"确认"是不可或缺的：ChatGPT/ClaudeCode很难第一次就给出我们想要的答案，往往是：大模型生成一个结果，我们将不满意的点进行澄清，让大模型继续生成，或者清空历史对话让大模型重新生成——这就是确认的环节。
+                        </p>
+                    </div>
+                    
+                    <div class="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-2xl p-8 border-l-4 border-blue-500 shadow-lg">
+                        <p class="text-xl text-slate-700 leading-relaxed">
+                            <span class="font-bold text-blue-700">Agent执行流程操作：</span>没有确认环节。Agent 在执行时，面对的是未知的 DOM 树。它在做概率预测："根据语义，这个 div 看起来像是个按钮，我猜点它能成功。"这种预测是概率性的猜测。由于缺乏确认环节，一次微小的概率偏离（幻觉）就会导致流程彻底中断或产生错误后果。
+                        </p>
+                    </div>
+                    
+                    <div class="bg-gradient-to-r from-green-50 to-emerald-50 rounded-2xl p-8 border-l-4 border-green-500 shadow-lg">
+                        <p class="text-xl text-slate-700 leading-relaxed">
+                            <span class="font-bold text-green-700">RPA：</span>在 RPA 脚本编写阶段，开发者已经对每一个按钮、每一个选择器（Selector）进行了显式确认。开发者在写 <code class="bg-slate-800 text-green-400 px-3 py-1 rounded font-mono text-base">click("#submit_btn")</code> 时，已经亲手点过并确认它能触发提交操作。这种"确认"被永久锁在了代码里。
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 确认只适合于构建阶段而非执行阶段 -->
+        <div class="section-card">
+            <div class="glass-card rounded-3xl p-12 border-4 border-dashed border-red-300 relative">
+                <div class="flex items-center gap-4 mb-8">
+                    <div class="icon-circle bg-gradient-to-br from-red-400 to-pink-600">
+                        ⚠
+                    </div>
+                    <h4 class="text-3xl font-black text-slate-800">确认只适合于构建阶段而非执行阶段</h4>
+                </div>
+                
+                <div class="bg-gradient-to-br from-red-50 via-rose-50 to-pink-50 rounded-2xl p-8 mb-8 border-2 border-red-200">
+                    <p class="text-2xl text-slate-800 leading-relaxed font-semibold text-center">
+                        在 Agent 执行流程操作时进行确认：<span class="text-red-600">不可行</span>。且<span class="text-red-600">无法固化</span>。
                     </p>
                 </div>
-            </div>
-            <div class="p-12 border-b-2 border-slate-100 flex gap-20">
-                <div class="text-4xl font-black text-slate-200 mono">02</div>
-                <div>
-                    <h4 class="text-3xl font-bold mb-4">图路径寻找</h4>
-                    <p class="text-xl text-slate-600">在 Neo4j 中查找从首页到下载页的最短语义合规路径。</p>
-                </div>
-            </div>
-            <div class="p-12 flex gap-20 bg-indigo-50 rounded-[3rem]">
-                <div class="text-4xl font-black text-indigo-200 mono">03</div>
-                <div>
-                    <h4 class="text-3xl font-bold mb-4">RPA 全速执行</h4>
-                    <p class="text-xl text-slate-600 mb-6">将路径一次性转化为高效的 Python 代码：</p>
-                    <code class="mono text-indigo-800 bg-indigo-100 p-4 rounded-xl font-bold">DrissionPage.click("@text=申请售后")</code>
+                
+                <div class="subsection">
+                    <p class="text-2xl text-slate-800 leading-relaxed mb-6 font-bold">执行阶段的"确认成本"高：</p>
+                    
+                    <div class="bg-white rounded-2xl p-8 mb-6 shadow-lg hover:shadow-2xl transition-all">
+                        <div class="list-item text-lg">
+                            如果在 Agent 每一个 Step 之后都要求人工或自我检查：
+                            <div class="ml-8 mt-6 space-y-4">
+                                <div class="bg-red-50 rounded-xl p-6 border-l-4 border-red-400">
+                                    <div class="list-item disadvantage">
+                                        <span class="font-bold">效率低：</span> 原本 10 秒的任务会因为反复确认拉长到数分钟。
+                                    </div>
+                                </div>
+                                <div class="bg-red-50 rounded-xl p-6 border-l-4 border-red-400">
+                                    <div class="list-item disadvantage">
+                                        <span class="font-bold">用户疲劳：</span> 如果 Agent 每点一个按钮都问用户"我点对了吗？"，这便失去了自动化的意义。
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-white rounded-2xl p-8 shadow-lg hover:shadow-2xl transition-all">
+                        <div class="list-item text-lg">
+                            无法固化：
+                            <div class="ml-8 mt-6">
+                                <div class="bg-orange-50 rounded-xl p-6 border-l-4 border-orange-400">
+                                    <div class="list-item disadvantage">
+                                        目前的 Agent 架构通常是"无状态"的。即便这一次它在某个步骤"猜对了"，下一次执行相同任务时，它依然要重新推理、重新猜测。它没有把"确认过正确"的信息转化为可复用的资产。
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
-    </section>
 
-    <!-- 10. Research Significance -->
-    <section class="full-screen-section bg-slate-950 text-white">
-        <h2 class="text-sm font-bold tracking-[0.4em] text-indigo-500 uppercase mb-24">Strategic Significance</h2>
-        <div class="space-y-40">
-            <div class="max-w-4xl">
-                <h3 class="text-6xl font-bold mb-12 serif italic">数字化资产沉淀</h3>
-                <p class="text-2xl text-slate-400 leading-relaxed">
-                    当我们拥有了数百个业务系统的完整地图时，这本身就是巨大的<span class="text-white font-bold underline">环境知识库</span>。
-                    它是实现跨业务系统流程自动化、打破数据孤岛的关键基础设施。
-                </p>
+        <!-- "固化"是效率的来源 -->
+        <div class="section-card">
+            <div class="glass-card rounded-3xl p-12 relative overflow-hidden">
+                <div class="absolute -top-20 -right-20 w-80 h-80 bg-purple-300 rounded-full opacity-20 blur-3xl"></div>
+                <div class="absolute -bottom-20 -left-20 w-80 h-80 bg-blue-300 rounded-full opacity-20 blur-3xl"></div>
+                
+                <div class="flex items-center gap-4 mb-8 relative z-10">
+                    <div class="icon-circle bg-gradient-to-br from-purple-400 to-indigo-600">
+                        💾
+                    </div>
+                    <h3 class="text-4xl font-black text-slate-800">"固化"是效率的来源</h3>
+                </div>
+                
+                <div class="space-y-8 relative z-10">
+                    <div class="bg-gradient-to-r from-purple-50 to-indigo-50 rounded-2xl p-8 border-2 border-purple-300 shadow-lg">
+                        <p class="text-xl text-slate-700 leading-relaxed">
+                            目前 Agent 的执行是<span class="font-black text-purple-700 text-2xl">无状态（Stateless）</span>的。即便它曾成功完成过任务 A，下一次执行相同任务时，依然需要重新解析 DOM、重新推理逻辑。这种"重复思考"造成了计算资源的浪费。
+                        </p>
+                    </div>
+                    
+                    <div class="bg-white rounded-2xl p-10 shadow-xl border-4 border-purple-200">
+                        <p class="text-2xl text-slate-800 leading-relaxed text-center font-bold">
+                            能否像 RPA 一样，把 Agent 的"思考结果"固化下来？
+                        </p>
+                    </div>
+                    
+                    <div class="bg-gradient-to-r from-blue-50 to-cyan-50 rounded-2xl p-8 border-2 border-blue-300 shadow-lg">
+                        <p class="text-xl text-slate-700 leading-relaxed">
+                            这就是提出<span class="font-black text-blue-700 text-2xl">语义地图</span>的原因——将<span class="text-amber-600 font-bold">"思考"</span>留在地图构建期，将<span class="text-green-600 font-bold">"速度"</span>留在导航执行期。
+                        </p>
+                    </div>
+                </div>
             </div>
-            <div class="max-w-4xl">
-                <h3 class="text-6xl font-bold mb-12 serif italic text-indigo-400">模型能力的增强补丁</h3>
-                <p class="text-2xl text-slate-400 leading-relaxed">
-                    网站地图相当于为通用大模型注入了领域专业先验。地图本身就是模型能力的补丁，大幅降低了对顶级模型端侧推理能力的依赖。
+        </div>
+
+         <!-- 解决方案 -->
+        <div class="section-card">
+            <div class="glass-card rounded-3xl p-16 relative overflow-hidden">
+                <div class="section-number">03</div>
+                <div class="absolute top-0 right-0 w-96 h-96 bg-gradient-to-br from-green-300 to-blue-300 rounded-full opacity-10 blur-3xl"></div>
+                
+                <div class="icon-circle bg-gradient-to-br from-emerald-500 to-teal-600 mx-auto floating mb-6">
+                    💡
+                </div>
+                <h2 class="text-5xl font-black text-slate-800 mb-8 text-center">解决方案</h2>
+                <div class="h-1 w-32 bg-gradient-to-r from-emerald-500 to-teal-600 mx-auto mb-12 rounded-full"></div>
+                
+                <div class="max-w-5xl mx-auto space-y-10 relative z-10">
+                    <div class="bg-white rounded-3xl p-10 shadow-2xl border-4 border-emerald-200">
+                        <p class="text-3xl text-slate-800 leading-relaxed text-center font-black">
+                            结合<span class="text-blue-600">agent</span>和<span class="text-green-600">rpa</span>。把完整地图告诉agent,agent仅调用一次大模型,生成rpa脚本。
+                        </p>
+                    </div>
+                    
+                    <div class="bg-gradient-to-r from-cyan-50 to-blue-50 rounded-2xl p-10 border-2 border-cyan-300 shadow-xl">
+                        <p class="text-2xl text-slate-700 leading-relaxed text-center italic">
+                            这就好比从<span class="text-red-600 font-bold">"在一个陌生城市里靠直觉摸索"</span>转变成了<span class="text-green-600 font-bold">"先进行城市地图测绘，再根据地图进行导航"</span>。
+                        </p>
+                    </div>
+                    
+                    <div class="grid md:grid-cols-1 gap-8">
+                        <div class="bg-gradient-to-br from-orange-50 to-red-50 rounded-2xl p-10 border-l-8 border-orange-500 shadow-xl">
+                            <div class="flex items-center gap-4 mb-6">
+                                <div class="w-16 h-16 bg-orange-500 rounded-full flex items-center justify-center text-3xl">
+                                    🚶
+                                </div>
+                                <p class="text-2xl font-black text-orange-700">现在的agent</p>
+                            </div>
+                            <div class="space-y-4 pl-20">
+                                <div class="bg-white rounded-xl p-6 shadow-md">
+                                    <div class="list-item text-lg">
+                                        就像是一个初次来到异国他乡的游客。他能看懂路标（识别按钮），但他脑子里没有这张城市的全局地图。
+                                    </div>
+                                </div>
+                                <div class="bg-white rounded-xl p-6 shadow-md">
+                                    <div class="list-item text-lg">
+                                        每走到一个十字路口，他都要停下来分析路标 A、B、C 分别代表什么，然后猜测"去火车站应该走左边"。
+                                    </div>
+                                </div>
+                                <div class="bg-white rounded-xl p-6 shadow-md">
+                                    <div class="list-item text-lg">
+                                        他可能走进了死胡同，或者在原地绕圈。最关键的是，下一次他再去火车站，他还得重新分析一遍，因为他没有把路径固化下来。
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-gradient-to-r from-purple-50 to-pink-50 rounded-2xl p-10 border-2 border-purple-300 shadow-xl">
+                        <p class="text-2xl text-slate-700 leading-relaxed text-center font-semibold">
+                            <span class="text-purple-700 font-black">构建地图：</span>任务不是为了从 A 点到 B 点，而是为了跑遍全城的每一条路。
+                        </p>
+                    </div>
+                    
+                    <div class="bg-gradient-to-r from-green-50 to-emerald-50 rounded-2xl p-10 border-l-8 border-green-500 shadow-xl">
+                        <div class="flex items-center gap-4 mb-6">
+                            <div class="w-16 h-16 bg-green-500 rounded-full flex items-center justify-center text-3xl">
+                                🚗
+                            </div>
+                            <p class="text-2xl font-black text-green-700">RPA</p>
+                        </div>
+                        <p class="text-xl text-slate-700 leading-relaxed pl-20">
+                            严格执行导航指令的自动驾驶车。它不需要理解为什么左转，它只需要接收指令：<code class="bg-slate-800 text-green-400 px-3 py-2 rounded font-mono">Drive(500m) -> TurnLeft -> Stop</code>。速度极快：因为它跳过了所有"思考"和"分析路标"的时间，直接全速前进。
+                        </p>
+                    </div>
+                    
+                    <div class="bg-gradient-to-br from-green-100 via-emerald-100 to-teal-100 rounded-3xl p-12 border-4 border-green-400 shadow-2xl">
+                        <div class="grid md:grid-cols-2 gap-6">
+                            <div class="bg-white rounded-2xl p-8 shadow-lg">
+                                <p class="text-2xl font-black text-green-700 mb-4">✓ 优点：</p>
+                                <p class="text-xl text-slate-700">不必为每个任务写rpa。正确性。速度快。</p>
+                            </div>
+                            <div class="bg-white rounded-2xl p-8 shadow-lg">
+                                <p class="text-2xl font-black text-blue-700 mb-4">🎯 研究点：</p>
+                                <p class="text-xl text-slate-700">为网站构建完整地图。</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 如何构建地图 -->
+        <div class="section-card">
+            <div class="glass-card rounded-3xl p-12 relative overflow-hidden">
+                <div class="section-number">04</div>
+                <div class="icon-circle bg-gradient-to-br from-indigo-500 to-purple-600 mx-auto floating">
+                    🗺️
+                </div>
+                <h2 class="text-5xl font-black text-slate-800 mb-6 text-center">如何构建地图</h2>
+                <div class="h-1 w-32 bg-gradient-to-r from-indigo-500 to-purple-600 mx-auto rounded-full"></div>
+            </div>
+        </div>
+
+        <!-- 对Web应用的解构 -->
+        <div class="section-card">
+            <div class="glass-card rounded-3xl p-14 relative overflow-hidden border-2 border-indigo-200">
+                <div class="absolute -top-32 -right-32 w-96 h-96 bg-indigo-300 rounded-full opacity-10 blur-3xl"></div>
+                <div class="absolute -bottom-32 -left-32 w-96 h-96 bg-purple-300 rounded-full opacity-10 blur-3xl"></div>
+                
+                <div class="flex items-center gap-4 mb-10 relative z-10">
+                    <div class="icon-circle bg-gradient-to-br from-indigo-400 to-purple-600">
+                        🧩
+                    </div>
+                    <h3 class="text-4xl font-black text-slate-800">对Web应用的解构</h3>
+                </div>
+                
+                <div class="relative z-10 space-y-10">
+                    <div class="bg-white rounded-2xl p-10 shadow-xl border-l-4 border-indigo-500">
+                        <p class="text-2xl text-slate-700 leading-relaxed mb-6">
+                            Web 应用 <span class="font-black text-indigo-600">A</span> 的最小功能单元是 <span class="font-black text-purple-600">Element（元素）</span>，记为 <span class="font-black text-indigo-600">e</span>。一个 Web 应用可以被定义为所有可见及可交互元素的集合：
+                        </p>
+                        
+                        <div class="formula bg-gradient-to-r from-indigo-50 to-purple-50 p-8 rounded-2xl shadow-lg border-2 border-indigo-300">
+                            <span class="text-3xl">A = {e₁, e₂, e₃, …, eₙ}</span>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-gradient-to-br from-blue-50 to-indigo-50 rounded-2xl p-8 border-2 border-blue-300 shadow-lg">
+                        <p class="text-2xl text-slate-800 leading-relaxed text-center font-bold">
+                            每个元素 <span class="text-indigo-600">eᵢ</span> 并非孤立存在，而是由<span class="text-purple-600">三个维度</span>构成的复合体：
+                        </p>
+                    </div>
+                    
+                    <div class="grid md:grid-cols-1 gap-8">
+                        <!-- 元素标识 -->
+                        <div class="bg-gradient-to-br from-blue-50 to-cyan-50 rounded-3xl p-10 shadow-2xl border-4 border-blue-300 transform hover:scale-105 transition-all duration-300">
+                            <div class="flex items-center gap-4 mb-6">
+                                <div class="w-20 h-20 bg-gradient-to-br from-blue-500 to-cyan-600 rounded-2xl flex items-center justify-center text-4xl shadow-lg">
+                                    📍
+                                </div>
+                                <div>
+                                    <p class="text-3xl font-black text-blue-700">元素标识</p>
+                                    <p class="text-xl text-blue-600 font-semibold">Identity - 感知层</p>
+                                </div>
+                            </div>
+                            <div class="space-y-6 pl-24">
+                                <div class="bg-white rounded-xl p-6 shadow-md">
+                                    <p class="text-lg font-bold text-slate-800 mb-3">定义：</p>
+                                    <p class="text-lg text-slate-700 leading-relaxed">机器定位元素的物理路径或特征（如 CSS 选择器、XPath、ID）。</p>
+                                </div>
+                                <div class="bg-white rounded-xl p-6 shadow-md">
+                                    <p class="text-lg font-bold text-slate-800 mb-3">示例：</p>
+                                    <code class="block bg-slate-800 text-green-400 px-4 py-3 rounded-lg font-mono text-base">login_button = tab.ele('.form-cut-item-btn')</code>
+                                </div>
+                                <div class="bg-white rounded-xl p-6 shadow-md">
+                                    <p class="text-lg font-bold text-slate-800 mb-3">作用：</p>
+                                    <p class="text-lg text-slate-700 leading-relaxed">解决"<span class="text-blue-600 font-bold">它在哪里</span>"的问题，实现机器对页面的<span class="font-black text-blue-700">物理感知</span>。</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- 元素操作 -->
+                        <div class="bg-gradient-to-br from-purple-50 to-pink-50 rounded-3xl p-10 shadow-2xl border-4 border-purple-300 transform hover:scale-105 transition-all duration-300">
+                            <div class="flex items-center gap-4 mb-6">
+                                <div class="w-20 h-20 bg-gradient-to-br from-purple-500 to-pink-600 rounded-2xl flex items-center justify-center text-4xl shadow-lg">
+                                    ⚡
+                                </div>
+                                <div>
+                                    <p class="text-3xl font-black text-purple-700">元素操作</p>
+                                    <p class="text-xl text-purple-600 font-semibold">Action - 行动层</p>
+                                </div>
+                            </div>
+                            <div class="space-y-6 pl-24">
+                                <div class="bg-white rounded-xl p-6 shadow-md">
+                                    <p class="text-lg font-bold text-slate-800 mb-3">定义：</p>
+                                    <p class="text-lg text-slate-700 leading-relaxed">对元素施加的状态改变或交互指令。</p>
+                                </div>
+                                <div class="bg-white rounded-xl p-6 shadow-md">
+                                    <p class="text-lg font-bold text-slate-800 mb-3">示例：</p>
+                                    <code class="block bg-slate-800 text-green-400 px-4 py-3 rounded-lg font-mono text-base">login_button.click()</code>
+                                </div>
+                                <div class="bg-white rounded-xl p-6 shadow-md">
+                                    <p class="text-lg font-bold text-slate-800 mb-3">作用：</p>
+                                    <p class="text-lg text-slate-700 leading-relaxed">解决"<span class="text-purple-600 font-bold">如何交互</span>"的问题，定义交互原语（Click/Input/Select），触发页面的<span class="font-black text-purple-700">状态转换</span>。</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- 元素含义 -->
+                        <div class="bg-gradient-to-br from-amber-50 to-orange-50 rounded-3xl p-10 shadow-2xl border-4 border-amber-300 transform hover:scale-105 transition-all duration-300">
+                            <div class="flex items-center gap-4 mb-6">
+                                <div class="w-20 h-20 bg-gradient-to-br from-amber-500 to-orange-600 rounded-2xl flex items-center justify-center text-4xl shadow-lg">
+                                    💬
+                                </div>
+                                <div>
+                                    <p class="text-3xl font-black text-amber-700">元素含义</p>
+                                    <p class="text-xl text-amber-600 font-semibold">Semantics - 语义层</p>
+                                </div>
+                            </div>
+                            <div class="space-y-6 pl-24">
+                                <div class="bg-white rounded-xl p-6 shadow-md">
+                                    <p class="text-lg font-bold text-slate-800 mb-3">定义：</p>
+                                    <p class="text-lg text-slate-700 leading-relaxed">描述该元素在业务逻辑中的角色、前置条件及行为后果。</p>
+                                </div>
+                                <div class="bg-white rounded-xl p-6 shadow-md">
+                                    <p class="text-lg font-bold text-slate-800 mb-3">示例：</p>
+                                    <p class="text-lg text-slate-700 leading-relaxed italic">"在用户输入凭据后点击此按钮，验证通过后将跳转至【应用市场页】。"</p>
+                                </div>
+                                <div class="bg-white rounded-xl p-6 shadow-md">
+                                    <p class="text-lg font-bold text-slate-800 mb-3">作用：</p>
+                                    <p class="text-lg text-slate-700 leading-relaxed">解决"<span class="text-amber-600 font-bold">它是做什么的</span>"的问题，赋予操作以<span class="font-black text-amber-700">业务含义</span>。描述业务角色、前置依赖及跳转后果。</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-gradient-to-r from-indigo-100 via-purple-100 to-pink-100 rounded-3xl p-12 shadow-2xl border-4 border-indigo-300">
+                        <p class="text-2xl text-slate-800 leading-relaxed text-center font-bold">
+                            通过对 Web 应用中原子元素 <span class="text-indigo-600">eᵢ</span> 进行上述三要素的建模，便可构建出一张<span class="text-purple-700 font-black text-3xl">网页语义地图</span>，每个元素成为地图上的一个具有业务意义的节点。
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 构建机制 -->
+        <div class="section-card">
+            <div class="glass-card rounded-3xl p-14 relative overflow-hidden">
+                <div class="absolute top-0 left-0 w-full h-3 bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-600"></div>
+                
+                <div class="flex items-center gap-4 mb-10 mt-6">
+                    <div class="icon-circle bg-gradient-to-br from-cyan-400 to-blue-600">
+                        🤝
+                    </div>
+                    <h3 class="text-4xl font-black text-slate-800">构建机制</h3>
+                </div>
+                
+                <div class="space-y-8">
+                    <div class="bg-gradient-to-r from-cyan-50 to-blue-50 rounded-2xl p-10 border-2 border-cyan-300 shadow-xl">
+                        <p class="text-2xl text-slate-700 leading-relaxed text-center font-bold">
+                            <span class="text-blue-600">AI</span>与<span class="text-green-600">人工</span>相结合的网站语义地图构建。AI自动识别网页元素的语义/ID/可采取的动作。标注员能够进行检查和校正。
+                        </p>
+                    </div>
+                    
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <div class="bg-white rounded-2xl p-8 shadow-lg border-l-4 border-green-500 hover:shadow-2xl transition-all">
+                            <div class="flex items-center gap-3 mb-4">
+                                <span class="text-3xl">👤</span>
+                                <p class="text-xl font-black text-green-700">人类优势</p>
+                            </div>
+                            <p class="text-lg text-slate-700 leading-relaxed">
+                                人类更适合处理元素的前提依赖（即语义层中的高级语义）。例如：只有输入了正确的订单号，才会出现"退款"按钮。
+                            </p>
+                        </div>
+                        
+                        <div class="bg-white rounded-2xl p-8 shadow-lg border-l-4 border-blue-500 hover:shadow-2xl transition-all">
+                            <div class="flex items-center gap-3 mb-4">
+                                <span class="text-3xl">🤖</span>
+                                <p class="text-xl font-black text-blue-700">AI优势</p>
+                            </div>
+                            <p class="text-lg text-slate-700 leading-relaxed">
+                                当自动探索失败时，自动通知标注员介入。人工点一下，系统自动记录这次"纠偏"，更新地图。
+                            </p>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-gradient-to-br from-amber-50 to-orange-50 rounded-2xl p-8 border-2 border-amber-300 shadow-lg">
+                        <div class="flex items-center gap-3 mb-4">
+                            <span class="text-3xl">ℹ️</span>
+                            <p class="text-xl font-black text-amber-700">重要说明</p>
+                        </div>
+                        <p class="text-lg text-slate-700 leading-relaxed italic">
+                            （构建地图的过程中，是允许探索和出错的，但实际运行流程自动化时，不行。）
+                        </p>
+                    </div>
+                    
+                    <div class="bg-white rounded-2xl p-10 shadow-xl border-4 border-indigo-200">
+                        <div class="text-center mb-6">
+                            <p class="text-2xl font-black text-indigo-700 mb-3">📊 目前进展</p>
+                            <p class="text-3xl font-black text-slate-800">纯人工构建原子交互</p>
+                        </div>
+                        <div class="h-1 w-32 bg-gradient-to-r from-indigo-500 to-purple-600 mx-auto mb-6"></div>
+                        <p class="text-xl text-slate-700 leading-relaxed text-center">
+                            为什么不一开始就用AI，因为网页自动化的<span class="text-red-600 font-black">核心瓶颈</span>在于<span class="text-red-600 font-black">'原子交互'</span>的可靠性。目前的AI在这方面表现不佳。
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+         <!-- AI错误案例 -->
+        <div class="section-card">
+            <div class="glass-card rounded-3xl p-12 relative overflow-hidden border-4 border-rose-300">
+                <div class="absolute top-0 right-0 w-96 h-96 bg-rose-300 rounded-full opacity-10 blur-3xl"></div>
+                
+                <div class="flex items-center gap-4 mb-8 relative z-10">
+                    <div class="icon-circle bg-gradient-to-br from-rose-400 to-red-600">
+                        ⚠️
+                    </div>
+                    <h3 class="text-3xl font-black text-rose-800">AI错误案例示例</h3>
+                </div>
+                
+                <div class="bg-gradient-to-r from-rose-50 to-red-50 rounded-2xl p-8 mb-8 border-2 border-rose-300 relative z-10">
+                    <p class="text-xl text-slate-700 leading-relaxed text-center font-semibold">
+                        例如，一个目前商用的 <span class="font-black text-rose-700">web agent</span>, 让其在12306中输入出发地，其错误如下：
+                    </p>
+                </div>
+                
+                <div class="code-block relative z-10">Thought
+
+用户要求设置出发地为泰安。从截图中可以看到： 1. 左侧有一个"车票"查询表单 2. 表单中有"出发地"字段，显示"简拼/全拼汉字"的占位符 3. 我需要点击出发地输入框，然后输入"泰安" 步骤： 1. 点击出发地输入框 2. 输入"泰安" 3. 确认输入成功
+
+Thought
+
+现在我来点击出发地输入框：
+
+Clicked
+
+点击出发地输入框以便输入泰安
+
+Browser screenshot
+Thought
+
+很好！出发地输入框已打开，显示了一个城市列表下拉菜单。我可以看到有多个城市选项。现在我来输入"泰安"来搜索这个城市：
+
+Typed on page
+
+输入"tai"来搜索泰安城市，使用拼音首字母搜索
+
+Browser screenshot
+Thought
+
+我看到输入了"tai"后，显示的是北京相关的城市。这不是我们要找的。让我清空输入框，重新输入"泰安"的完整拼音或汉字。让我先清空这个输入框：
+
+Clicked
+
+清空出发地输入框中的内容，以便重新输入
+
+Browser screenshot
+Thought
+
+我看到输入框中仍然显示"tai"。让我选中所有文本并删除，然后输入"泰安"：
+
+Typed on page
+
+输入"taian"来搜索泰安城市，使用完整拼音搜索
+
+Browser screenshot
+Thought
+
+我看到输入框现在显示"taian"，但下拉列表仍然显示北京相关的城市。让我等待一下，看看是否会更新搜索结果：
+
+Thought
+
+我看到输入框中显示"taian"，但下拉列表仍然显示北京的城市。让我尝试用getText来查看页面的完整结构，看看是否有泰安的选项：
+
+Thought
+
+我看到输入框中已经有"taian"，但搜索结果显示的是北京相关的城市。让我尝试清空输入框，然后用汉字"泰安"来搜索。首先让我点击输入框的清除按钮：
+
+Clicked
+
+清空出发地输入框，以便重新输入泰安
+
+Browser screenshot
+Thought
+
+我看到输入框仍然显示"taian"。让我尝试三次点击来全选文本，然后删除：
+
+Clicked
+
+三击选中输入框中的所有文本
+
+Browser screenshot
+Thought
+
+很好！我看到输入框已经被清空了。现在让我输入"泰安"的汉字：
+
+Typed on page
+
+输入"泰安"汉字来搜索泰安城市
+
+Browser screenshot
+Thought
+
+完美！我看到输入框中现在显示"泰安"，但下拉列表仍然显示北京的城市。让我等待一下，看搜索结果是否会更新：
+
+Thought
+
+我看到输入框中仍然显示"泰安"，但下拉列表仍然显示北京的城市。让我尝试按下键盘的下箭头键来浏览下拉列表中的选项，看是否能找到泰安：
+
+Thought
+
+很好！我看到出发地输入框中已经显示"泰安"了。现在我需要从下拉列表中选择泰安。让我尝试按下键盘的下箭头键来浏览选项，或者直接按回车键来确认选择。让我先尝试按回车键：
+
+Typed on page
+
+按回车键来确认选择泰安作为出发地
+
+Browser screenshot
+Thought
+
+我看到输入框中仍然显示"泰安"，但下拉列表仍然显示北京的城市。看起来下拉列表没有更新搜索结果。让我尝试滚动下拉列表，看是否能找到泰安。让我先点击下拉列表中的一个选项，看看是否能看到更多的城市。让我尝试点击下拉列表中的分页按钮来查看更多城市：
+
+Clicked
+
+点击下拉列表中的下一页按钮来查看更多城市
+
+Browser screenshot
+Thought
+
+很好！我看到下拉列表已经更新，现在显示的是不同的城市（北京朝阳、北京通州、礼贤、重庆北、重庆东、重庆）。我看到输入框中现在显示"泰安"（用蓝色高亮显示）。现在我需要继续浏览下拉列表来找到泰安。让我继续点击下一页按钮：
+
+Clicked
+
+继续点击下一页按钮来查找泰安城市
+
+Browser screenshot
+Thought
+
+我看到下拉列表现在显示的是重庆南、重庆西、绳墩、上海、上海南、上海虹桥等城市。我还没有找到泰安。让我继续点击下一页按钮：
+
+Clicked
+
+继续点击下一页按钮来查找泰安城市
+
+Browser screenshot
+Thought
+
+我看到下拉列表现在显示的是上海西、天津北、天津、天津南、天津西、百浪等城市。我还没有找到泰安。让我继续点击下一页按钮：
+
+Clicked
+
+继续点击下一页按钮来查找泰安城市</div>
+            </div>
+        </div>
+
+        <!-- AI局限性分析 -->
+        <div class="section-card">
+            <div class="bg-orange-50 rounded-2xl shadow-xl p-12">
+                <p class="text-xl text-slate-700 leading-relaxed mb-8">
+                    例如，很多像 12306 这样的复杂前端，会监听键盘事件（keydown, keyup）。
+                </p>
+                
+                <p class="text-xl text-slate-700 leading-relaxed mb-4">
+                    input('taian') 通常只是修改了 DOM 元素的 value 属性，没有触发 JS 监听器。
+                </p>
+                
+                <p class="text-xl text-slate-700 leading-relaxed mb-8">
+                    type('taian') 模拟了真实的物理按键，会触发整套事件流。
+                </p>
+                
+                <p class="text-xl text-slate-700 leading-relaxed">
+                    AI 的局限： 现有的 AI Agent 大多是在静态 HTML 或截图上训练的，它们缺乏对网页动态交互逻辑（Event Listeners）的感知。AI 知道它是输入框，但不知道这个输入框背后有一双"盯着键盘看"的眼睛。
                 </p>
             </div>
         </div>
-    </section>
 
-    <!-- 11. Footer -->
-    <footer class="py-40 bg-white text-center border-t border-slate-100">
-        <div class="serif text-8xl font-black text-slate-100 mb-20 uppercase tracking-tighter">FINISH</div>
-        <p class="text-slate-300 mono text-sm tracking-widest uppercase">GUI Agent Architecture: Semantic Topology Mapping Research</p>
-    </footer>
+        <!-- 目标：训练AI具有能力 -->
+        <div class="section-card">
+            <div class="bg-teal-50 rounded-2xl shadow-xl p-12">
+                <h4 class="text-2xl font-bold text-slate-800 mb-8">目标：训练AI具有能力</h4>
+                
+                <div class="mb-8">
+                    <p class="text-xl font-bold text-slate-800 mb-4">训练输入（Input）</p>
+                    <div class="ml-8 space-y-4">
+                        <div class="list-item">
+                            当前页面的简化 DOM (Simplified DOM)：只保留关键标签（input, button, a）及其关键属性（id, class, placeholder, text, aria-label）。
+                        </div>
+                        <div class="list-item">
+                            用户的原子意图 (Atomic Intent)："在出发地输入泰安"。
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="mb-8">
+                    <p class="text-xl font-bold text-slate-800 mb-4">训练目标（Label）：</p>
+                    <div class="bg-white rounded-xl p-6">
+                        <code class="text-lg">tab.actions.click('#fromStationText'); tab.actions.type('taian')</code>
+                    </div>
+                </div>
+                
+                <p class="text-xl text-slate-700 leading-relaxed">
+                    网站地图里的元素ID、含义、操作，是AI生成的还是手工编制的，这是根本性的变化。
+                </p>
+            </div>
+        </div>
 
+        <!-- 架构 -->
+        <div class="section-card">
+            <div class="bg-white rounded-2xl shadow-2xl p-12">
+                <h2 class="text-4xl font-bold text-slate-800 mb-8">架构</h2>
+                
+                <p class="text-xl text-slate-700 leading-relaxed mb-8">
+                    分为两个核心组件：
+                </p>
+                
+                <div class="list-item">
+                    Cartographer（绘图员）： 负责遍历网站，构建语义地图。
+                    <div class="ml-8 mt-4">
+                        <div class="list-item">
+                            本质是在逆向工程网站的业务逻辑状态机。
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="list-item">
+                    Navigator（导航员）： 接收任务，查询语义地图，一次性生成 RPA 脚本。
+                </div>
+            </div>
+        </div>
+
+        <!-- Cartographer（绘图员） -->
+        <div class="section-card">
+            <div class="bg-violet-50 rounded-2xl shadow-xl p-12">
+                <h3 class="text-3xl font-bold text-slate-800 mb-8">Cartographer（绘图员）</h3>
+                
+                <p class="text-xl text-slate-700 leading-relaxed">
+                    盲目遍历会导致陷入"死循环"（如万年历组件）。需要利用AI对网站的语义理解能力，优先点击有意义的元素。
+                </p>
+            </div>
+        </div>
+
+        <!-- Navigator（导航员） -->
+        <div class="section-card">
+            <div class="bg-sky-50 rounded-2xl shadow-xl p-12">
+                <h3 class="text-3xl font-bold text-slate-800 mb-8">Navigator（导航员）</h3>
+                
+                <div class="list-item">
+                    <span class="font-semibold">意图理解：</span> 用户输入"我买的鼠标不好用，退钱。"。
+                    <div class="ml-8 mt-4">
+                        <div class="list-item">
+                            用户说"退钱"，地图上叫"申请售后"。Navigator利用AI的语义理解能力，能够正确识别用户的意图。
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="list-item">
+                    <span class="font-semibold">路径查找：</span> 在语义地图中查找从首页到下载页的最短语义路径。
+                </div>
+                
+                <div class="list-item">
+                    <span class="font-semibold">脚本生成：</span> 将路径转化为 Python(DrissionPage) 代码一次性执行。
+                </div>
+            </div>
+        </div>
+
+        <!-- 意义 -->
+        <div class="section-card">
+            <div class="bg-gradient-to-r from-blue-50 via-purple-50 to-pink-50 rounded-2xl shadow-2xl p-12">
+                <h2 class="text-4xl font-bold text-slate-800 mb-8">意义</h2>
+                
+                <div class="list-item">
+                    当拥有了数百个政务系统的完整地图时，这本身就是巨大的数据资产。
+                    <div class="ml-8 mt-4">
+                        <div class="list-item">
+                            可进行跨业务系统的流程自动化。
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="list-item">
+                    当拥有了网站的完整地图时，相当于为通用大模型注入了领域专业知识。地图本身就是模型能力的补丁。
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        // 呼吸动画和滚动显示效果
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, {
+            threshold: 0.1,
+            rootMargin: '0px 0px -100px 0px'
+        });
+
+        document.querySelectorAll('.section-card').forEach(card => {
+            observer.observe(card);
+        });
+
+        // 平滑滚动
+        document.addEventListener('DOMContentLoaded', () => {
+            document.documentElement.style.scrollBehavior = 'smooth';
+        });
+    </script>
 </body>
 </html>
