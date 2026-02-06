@@ -394,39 +394,51 @@
             </div>
         </div>
 
-        <!-- Web Agent -->
+        <!-- Web Agent 如何行动 -->
         <div class="section-card">
             <div class="glass-card rounded-3xl p-12 border-l-8 border-blue-500 relative">
                 <div class="flex items-center gap-4 mb-8">
                     <div class="icon-circle bg-gradient-to-br from-blue-400 to-blue-600">
                         🤖
                     </div>
-                    <h3 class="text-4xl font-black text-slate-800">Web Agent</h3>
+                    <h3 class="text-4xl font-black text-slate-800">Web Agent 如何行动</h3>
                 </div>
+                
+                <p class="text-xl text-slate-700 leading-relaxed mb-6 pl-20 italic">
+                    把一个网站近似成一个树状地图。
+                </p>
+
+                <div class="mb-10 pl-20">
+                    <div class="rounded-xl overflow-hidden shadow-2xl border-4 border-white max-w-4xl">
+                        <img src="./二叉树.png" alt="将网站视为树状地图" class="w-full h-auto transform hover:scale-105 transition-transform duration-500">
+                        <p class="text-center text-sm text-slate-500 py-3 bg-slate-50 font-medium">将网站视为树状地图</p>
+                    </div>
+                </div>
+
                 <p class="text-xl text-slate-700 leading-relaxed mb-10 pl-20 italic">
-                    把一个网站近似成一个树状地图。Agent在每一个分支路口,都要观察,分析,才能前进一步。
+                    Agent在每一个分支路口，都要观察，分析，才能前进一步。
                 </p>
                 
                 <div class="grid md:grid-cols-3 gap-6 pl-20">
                     <div class="bg-gradient-to-br from-green-50 to-emerald-50 rounded-2xl p-6 border-2 border-green-300 shadow-lg">
                         <p class="text-lg text-green-700 font-semibold">
-                            <span class="font-bold">✓ 优点：</span>不必为每个任务写rpa脚本。
+                            <span class="font-bold">✓ 优点：</span>不必为每个任务写 RPA 脚本。
                         </p>
                     </div>
                     <div class="bg-gradient-to-br from-red-50 to-rose-50 rounded-2xl p-6 border-2 border-red-300 shadow-lg">
                         <p class="text-lg text-red-700 font-semibold">
-                            <span class="font-bold">✗ 缺点1:</span>太慢。每前进一步都要调用一次大模型。
+                            <span class="font-bold">✗ 缺点1：</span>太慢。每前进一步都要调用一次大模型。
                         </p>
                     </div>
                     <div class="bg-gradient-to-br from-red-50 to-rose-50 rounded-2xl p-6 border-2 border-red-300 shadow-lg">
                         <p class="text-lg text-red-700 font-semibold">
-                            <span class="font-bold">✗ 缺点2:</span>只在局部探索,会迷路。目前的 Agent 是在每一个 Step 都在做概率预测。
+                            <span class="font-bold">✗ 缺点2：</span>只在局部探索，会迷路。目前的 Agent 是在每一个 Step 都在做概率预测。
                         </p>
                     </div>
                 </div>
 
                 <div class="mt-12 pl-20">
-                    <div class="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-2xl p-6 border-2 border-blue-200 shadow-xl">
+                    <div class="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-2xl p-6 border-2 border-blue-200 shadow-xl max-w-4xl">
                         <p class="text-lg text-slate-700 leading-relaxed mb-6 italic">
                             在 OnlineMind2Web 中，Browser Use Agent（最好的开源 Web Agent 之一）的成功率只有 30%。
                         </p>
@@ -438,18 +450,24 @@
             </div>
         </div>
 
-        <!-- rpa如何行动 -->
+        <!-- RPA 如何行动 -->
         <div class="section-card">
             <div class="glass-card rounded-3xl p-12 border-l-8 border-green-500 relative">
                 <div class="flex items-center gap-4 mb-8">
                     <div class="icon-circle bg-gradient-to-br from-green-400 to-emerald-600">
                         ⚡
                     </div>
-                    <h3 class="text-4xl font-black text-slate-800">rpa如何行动</h3>
+                    <h3 class="text-4xl font-black text-slate-800">RPA 如何行动</h3>
                 </div>
-                <p class="text-xl text-slate-700 leading-relaxed mb-10 pl-20 italic">
-                    人直接告诉rpa怎么走。
+                <p class="text-xl text-slate-700 leading-relaxed mb-8 pl-20 italic">
+                    人直接告诉RPA怎么走。
                 </p>
+
+                <div class="mb-10 pl-20">
+                    <div class="rounded-xl overflow-hidden shadow-2xl border-4 border-white max-w-4xl">
+                        <img src="./二叉树-RPA.png" alt="RPA 执行流程" class="w-full h-auto transform hover:scale-105 transition-transform duration-500">
+                    </div>
+                </div>
                 
                 <div class="grid md:grid-cols-2 gap-6 pl-20">
                     <div class="bg-gradient-to-br from-green-50 to-emerald-50 rounded-2xl p-8 border-2 border-green-300 shadow-lg transform hover:scale-105 transition-all">
@@ -459,7 +477,7 @@
                     </div>
                     <div class="bg-gradient-to-br from-red-50 to-rose-50 rounded-2xl p-8 border-2 border-red-300 shadow-lg transform hover:scale-105 transition-all">
                         <p class="text-lg text-red-700 font-semibold">
-                            <span class="font-bold">✗ 缺点:</span>每个任务都要写rpa.
+                            <span class="font-bold">✗ 缺点:</span>每个任务都要写 RPA 脚本.
                         </p>
                     </div>
                 </div>
