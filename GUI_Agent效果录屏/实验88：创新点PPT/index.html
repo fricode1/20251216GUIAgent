@@ -182,23 +182,17 @@
         
         .list-item {
             margin: 2rem 0;
-            padding-left: 2.5rem;
+            padding-left: 0;
             position: relative;
             transition: all 0.3s ease;
         }
         
         .list-item:hover {
-            padding-left: 3rem;
+            transform: translateX(10px);
         }
         
         .list-item::before {
-            content: "◆";
-            position: absolute;
-            left: 0;
-            color: #3b82f6;
-            font-size: 1.2rem;
-            line-height: 1.5rem;
-            transition: all 0.3s ease;
+            display: none;
         }
         
         .list-item:hover::before {
@@ -298,6 +292,64 @@
             z-index: 10;
         }
         
+        .log-container {
+            background: #1e1e1e;
+            border-radius: 12px;
+            padding: 20px;
+            font-family: 'JetBrains Mono', monospace;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+            max-height: 800px;
+            overflow-y: auto;
+            border: 1px solid #333;
+        }
+        .log-entry {
+            margin-bottom: 24px;
+            padding-left: 15px;
+            border-left: 3px solid transparent;
+        }
+        .log-thought {
+            border-left-color: #6366f1;
+        }
+        .log-action {
+            border-left-color: #10b981;
+        }
+        .log-screenshot {
+            border-left-color: #f59e0b;
+        }
+        .log-label {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 8px;
+            font-weight: 700;
+        }
+        .label-thought { color: #818cf8; }
+        .label-action { color: #34d399; }
+        .label-screenshot { color: #fbbf24; }
+        .log-content {
+            color: #d1d5db;
+            line-height: 1.6;
+            font-size: 0.95rem;
+        }
+        .screenshot-placeholder {
+            background: #2d2d2d;
+            border: 2px dashed #444;
+            border-radius: 8px;
+            height: 120px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            margin-top: 10px;
+            color: #666;
+            transition: all 0.3s ease;
+        }
+        .screenshot-placeholder:hover {
+            border-color: #fbbf24;
+            color: #fbbf24;
+            background: #363636;
+        }
+        
         @media (max-width: 768px) {
             .waterfall-container {
                 padding: 4rem 1.5rem;
@@ -370,6 +422,17 @@
                         <p class="text-lg text-red-700 font-semibold">
                             <span class="font-bold">✗ 缺点2:</span>只在局部探索,会迷路。目前的 Agent 是在每一个 Step 都在做概率预测。
                         </p>
+                    </div>
+                </div>
+
+                <div class="mt-12 pl-20">
+                    <div class="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-2xl p-6 border-2 border-blue-200 shadow-xl">
+                        <p class="text-lg text-slate-700 leading-relaxed mb-6 italic">
+                            在 OnlineMind2Web 中，Browser Use Agent（最好的开源 Web Agent 之一）的成功率只有 30%。
+                        </p>
+                        <div class="rounded-xl overflow-hidden shadow-2xl border-4 border-white">
+                            <img src="./OnlineMind2Web.png" alt="OnlineMind2Web Success Rate" class="w-full h-auto transform hover:scale-105 transition-transform duration-500">
+                        </div>
                     </div>
                 </div>
             </div>
@@ -468,33 +531,29 @@
                     <p class="text-2xl text-slate-800 leading-relaxed mb-6 font-bold">执行阶段的"确认成本"高：</p>
                     
                     <div class="bg-white rounded-2xl p-8 mb-6 shadow-lg hover:shadow-2xl transition-all">
-                        <div class="list-item text-lg">
+                        <p class="text-lg text-slate-700 leading-relaxed mb-6">
                             如果在 Agent 每一个 Step 之后都要求人工或自我检查：
-                            <div class="ml-8 mt-6 space-y-4">
-                                <div class="bg-red-50 rounded-xl p-6 border-l-4 border-red-400">
-                                    <div class="list-item disadvantage">
-                                        <span class="font-bold">效率低：</span> 原本 10 秒的任务会因为反复确认拉长到数分钟。
-                                    </div>
-                                </div>
-                                <div class="bg-red-50 rounded-xl p-6 border-l-4 border-red-400">
-                                    <div class="list-item disadvantage">
-                                        <span class="font-bold">用户疲劳：</span> 如果 Agent 每点一个按钮都问用户"我点对了吗？"，这便失去了自动化的意义。
-                                    </div>
-                                </div>
+                        </p>
+                        <div class="ml-8 space-y-4">
+                            <div class="bg-red-50 rounded-xl p-6 border-l-4 border-red-400">
+                                <p class="text-lg text-red-700 font-semibold">
+                                    <span class="font-bold">✗ 效率低：</span>原本 10 秒的任务会因为反复确认拉长到数分钟。
+                                </p>
+                            </div>
+                            <div class="bg-red-50 rounded-xl p-6 border-l-4 border-red-400">
+                                <p class="text-lg text-red-700 font-semibold">
+                                    <span class="font-bold">✗ 用户疲劳：</span>如果 Agent 每点一个按钮都问用户"我点对了吗？"，这便失去了自动化的意义。
+                                </p>
                             </div>
                         </div>
                     </div>
                     
                     <div class="bg-white rounded-2xl p-8 shadow-lg hover:shadow-2xl transition-all">
-                        <div class="list-item text-lg">
-                            无法固化：
-                            <div class="ml-8 mt-6">
-                                <div class="bg-orange-50 rounded-xl p-6 border-l-4 border-orange-400">
-                                    <div class="list-item disadvantage">
-                                        目前的 Agent 架构通常是"无状态"的。即便这一次它在某个步骤"猜对了"，下一次执行相同任务时，它依然要重新推理、重新猜测。它没有把"确认过正确"的信息转化为可复用的资产。
-                                    </div>
-                                </div>
-                            </div>
+                        <p class="text-2xl font-black text-orange-700 mb-4">无法固化：</p>
+                        <div class="bg-orange-50 rounded-xl p-6 border-l-4 border-orange-400">
+                            <p class="text-lg text-slate-700 leading-relaxed">
+                                目前的 Agent 架构通常是"无状态"的。即便这一次它在某个步骤"猜对了"，下一次执行相同任务时，它依然要重新推理、重新猜测。它没有把"确认过正确"的信息转化为可复用的资产。
+                            </p>
                         </div>
                     </div>
                 </div>
@@ -840,132 +899,241 @@
                     </p>
                 </div>
                 
-                <div class="code-block relative z-10">Thought
+                <div class="log-container relative z-10">
+                    <!-- Log Entry 1 -->
+                    <div class="log-entry log-thought">
+                        <div class="log-label label-thought">Thought</div>
+                        <div class="log-content">用户要求设置出发地为泰安。从截图中可以看到： 1. 左侧有一个"车票"查询表单 2. 表单中有"出发地"字段，显示"简拼/全拼汉字"的占位符 3. 我需要点击出发地输入框，然后输入"泰安" 步骤： 1. 点击出发地输入框 2. 输入"泰安" 3. 确认输入成功</div>
+                    </div>
+                    
+                    <div class="log-entry log-thought">
+                        <div class="log-label label-thought">Thought</div>
+                        <div class="log-content">现在我来点击出发地输入框：</div>
+                    </div>
+                    
+                    <div class="log-entry log-action">
+                        <div class="log-label label-action">Clicked</div>
+                        <div class="log-content">点击出发地输入框以便输入泰安</div>
+                    </div>
+                    
+                    <div class="log-entry log-screenshot">
+                        <div class="log-label label-screenshot">Browser screenshot</div>
+                        <div class="screenshot-placeholder">
+                            <span class="text-3xl mb-2">📸</span>
+                            <span>Screenshot: 12306 Homepage</span>
+                        </div>
+                    </div>
+                    
+                    <div class="log-entry log-thought">
+                        <div class="log-label label-thought">Thought</div>
+                        <div class="log-content">很好！出发地输入框已打开，显示了一个城市列表下拉菜单。我可以看到有多个城市选项。现在我来输入"泰安"来搜索这个城市：</div>
+                    </div>
+                    
+                    <div class="log-entry log-action">
+                        <div class="log-label label-action">Typed on page</div>
+                        <div class="log-content">输入"tai"来搜索泰安城市，使用拼音首字母搜索</div>
+                    </div>
+                    
+                    <div class="log-entry log-screenshot">
+                        <div class="log-label label-screenshot">Browser screenshot</div>
+                        <div class="screenshot-placeholder">
+                            <span class="text-3xl mb-2">📸</span>
+                            <span>Screenshot: City Selection Dropdown (tai)</span>
+                        </div>
+                    </div>
+                    
+                    <div class="log-entry log-thought">
+                        <div class="log-label label-thought">Thought</div>
+                        <div class="log-content">我看到输入了"tai"后，显示的是北京相关的城市。这不是我们要找的。让我清空输入框，重新输入"泰安"的完整拼音或汉字。让我先清空这个输入框：</div>
+                    </div>
+                    
+                    <div class="log-entry log-action">
+                        <div class="log-label label-action">Clicked</div>
+                        <div class="log-content">清空出发地输入框中的内容，以便重新输入</div>
+                    </div>
+                    
+                    <div class="log-entry log-screenshot">
+                        <div class="log-label label-screenshot">Browser screenshot</div>
+                        <div class="screenshot-placeholder">
+                            <span class="text-3xl mb-2">📸</span>
+                            <span>Screenshot: Clearing Input</span>
+                        </div>
+                    </div>
 
-用户要求设置出发地为泰安。从截图中可以看到： 1. 左侧有一个"车票"查询表单 2. 表单中有"出发地"字段，显示"简拼/全拼汉字"的占位符 3. 我需要点击出发地输入框，然后输入"泰安" 步骤： 1. 点击出发地输入框 2. 输入"泰安" 3. 确认输入成功
+                    <div class="log-entry log-thought">
+                        <div class="log-label label-thought">Thought</div>
+                        <div class="log-content">我看到输入框中仍然显示"tai"。让我选中所有文本并删除，然后输入"泰安"：</div>
+                    </div>
 
-Thought
+                    <div class="log-entry log-action">
+                        <div class="log-label label-action">Typed on page</div>
+                        <div class="log-content">输入"taian"来搜索泰安城市，使用完整拼音搜索</div>
+                    </div>
 
-现在我来点击出发地输入框：
+                    <div class="log-entry log-screenshot">
+                        <div class="log-label label-screenshot">Browser screenshot</div>
+                        <div class="screenshot-placeholder">
+                            <span class="text-3xl mb-2">📸</span>
+                            <span>Screenshot: Typed (taian)</span>
+                        </div>
+                    </div>
 
-Clicked
+                    <div class="log-entry log-thought">
+                        <div class="log-label label-thought">Thought</div>
+                        <div class="log-content">我看到输入框现在显示"taian"，但下拉列表仍然显示北京相关的城市。让我等待一下，看看是否会更新搜索结果：</div>
+                    </div>
 
-点击出发地输入框以便输入泰安
+                    <div class="log-entry log-thought">
+                        <div class="log-label label-thought">Thought</div>
+                        <div class="log-content">我看到输入框中显示"taian"，但下拉列表仍然显示北京的城市。让我尝试用getText来查看页面的完整结构，看看是否有泰安的选项：</div>
+                    </div>
 
-Browser screenshot
-Thought
+                    <div class="log-entry log-thought">
+                        <div class="log-label label-thought">Thought</div>
+                        <div class="log-content">我看到输入框中已经有"taian"，但搜索结果显示的是北京相关的城市。让我尝试清空输入框，然后用汉字"泰安"来搜索。首先让我点击输入框的清除按钮：</div>
+                    </div>
 
-很好！出发地输入框已打开，显示了一个城市列表下拉菜单。我可以看到有多个城市选项。现在我来输入"泰安"来搜索这个城市：
+                    <div class="log-entry log-action">
+                        <div class="log-label label-action">Clicked</div>
+                        <div class="log-content">清空出发地输入框，以便重新输入泰安</div>
+                    </div>
 
-Typed on page
+                    <div class="log-entry log-screenshot">
+                        <div class="log-label label-screenshot">Browser screenshot</div>
+                        <div class="screenshot-placeholder">
+                            <span class="text-3xl mb-2">📸</span>
+                            <span>Screenshot: Resetting for Hanzi Input</span>
+                        </div>
+                    </div>
 
-输入"tai"来搜索泰安城市，使用拼音首字母搜索
+                    <div class="log-entry log-thought">
+                        <div class="log-label label-thought">Thought</div>
+                        <div class="log-content">我看到输入框仍然显示"taian"。让我尝试三次点击来全选文本，然后删除：</div>
+                    </div>
 
-Browser screenshot
-Thought
+                    <div class="log-entry log-action">
+                        <div class="log-label label-action">Clicked</div>
+                        <div class="log-content">三击选中输入框中的所有文本</div>
+                    </div>
 
-我看到输入了"tai"后，显示的是北京相关的城市。这不是我们要找的。让我清空输入框，重新输入"泰安"的完整拼音或汉字。让我先清空这个输入框：
+                    <div class="log-entry log-screenshot">
+                        <div class="log-label label-screenshot">Browser screenshot</div>
+                        <div class="screenshot-placeholder">
+                            <span class="text-3xl mb-2">📸</span>
+                            <span>Screenshot: Triple Click</span>
+                        </div>
+                    </div>
 
-Clicked
+                    <div class="log-entry log-thought">
+                        <div class="log-label label-thought">Thought</div>
+                        <div class="log-content">很好！我看到输入框已经被清空了。现在让我输入"泰安"的汉字：</div>
+                    </div>
 
-清空出发地输入框中的内容，以便重新输入
+                    <div class="log-entry log-action">
+                        <div class="log-label label-action">Typed on page</div>
+                        <div class="log-content">输入"泰安"汉字来搜索泰安城市</div>
+                    </div>
 
-Browser screenshot
-Thought
+                    <div class="log-entry log-screenshot">
+                        <div class="log-label label-screenshot">Browser screenshot</div>
+                        <div class="screenshot-placeholder">
+                            <span class="text-3xl mb-2">📸</span>
+                            <span>Screenshot: Input (泰安)</span>
+                        </div>
+                    </div>
 
-我看到输入框中仍然显示"tai"。让我选中所有文本并删除，然后输入"泰安"：
+                    <div class="log-entry log-thought">
+                        <div class="log-label label-thought">Thought</div>
+                        <div class="log-content">完美！我看到输入框中现在显示"泰安"，但下拉列表仍然显示北京的城市。让我等待一下，看搜索结果是否会更新：</div>
+                    </div>
 
-Typed on page
+                    <div class="log-entry log-thought">
+                        <div class="log-label label-thought">Thought</div>
+                        <div class="log-content">我看到输入框中仍然显示"泰安"，但下拉列表仍然显示北京的城市。让我尝试按下键盘的下箭头键来浏览下拉列表中的选项，看是否能找到泰安：</div>
+                    </div>
 
-输入"taian"来搜索泰安城市，使用完整拼音搜索
+                    <div class="log-entry log-thought">
+                        <div class="log-label label-thought">Thought</div>
+                        <div class="log-content">很好！我看到出发地输入框中已经显示"泰安"了。现在我需要从下拉列表中选择泰安。让我尝试按下键盘的下箭头键来浏览选项，或者直接按回车键来确认选择。让我先尝试按回车键：</div>
+                    </div>
 
-Browser screenshot
-Thought
+                    <div class="log-entry log-action">
+                        <div class="log-label label-action">Typed on page</div>
+                        <div class="log-content">按回车键来确认选择泰安作为出发地</div>
+                    </div>
 
-我看到输入框现在显示"taian"，但下拉列表仍然显示北京相关的城市。让我等待一下，看看是否会更新搜索结果：
+                    <div class="log-entry log-screenshot">
+                        <div class="log-label label-screenshot">Browser screenshot</div>
+                        <div class="screenshot-placeholder">
+                            <span class="text-3xl mb-2">📸</span>
+                            <span>Screenshot: Enter Key Pressed</span>
+                        </div>
+                    </div>
 
-Thought
+                    <div class="log-entry log-thought">
+                        <div class="log-label label-thought">Thought</div>
+                        <div class="log-content">我看到输入框中仍然显示"泰安"，但下拉列表仍然显示北京的城市。看起来下拉列表没有更新搜索结果。让我尝试滚动下拉列表，看是否能找到泰安。让我先点击下拉列表中的一个选项，看看是否能看到更多的城市。让我尝试点击下拉列表中的分页按钮来查看更多城市：</div>
+                    </div>
 
-我看到输入框中显示"taian"，但下拉列表仍然显示北京的城市。让我尝试用getText来查看页面的完整结构，看看是否有泰安的选项：
+                    <div class="log-entry log-action">
+                        <div class="log-label label-action">Clicked</div>
+                        <div class="log-content">点击下拉列表中的下一页按钮来查看更多城市</div>
+                    </div>
 
-Thought
+                    <div class="log-entry log-screenshot">
+                        <div class="log-label label-screenshot">Browser screenshot</div>
+                        <div class="screenshot-placeholder">
+                            <span class="text-3xl mb-2">📸</span>
+                            <span>Screenshot: Pagination 1</span>
+                        </div>
+                    </div>
 
-我看到输入框中已经有"taian"，但搜索结果显示的是北京相关的城市。让我尝试清空输入框，然后用汉字"泰安"来搜索。首先让我点击输入框的清除按钮：
+                    <div class="log-entry log-thought">
+                        <div class="log-label label-thought">Thought</div>
+                        <div class="log-content">很好！我看到下拉列表已经更新，现在显示的是不同的城市（北京朝阳、北京通州、礼贤、重庆北、重庆东、重庆）。我看到输入框中现在显示"泰安"（用蓝色高亮显示）。现在我需要继续浏览下拉列表来找到泰安。让我继续点击下一页按钮：</div>
+                    </div>
 
-Clicked
+                    <div class="log-entry log-action">
+                        <div class="log-label label-action">Clicked</div>
+                        <div class="log-content">继续点击下一页按钮来查找泰安城市</div>
+                    </div>
 
-清空出发地输入框，以便重新输入泰安
+                    <div class="log-entry log-screenshot">
+                        <div class="log-label label-screenshot">Browser screenshot</div>
+                        <div class="screenshot-placeholder">
+                            <span class="text-3xl mb-2">📸</span>
+                            <span>Screenshot: Pagination 2</span>
+                        </div>
+                    </div>
 
-Browser screenshot
-Thought
+                    <div class="log-entry log-thought">
+                        <div class="log-label label-thought">Thought</div>
+                        <div class="log-content">我看到下拉列表现在显示的是重庆南、重庆西、绳墩、上海、上海南、上海虹桥等城市。我还没有找到泰安。让我继续点击下一页按钮：</div>
+                    </div>
 
-我看到输入框仍然显示"taian"。让我尝试三次点击来全选文本，然后删除：
+                    <div class="log-entry log-action">
+                        <div class="log-label label-action">Clicked</div>
+                        <div class="log-content">继续点击下一页按钮来查找泰安城市</div>
+                    </div>
 
-Clicked
+                    <div class="log-entry log-screenshot">
+                        <div class="log-label label-screenshot">Browser screenshot</div>
+                        <div class="screenshot-placeholder">
+                            <span class="text-3xl mb-2">📸</span>
+                            <span>Screenshot: Pagination 3</span>
+                        </div>
+                    </div>
 
-三击选中输入框中的所有文本
+                    <div class="log-entry log-thought">
+                        <div class="log-label label-thought">Thought</div>
+                        <div class="log-content">我看到下拉列表现在显示的是上海西、天津北、天津、天津南、天津西、百浪等城市。我还没有找到泰安。让我继续点击下一页按钮：</div>
+                    </div>
 
-Browser screenshot
-Thought
-
-很好！我看到输入框已经被清空了。现在让我输入"泰安"的汉字：
-
-Typed on page
-
-输入"泰安"汉字来搜索泰安城市
-
-Browser screenshot
-Thought
-
-完美！我看到输入框中现在显示"泰安"，但下拉列表仍然显示北京的城市。让我等待一下，看搜索结果是否会更新：
-
-Thought
-
-我看到输入框中仍然显示"泰安"，但下拉列表仍然显示北京的城市。让我尝试按下键盘的下箭头键来浏览下拉列表中的选项，看是否能找到泰安：
-
-Thought
-
-很好！我看到出发地输入框中已经显示"泰安"了。现在我需要从下拉列表中选择泰安。让我尝试按下键盘的下箭头键来浏览选项，或者直接按回车键来确认选择。让我先尝试按回车键：
-
-Typed on page
-
-按回车键来确认选择泰安作为出发地
-
-Browser screenshot
-Thought
-
-我看到输入框中仍然显示"泰安"，但下拉列表仍然显示北京的城市。看起来下拉列表没有更新搜索结果。让我尝试滚动下拉列表，看是否能找到泰安。让我先点击下拉列表中的一个选项，看看是否能看到更多的城市。让我尝试点击下拉列表中的分页按钮来查看更多城市：
-
-Clicked
-
-点击下拉列表中的下一页按钮来查看更多城市
-
-Browser screenshot
-Thought
-
-很好！我看到下拉列表已经更新，现在显示的是不同的城市（北京朝阳、北京通州、礼贤、重庆北、重庆东、重庆）。我看到输入框中现在显示"泰安"（用蓝色高亮显示）。现在我需要继续浏览下拉列表来找到泰安。让我继续点击下一页按钮：
-
-Clicked
-
-继续点击下一页按钮来查找泰安城市
-
-Browser screenshot
-Thought
-
-我看到下拉列表现在显示的是重庆南、重庆西、绳墩、上海、上海南、上海虹桥等城市。我还没有找到泰安。让我继续点击下一页按钮：
-
-Clicked
-
-继续点击下一页按钮来查找泰安城市
-
-Browser screenshot
-Thought
-
-我看到下拉列表现在显示的是上海西、天津北、天津、天津南、天津西、百浪等城市。我还没有找到泰安。让我继续点击下一页按钮：
-
-Clicked
-
-继续点击下一页按钮来查找泰安城市</div>
+                    <div class="log-entry log-action">
+                        <div class="log-label label-action">Clicked</div>
+                        <div class="log-content">继续点击下一页按钮来查找泰安城市</div>
+                    </div>
+                </div>
             </div>
         </div>
 
