@@ -247,15 +247,6 @@ def spider_run(start_time_str, end_time_str, place_str, username='37098219930506
         
         for person_idx, person_row in enumerate(persons):
             log('----------- 处理行人 {} ------------'.format(person_idx + 1))
-            # log(person_row.text, "DEBUG")
-
-            archive_button = person_row.eles('css:button[title="查看档案"]')
-            if len(archive_button) == 0:
-                log('该记录不存在档案，跳过')
-                continue
-            else:
-                log('存在档案，开始进一步检查')
-
             # 判断是否被抓拍
             person_row.click()
             time.sleep(3)
@@ -284,66 +275,84 @@ def spider_run(start_time_str, end_time_str, place_str, username='37098219930506
             if time_element:
                 time_str = time_element.text
                 time_str = re.sub(r'\D+', '', time_str)
-
-            # 进入档案页
-            archive_button[0].click()
-            time.sleep(1)
-            person_name_elements = page.eles('.ellipsis')
-            time.sleep(4)
-            if len(person_name_elements) == 0:
-                log("未能获取人员姓名，跳过", "WARNING")
-                continue
-
-            person_name = person_name_elements[0].text
-            log(f"获取到姓名: {person_name}")
+            
+            """START: 获取姓名与身份证号"""
+            person_name = "未知身份"
             id_number = "未知身份证号"
-            if person_name != '未知身份':
-                try:
-                    id_number = page.ele('text=身份证号').parent().text[4:]
-                    log(f"获取到身份证号: {id_number}", "DEBUG")
-                except Exception as e:
-                    log(f"获取身份证号失败: {e}", "WARNING")
 
-                # 重命名图片
-                log('正在生成规范命名的图片文件...')
-                image_name = '{}_{}_{}_{}.png'.format(place_name, time_str, id_number, person_name)
-                if os.path.exists(image_name):
-                    os.remove(image_name)
-                os.rename(image_path, image_name)
-                log(f'图片已保存为: {image_name}')
-                
-                # 读取图片内容并yield结果
-                with open(image_name, 'rb') as f:
-                    image_content = f.read()
+            # 寻找查看档案按钮
+            archive_button = person_row.eles('css:button[title="查看档案"]')
 
-                log(f'正在向主程序返回抓拍结果: {person_name}')
-                
-                yield {
-                    "status": "success",
-                    "image_name": image_name,
-                    "image_content": image_content,
-                    "location": place_name,
-                    "time": time_str,
-                    "name": person_name,
-                    "id_number": id_number
-                }
+            # 如果找不到查看档案按钮，则不进一步查询
+            if len(archive_button) == 0:
+                log('该记录不存在档案')
+            # 如果找到查看档案按钮，则进入档案页进一步查询
+            else:
+                # 进入档案页
+                log('存在档案，开始进一步检查')
+                archive_button[0].click()
+                time.sleep(1)
+                person_name_elements = page.eles('.ellipsis')
+                time.sleep(4)
+                # 如果获取不到人员姓名，则不进一步判断人员姓名的内容
+                if len(person_name_elements) == 0:
+                    log("未能获取人员姓名", "WARNING")
+                # 如果获取到人员姓名，则进一步判断人员姓名的内容
+                else:
+                    person_name = person_name_elements[0].text
+                    log(f"获取到姓名: {person_name}")
+                    # 如果人员姓名不为未知身份，则进一步获取身份证号
+                    if person_name != '未知身份':
+                        try:
+                            id_number = page.ele('text=身份证号').parent().text[4:]
+                            log(f"获取到身份证号: {id_number}", "DEBUG")
+                        except Exception as e:
+                            log(f"获取身份证号失败: {e}", "WARNING")
+                    # 如果人员姓名为未知身份，则不获取身份证号
+                    else:
+                        pass
 
-            # 回到特征搜索标签页
-            element = page.ele('css=span.sort-handle[title="特征搜索"]')
-            element.click()
+                # 回到特征搜索标签页
+                element = page.ele('css=span.sort-handle[title="特征搜索"]')
+                element.click()
 
-            # 关闭人员标签页
-            log('正在清理标签页...')
-            while True:
-                try:
-                    element = page.ele('.lidaicon-h-more-vertical btn-icon-more')
-                    element.click()
-                    time.sleep(2)
-                    element = page.ele('关闭其他应用')
-                    element.click()
-                    break
-                except Exception as e:
-                    log(f'关闭档案窗口失败，重试: {e}', "WARNING")
+                # 关闭人员标签页
+                log('正在清理标签页...')
+                while True:
+                    try:
+                        element = page.ele('.lidaicon-h-more-vertical btn-icon-more')
+                        element.click()
+                        time.sleep(2)
+                        element = page.ele('关闭其他应用')
+                        element.click()
+                        break
+                    except Exception as e:
+                        log(f'关闭档案窗口失败，重试: {e}', "WARNING")
+            """END：获取姓名与身份证号""" 
+
+            # 重命名图片
+            log('正在生成规范命名的图片文件...')
+            image_name = '{}_{}_{}_{}.png'.format(place_name, time_str, id_number, person_name)
+            if os.path.exists(image_name):
+                os.remove(image_name)
+            os.rename(image_path, image_name)
+            log(f'图片已保存为: {image_name}')
+            
+            # 读取图片内容并yield结果
+            with open(image_name, 'rb') as f:
+                image_content = f.read()
+
+            log(f'正在向主程序返回抓拍结果: {person_name}')
+            
+            yield {
+                "status": "success",
+                "image_name": image_name,
+                "image_content": image_content,
+                "location": place_name,
+                "time": time_str,
+                "name": person_name,
+                "id_number": id_number
+            }
 
         # 翻页处理
         next_page_button = page.ele('.btn-next')
@@ -358,7 +367,8 @@ def spider_run(start_time_str, end_time_str, place_str, username='37098219930506
 
 def main():
     # 示例：搜索 2026年1月3日 00:00:00 到 23:59:59
-    for result in spider_run('20260103000000', '20260103235959', '凤瑞路七峰大道东南角向北'):
+    # for result in spider_run('20260103000000', '20260103235959', '凤瑞路七峰大道东南角向北'):
+    for result in spider_run('20260204080000', '20260205080000', '工业路与新华路'):
         print(f"Found violation: {result['name']} at {result['location']}")
 
 
@@ -367,4 +377,5 @@ if __name__ == '__main__':
     browser = Chromium(9222)
     tab = browser.latest_tab
     print(tab.title)
+    main()
 
