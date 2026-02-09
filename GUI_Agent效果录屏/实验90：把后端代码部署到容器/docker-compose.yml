@@ -11,7 +11,8 @@ services:
     ports:
       - "3000:3000"
       - "3001:3001"
-      - "9222:9227"
+      - "8000:8000"
+      - "9222:9222"
     volumes:
       - /path/to/data:/config
       - ./nginx.conf:/etc/nginx/nginx2.conf
@@ -26,6 +27,8 @@ services:
         export DISPLAY=:1
         chromium --remote-debugging-port=9222 --no-sandbox --no-first-run --disable-gpu --user-data-dir=/tmp/chrome &
         nginx -c /etc/nginx/nginx2.conf &
+        # 启动后端代码
+        python3 /app/main.py &
         echo 'Custom services started'
         # 保持容器运行
         wait
