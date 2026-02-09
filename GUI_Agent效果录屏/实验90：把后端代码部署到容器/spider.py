@@ -123,6 +123,7 @@ def spider_run(start_time_str, end_time_str, place_str, username='37098219930506
     co.auto_port()
     co.headless()
     co.set_argument('--window-size', '1920,1080')
+    co.set_argument('--no-sandbox') # 必须。必须。必须。
     co.set_argument('--ignore-certificate-errors')
     co.set_argument('--ignore-ssl-errors')
 
