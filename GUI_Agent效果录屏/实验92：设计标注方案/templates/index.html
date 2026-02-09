@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DrissionPage 标注平台</title>
+    <style>
+        body { font-family: sans-serif; margin: 20px; background-color: #f4f4f9; }
+        .container { max-width: 800px; margin: auto; background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+        h1 { color: #333; text-align: center; }
+        .section { margin-bottom: 20px; }
+        label { display: block; margin-bottom: 5px; font-weight: bold; }
+        textarea, input[type="text"] { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; }
+        button { padding: 10px 20px; background-color: #007bff; color: white; border: none; border-radius: 4px; cursor: pointer; margin-right: 10px; }
+        button:hover { background-color: #0056b3; }
+        button.secondary { background-color: #6c757d; }
+        button.secondary:hover { background-color: #5a6268; }
+        .main-layout { display: flex; gap: 20px; }
+        .browser-view { flex: 1; border: 1px solid #ddd; padding: 10px; border-radius: 4px; }
+        .control-panel { flex: 1; }
+        .screenshot-container { width: 100%; border: 1px solid #ccc; margin-top: 10px; position: relative; }
+        #screenshot-img { width: 100%; display: block; }
+        .refresh-tag { position: absolute; top: 5px; right: 5px; background: rgba(0,0,0,0.5); color: white; padding: 2px 5px; font-size: 12px; border-radius: 3px; }
+        .output-box { background: #e9ecef; padding: 15px; border-radius: 4px; border: 1px solid #dee2e6; min-height: 50px; font-family: monospace; white-space: pre-wrap; margin-top: 10px; }
+        .hidden { display: none; }
+    </style>
+</head>
+<body>
+    <div class="container" style="max-width: 1200px;">
+        <h1>DrissionPage 指令标注工作台</h1>
+        
+        <div class="main-layout">
+            <!-- 左侧：浏览器实时截图 -->
+            <div class="browser-view">
+                <label>目标网页实时预览 (每2秒刷新)：</label>
+                <div class="screenshot-container">
+                    <img id="screenshot-img" src="/screenshot" alt="浏览器截图">
+                    <div class="refresh-tag">Live</div>
+                </div>
+            </div>
+
+            <!-- 右侧：控制面板 -->
+            <div class="control-panel">
+                <div class="section">
+                    <label for="instruction">自然语言指令：</label>
+                    <input type="text" id="instruction" placeholder="例如：点击测试按钮">
+                    <button onclick="generateCode()" style="margin-top: 10px;">调用 LLM 生成代码</button>
+                </div>
+
+                <div id="result-section" class="section hidden">
+                    <label>模型输出代码：</label>
+                    <div id="llm-output" class="output-box"></div>
+                    <button onclick="executeCode('llm-output')" class="secondary" style="margin-top: 5px;">执行模型代码</button>
+                    
+                    <div class="section" style="margin-top: 20px;">
+                        <label for="correction">人工校正代码：</label>
+                        <textarea id="correction" rows="4"></textarea>
+                        <button onclick="executeCode('correction')" class="secondary" style="margin-top: 5px;">执行校正代码</button>
+                    </div>
+
+                    <div class="section" style="margin-top: 20px;">
+                        <button onclick="saveAnnotation()">保存最终标注结果</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="status-message" style="margin-top: 20px; text-align: center; color: green; font-weight: bold;"></div>
+    </div>
+
+    <script>
+        let currentDOM = '';
+
+        // 定期刷新截图
+        setInterval(() => {
+            const img = document.getElementById('screenshot-img');
+            img.src = '/screenshot?t=' + new Date().getTime();
+        }, 2000);
+
+        async function fetchDOM() {
+            const response = await fetch('/dom');
+            const data = await response.json();
+            currentDOM = data.html;
+            return currentDOM;
+        }
+
+        async function generateCode() {
+            const instruction = document.getElementById('instruction').value;
+            if (!instruction) {
+                alert('请先输入指令');
+                return;
+            }
+
+            // 先获取当前 DOM
+            const dom = await fetchDOM();
+
+            const response = await fetch('/generate', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ instruction, dom_html: dom })
+            });
+
+            const data = await response.json();
+            document.getElementById('llm-output').innerText = data.llm_output;
+            document.getElementById('correction').value = data.llm_output;
+            document.getElementById('result-section').classList.remove('hidden');
+            document.getElementById('status-message').innerText = '';
+        }
+
+        async function executeCode(sourceId) {
+            let code = '';
+            if (sourceId === 'llm-output') {
+                code = document.getElementById(sourceId).innerText;
+            } else {
+                code = document.getElementById(sourceId).value;
+            }
+
+            const response = await fetch('/execute', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ code })
+            });
+
+            const result = await response.json();
+            if (result.status === 'success') {
+                document.getElementById('status-message').innerText = '代码执行成功！';
+                document.getElementById('status-message').style.color = 'green';
+            } else {
+                document.getElementById('status-message').innerText = '执行失败: ' + result.message;
+                document.getElementById('status-message').style.color = 'red';
+            }
+        }
+
+        async function saveAnnotation() {
+            const instruction = document.getElementById('instruction').value;
+            const correctCode = document.getElementById('correction').value;
+            
+            const response = await fetch('/save', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    instruction: instruction,
+                    dom_html: currentDOM,
+                    correct_code: correctCode,
+                    timestamp: new Date().toISOString()
+                })
+            });
+
+            const result = await response.json();
+            if (result.status === 'success') {
+                document.getElementById('status-message').innerText = '标注数据已成功保存！';
+                document.getElementById('status-message').style.color = 'green';
+                setTimeout(() => {
+                    document.getElementById('instruction').value = '';
+                    document.getElementById('result-section').classList.add('hidden');
+                }, 1500);
+            }
+        }
+    </script>
+</body>
+</html>
