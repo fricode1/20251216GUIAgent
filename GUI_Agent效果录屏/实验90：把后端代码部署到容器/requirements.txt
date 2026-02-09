@@ -1,0 +1,11 @@
+DrissionPage
+fastapi
+pillow
+onnxruntime
+rapidocr
+minio
+uvicorn
+httpx
+aiofiles
+aiosqlite
+openai
