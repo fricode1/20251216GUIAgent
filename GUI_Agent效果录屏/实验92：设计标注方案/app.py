@@ -5,6 +5,7 @@ import base64
 from DrissionPage import ChromiumPage
 import io
 from openai import OpenAI
+from uitls import simplify_dom
 
 app = Flask(__name__)
 
@@ -69,6 +70,7 @@ def generate():
     data = request.json
     instruction = data.get('instruction')
     dom_html = data.get('dom_html')
+    dom_html = simplify_dom(dom_html)
     print(dom_html)
     
     prompt = f"""你是一个网页操作助手。请根据提供的网页 DOM HTML 和自然语言指令，生成执行该操作的 DrissionPage 代码。
