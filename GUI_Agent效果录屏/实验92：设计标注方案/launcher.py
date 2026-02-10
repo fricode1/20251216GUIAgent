@@ -8,7 +8,7 @@ def launch_target_page():
     
     # 启动浏览器并访问页面
     page = ChromiumPage()
-    page.get(url)
+    page.get('http://www.baidu.com')
     print(f"已启动浏览器并访问: {url}")
     
     # 保持运行以便观察，实际使用中可以根据需要调整

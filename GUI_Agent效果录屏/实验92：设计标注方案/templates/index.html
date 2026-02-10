@@ -42,6 +42,14 @@
             <!-- 右侧：控制面板 -->
             <div class="control-panel">
                 <div class="section">
+                    <label for="url-input">目标网站 URL：</label>
+                    <div style="display: flex; gap: 10px;">
+                        <input type="text" id="url-input" placeholder="请输入 URL (如 https://www.baidu.com)">
+                        <button onclick="navigateToUrl()" style="white-space: nowrap;">跳转</button>
+                    </div>
+                </div>
+
+                <div class="section">
                     <label for="instruction">自然语言指令：</label>
                     <input type="text" id="instruction" placeholder="例如：点击测试按钮">
                     <button onclick="generateCode()" style="margin-top: 10px;">调用 LLM 生成代码</button>
@@ -82,6 +90,28 @@
             const data = await response.json();
             currentDOM = data.html;
             return currentDOM;
+        }
+
+        async function navigateToUrl() {
+            const url = document.getElementById('url-input').value;
+            if (!url) {
+                alert('请输入有效 URL');
+                return;
+            }
+
+            const response = await fetch('/goto', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ url })
+            });
+
+            const result = await response.json();
+            if (result.status === 'success') {
+                document.getElementById('status-message').innerText = '页面跳转中...';
+                document.getElementById('status-message').style.color = 'blue';
+            } else {
+                alert('跳转失败: ' + result.message);
+            }
         }
 
         async function generateCode() {

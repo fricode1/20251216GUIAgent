@@ -47,6 +47,21 @@ def get_dom():
     page = get_page()
     return jsonify({'html': page.html})
 
+@app.route('/goto', methods=['POST'])
+def goto():
+    """跳转到指定 URL"""
+    data = request.json
+    url = data.get('url')
+    if not url:
+        return jsonify({'status': 'error', 'message': '未提供 URL'})
+    
+    page = get_page()
+    try:
+        page.get(url)
+        return jsonify({'status': 'success'})
+    except Exception as e:
+        return jsonify({'status': 'error', 'message': str(e)})
+
 @app.route('/generate', methods=['POST'])
 def generate():
     """接收指令和 DOM，调用 LLM 生成代码"""
@@ -54,6 +69,7 @@ def generate():
     data = request.json
     instruction = data.get('instruction')
     dom_html = data.get('dom_html')
+    print(dom_html)
     
     prompt = f"""你是一个网页操作助手。请根据提供的网页 DOM HTML 和自然语言指令，生成执行该操作的 DrissionPage 代码。
 要求：
