@@ -316,7 +316,7 @@ async def startup_event():
     # Start background task checker
     asyncio.create_task(check_and_start_tasks())
 
-@app.post("/violation", response_model=StandardResponse)
+@app.post("/violation/create", response_model=StandardResponse)
 async def create_application(request: CreateApplicationRequest):
     """创建新的违章监控应用"""
     try:
@@ -360,7 +360,7 @@ async def create_application(request: CreateApplicationRequest):
         traceback.print_exc()
         raise HTTPException(status_code=500, detail=str(e))
 
-@app.get("/violation", response_model=ApplicationListResponse)
+@app.get("/violation/list", response_model=ApplicationListResponse)
 async def get_applications(
     pageSize: int = Query(10, description="每页条数"),
     pageNo: int = Query(1, description="页码")
@@ -413,7 +413,7 @@ async def get_applications(
         print(f"Error getting applications: {e}")
         raise HTTPException(status_code=500, detail=str(e))
 
-@app.delete("/violation/{id}", response_model=StandardResponse)
+@app.delete("/violation/delete/{id}", response_model=StandardResponse)
 async def delete_application(id: int):
     """删除应用"""
     try:

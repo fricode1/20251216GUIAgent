@@ -1,6 +1,8 @@
+import os
+os.environ['TZ'] = 'Asia/Shanghai'
+
 from DrissionPage import ChromiumPage, ChromiumOptions
 import time
-import os
 import re
 from rapidocr import RapidOCR
 from PIL import Image
@@ -109,6 +111,8 @@ def spider_run(start_time_str, end_time_str, place_str, username='37098219930506
             log_callback(msg, level)
         print(f"[{now}] [{level}] {msg}")
 
+    log('接收到的时间字符串为：开始={}, 结束={}'.format(start_time_str, end_time_str))
+
     engine = RapidOCR()
     
     # ==================== 1. 登录流程 ====================
@@ -123,11 +127,18 @@ def spider_run(start_time_str, end_time_str, place_str, username='37098219930506
     co.auto_port()
     co.headless()
     co.set_argument('--window-size', '1920,1080')
-    co.set_argument('--no-sandbox') # 必须。必须。必须。
+    co.set_argument('--no-sandbox')
     co.set_argument('--ignore-certificate-errors')
     co.set_argument('--ignore-ssl-errors')
 
     login_page = ChromiumPage(addr_or_opts=co)
+
+    # 设置时区
+    # login_page.run_cdp('Emulation.setTimezoneOverride', timezoneId='Asia/Shanghai') # 这么设置好像不管用
+    time_zone = login_page.run_js('return Intl.DateTimeFormat().resolvedOptions().timeZone;')
+    log('时区为：{}'.format(time_zone))
+    print('时区为：{}'.format(time_zone))
+
     log('开始进入登录页面')
     login_page.get('https://62.168.12.20:8443/')
     time.sleep(1)
@@ -275,6 +286,10 @@ def spider_run(start_time_str, end_time_str, place_str, username='37098219930506
             time_element = person_row.ele('css=td.el-table_1_column_2 .cell .plate span')
             if time_element:
                 time_str = time_element.text
+                log('抓拍时间为: {}'.format(time_str))
+                if time_str == '2026/02/09 23:36:33':
+                    page.get_screenshot()
+                    print('已经获取屏幕截图')
                 time_str = re.sub(r'\D+', '', time_str)
             
             """START: 获取姓名与身份证号"""
