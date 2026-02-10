@@ -78,6 +78,8 @@ def generate():
 1. 只输出 Python 代码，不要有任何解释。
 2. 假设已经存在一个名为 `page` 的 DrissionPage 对象。
 3. 代码应该简洁、准确。
+4. 如果要填写文本框，需要先清除原有内容，再输入新内容。
+5. 如果要填写文本框，要先将待填写的内容放入剪贴板，然后使用 `tab.actions.type((Keys.CTRL_A, Keys.CTRL_V))` 方法。
 
 网页 DOM HTML:
 {dom_html}
