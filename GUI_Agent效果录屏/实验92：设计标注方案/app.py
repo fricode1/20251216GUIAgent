@@ -80,6 +80,8 @@ def generate():
 3. 代码应该简洁、准确。
 4. 如果要填写文本框，需要先清除原有内容，再输入新内容。
 5. 如果要填写文本框，要先将待填写的内容放入剪贴板，然后使用 `tab.actions.type((Keys.CTRL_A, Keys.CTRL_V))` 方法。
+6. 如果要点击元素，使用 `tab.ele(element_selector).click()` 方法。
+7. 对于唯一性元素，尽量通过文本内容匹配。如果文本重复，请绑定最近的唯一父容器。
 
 网页 DOM HTML:
 {dom_html}
