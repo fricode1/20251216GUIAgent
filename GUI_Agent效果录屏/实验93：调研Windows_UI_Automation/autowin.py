@@ -1,142 +1,98 @@
 import uiautomation as auto
 
-def safe_get_attr(control, attr_name, default="N/A"):
-    """安全获取控件属性，不存在则返回默认值"""
+def get_text_from_patterns(control):
+    """
+    尝试通过多种模式提取控件内的文本内容
+    """
+    # 1. 尝试 ValuePattern (适用于输入框、大部分文档区域)
     try:
-        return getattr(control, attr_name, default)
-    except Exception as e:
-        return f"获取失败: {e}"
+        val = control.GetValuePattern().Value
+        if val and len(val.strip()) > 0:
+            return val.strip()
+    except:
+        pass
 
-def print_desktop_info():
-    """
-    打印桌面（根控件）及其子窗口信息
-    """
-    # 获取桌面根控件
-    desktop = auto.GetRootControl()
-    
-    print("=" * 60)
-    print("桌面信息")
-    print("=" * 60)
-    
-    # 打印桌面控件的基本信息
-    print(f"控件类型: {desktop.ControlTypeName}")
-    print(f"类名: {desktop.ClassName}")
-    print(f"名称: {desktop.Name}")
-    print(f"句柄: {desktop.NativeWindowHandle}")
-    print(f"矩形区域: {desktop.BoundingRectangle}")
-    print()
-    
-    # 获取桌面的所有子控件（顶层窗口）
-    print("-" * 60)
-    print("顶层窗口列表:")
-    print("-" * 60)
-    
-    children = desktop.GetChildren()
-    
-    for index, child in enumerate(children, 1):
-        print(f"\n【{index}】")
-        print(f"  控件类型: {child.ControlTypeName}")
-        print(f"  类名: {child.ClassName}")
-        print(f"  名称: {child.Name}")
-        print(f"  自动化ID: {child.AutomationId}")
-        print(f"  句柄: {child.NativeWindowHandle}")
-        print(f"  矩形区域: {child.BoundingRectangle}")
-        
-        # 安全获取可能不存在的属性
-        print(f"  是否启用: {safe_get_attr(child, 'IsEnabled')}")
-        print(f"  是否可见: {safe_get_attr(child, 'IsVisible')}")
-        print(f"  是否键盘焦点: {safe_get_attr(child, 'HasKeyboardFocus')}")
-        
-        # 尝试获取子控件数量
-        try:
-            sub_children = child.GetChildren()
-            print(f"  子控件数量: {len(sub_children)}")
-        except Exception as e:
-            print(f"  子控件数量: 无法获取 ({e})")
+    # 2. 尝试 TextPattern (适用于 Word 文档、富文本框)
+    try:
+        text_pattern = control.GetTextPattern()
+        if text_pattern:
+            text = text_pattern.DocumentRange.GetText()
+            if text and len(text.strip()) > 0:
+                # 截断过长的文本，防止刷屏
+                return text.strip().replace('\r', ' ').replace('\n', ' ')[:50] 
+    except:
+        pass
 
-def print_desktop_tree(max_depth=8):
+    return None
+
+def print_integrated_tree(max_depth=10):
     """
-    以树形结构打印桌面控件层次结构
+    整合版：打印树形结构，并自动提取控件内的隐藏文本
     """
-    print("\n" + "=" * 60)
-    print(f"桌面控件树 (最大深度: {max_depth})")
-    print("=" * 60)
+    print("\n" + "=" * 80)
+    print(f"{'UI 控件与文本内容整合树':^70}")
+    print("=" * 80)
     
     desktop = auto.GetRootControl()
     
-    def print_control_tree(control, depth=0):
-        # 缩进
+    def walk_tree(control, depth=0):
+        if depth > max_depth:
+            return
+
         indent = "  " * depth
         
-        # 获取控件信息
-        name = control.Name or "无名称"
-        class_name = control.ClassName or "无类名"
+        # 1. 获取基础属性
+        name = control.Name or ""
         control_type = control.ControlTypeName
+        class_name = control.ClassName or "N/A"
         
-        # 打印当前控件
-        if name != '无名称':
-            print(f"{indent}└─ [{control_type}] {name} (Class: {class_name})")
+        # 2. 获取隐藏文本内容 (针对 Word, Edit 等)
+        extra_text = get_text_from_patterns(control)
         
-        # 递归打印子控件
-        if depth < max_depth:
-            try:
-                children = control.GetChildren()
-                for child in children:
-                    print_control_tree(child, depth + 1)
-            except Exception as e:
-                print(f"{indent}   获取子控件失败: {e}")
-    
-    print_control_tree(desktop)
-
-def print_mouse_point_control():
-    """
-    打印当前鼠标位置下的控件信息
-    """
-    print("\n" + "=" * 60)
-    print("鼠标位置控件信息")
-    print("=" * 60)
-    
-    # 获取鼠标当前位置的控件
-    control = auto.ControlFromCursor()
-    
-    if control:
-        print(f"控件类型: {control.ControlTypeName}")
-        print(f"  类名: {control.ClassName}")
-        print(f"  名称: {control.Name}")
-        print(f"  自动化ID: {control.AutomationId}")
-        print(f"  句柄: {control.NativeWindowHandle}")
-        print(f"  矩形区域: {control.BoundingRectangle}")
-        print(f"  是否启用: {safe_get_attr(control, 'IsEnabled')}")
-        print(f"  是否可见: {safe_get_attr(control, 'IsVisible')}")
+        # 3. 格式化输出
+        # 如果控件名和获取到的文本重复，就不重复打印
+        content_str = f"[{control_type}]"
+        if name:
+            content_str += f" Name: {name}"
         
-        # 获取顶层窗口
+        if extra_text and extra_text != name:
+            # 标记提取出的文本，用绿色或显眼方式显示逻辑（这里用符号标注）
+            content_str += f" | >>> Text: {extra_text} <<<"
+        
+        print(f"{indent}└─ {content_str} (Class: {class_name})")
+        
+        # 4. 递归子节点
         try:
-            top_window = control.GetTopLevelControl()
-            if top_window:
-                print(f"\n所属顶层窗口:")
-                print(f"  名称: {top_window.Name}")
-                print(f"  类名: {top_window.ClassName}")
-        except Exception as e:
-            print(f"\n获取顶层窗口失败: {e}")
-    else:
-        print("未找到鼠标位置的控件")
+            # 特别注意：某些复杂控件如果尝试 GetChildren 可能会卡顿
+            # 如果是文档区域且已经拿到了大量文本，可以根据需要决定是否深入
+            for child in control.GetChildren():
+                walk_tree(child, depth + 1)
+        except Exception:
+            pass
 
-def main():
-    """
-    主函数：执行所有打印功能
-    """
-    # 1. 打印桌面基本信息和顶层窗口
-    print_desktop_info()
-    
-    # 2. 打印控件树结构
-    print_desktop_tree()
-    
-    # 3. 打印鼠标位置控件信息
-    print_mouse_point_control()
-    
-    print("\n" + "=" * 60)
-    print("桌面信息打印完成")
-    print("=" * 60)
+    walk_tree(desktop)
+
+def print_quick_summary():
+    """打印当前窗口的快速摘要，重点抓取有内容的文档"""
+    print("\n[当前焦点窗口及其文本内容预览]")
+    curr_win = auto.GetForegroundControl().GetTopLevelControl()
+    if curr_win:
+        print(f"窗口标题: {curr_win.Name}")
+        # 深度搜索所有的 DocumentControl 和 EditControl
+        for doc in curr_win.GetChildren():
+            txt = get_text_from_patterns(doc)
+            if txt:
+                print(f"找到内容 ({doc.ControlTypeName}): {txt[:200]}...")
 
 if __name__ == "__main__":
-    main()
+    # 设置全局搜索超时（可选）
+    auto.uiautomation.SetGlobalSearchTimeout(1)
+    
+    print("提示：正在扫描全桌面的控件和文字内容，这可能需要一点时间...")
+    
+    # 执行整合树打印
+    # 建议先运行 Word 并打一些字，然后运行此脚本
+    print_integrated_tree(max_depth=8)
+    
+    print("\n" + "=" * 80)
+    print("扫描结束")
