@@ -75,13 +75,16 @@ def generate():
     
     prompt = f"""你是一个网页操作助手。请根据提供的网页 DOM HTML 和自然语言指令，生成执行该操作的 DrissionPage 代码。
 要求：
-1. 只输出 Python 代码，不要有任何解释。
-2. 假设已经存在一个名为 `page` 的 DrissionPage 对象。
-3. 代码应该简洁、准确。
-4. 如果要填写文本框，需要先清除原有内容，再输入新内容。
-5. 如果要填写文本框，要先将待填写的内容放入剪贴板，然后使用 `tab.actions.type((Keys.CTRL_A, Keys.CTRL_V))` 方法。
-6. 如果要点击元素，使用 `tab.ele(element_selector).click()` 方法。
-7. 对于唯一性元素，尽量通过文本内容匹配。如果文本重复，请绑定最近的唯一父容器。
+- 只输出 Python 代码，不要有任何解释。
+- 假设已经存在一个名为 `page` 的 DrissionPage 对象。
+- 代码应该简洁、准确。
+- 如果要填写文本框，需要先清除原有内容，再输入新内容。
+- 如果要填写文本框，要先将待填写的内容放入剪贴板，然后使用 `tab.actions.type((Keys.CTRL_A, Keys.CTRL_V))` 方法。
+- 如果要点击元素，使用 `tab.ele(element_selector).click()` 方法。
+- 严禁使用索引 ID：禁止使用类似 citem_0, list-item-1 这种包含数字索引的 ID，因为列表顺序是随机的。
+- 变量即核心：操作的目标（如“泰安”）是一个变量。选择器必须包含该文本内容。
+- 优先采用 page.ele('父容器').ele('子元素') 的链式写法
+- 定位文本：统一使用 ele('text=内容') 进行精确匹配，或 ele('text:内容') 进行模糊匹配。
 
 网页 DOM HTML:
 {dom_html}
