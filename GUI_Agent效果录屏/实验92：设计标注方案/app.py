@@ -80,11 +80,9 @@ def generate():
 - 代码应该简洁、准确。
 - 如果要填写文本框，需要先清除原有内容，再输入新内容。
 - 如果要填写文本框，要先将待填写的内容放入剪贴板，然后使用 `tab.actions.type((Keys.CTRL_A, Keys.CTRL_V))` 方法。
-- 如果要点击元素，使用 `tab.ele(element_selector).click()` 方法。
 - 严禁使用索引 ID：禁止使用类似 citem_0, list-item-1 这种包含数字索引的 ID，因为列表顺序是随机的。
 - 变量即核心：操作的目标（如“泰安”）是一个变量。选择器必须包含该文本内容。
-- 优先采用 page.ele('父容器').ele('子元素') 的链式写法
-- 定位文本：统一使用 ele('text=内容') 进行精确匹配，或 ele('text:内容') 进行模糊匹配。
+- 元素点击策略：tab.actions.click(ele_selector)
 
 网页 DOM HTML:
 {dom_html}
