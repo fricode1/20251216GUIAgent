@@ -79,10 +79,11 @@ def generate():
 - 假设已经存在一个名为 `page` 的 DrissionPage 对象。
 - 代码应该简洁、准确。
 - 如果要填写文本框，需要先清除原有内容，再输入新内容。
-- 如果要填写文本框，要先将待填写的内容放入剪贴板，然后使用 `tab.actions.type((Keys.CTRL_A, Keys.CTRL_V))` 方法。
+- 如果要填写文本框，要先将待填写的内容放入剪贴板，然后使用 `page.actions.type((Keys.CTRL_A, Keys.CTRL_V))` 方法。
 - 严禁使用索引 ID：禁止使用类似 citem_0, list-item-1 这种包含数字索引的 ID，因为列表顺序是随机的。
 - 变量即核心：操作的目标（如“泰安”）是一个变量。选择器必须包含该文本内容。
-- 元素点击策略：tab.actions.click(ele_selector)
+- 元素点击策略：page.actions.click(ele_selector)
+- ele_selector 写法：要以 xpath: 开头，如 xpath://ele_1//ele_2
 
 网页 DOM HTML:
 {dom_html}
