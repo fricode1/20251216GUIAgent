@@ -90,7 +90,7 @@ def spider_run_dummy(start_time_str, end_time_str, place_str, username='37098219
         time.sleep(3)
 
 
-def spider_run(start_time_str, end_time_str, place_str, username='370982199305061831', password='Abc@123456', log_callback=None):
+def spider_run(start_time_str, end_time_str, place_str, username='370982199305061831', password='Abc@123456', log_callback=None, headless=True):
     """
     完整的爬虫流程：登录 -> 搜索 -> 抓取 -> 返回结果
     
@@ -125,7 +125,11 @@ def spider_run(start_time_str, end_time_str, place_str, username='37098219930506
     co = ChromiumOptions()
     co.ignore_certificate_errors()
     co.auto_port()
-    co.headless()
+
+    # 有时调试时不希望是headless模式
+    if headless:
+        co.headless()
+    
     co.set_argument('--window-size', '1920,1080')
     co.set_argument('--no-sandbox')
     co.set_argument('--ignore-certificate-errors')
@@ -133,8 +137,6 @@ def spider_run(start_time_str, end_time_str, place_str, username='37098219930506
 
     login_page = ChromiumPage(addr_or_opts=co)
 
-    # 设置时区
-    # login_page.run_cdp('Emulation.setTimezoneOverride', timezoneId='Asia/Shanghai') # 这么设置好像不管用
     time_zone = login_page.run_js('return Intl.DateTimeFormat().resolvedOptions().timeZone;')
     log('时区为：{}'.format(time_zone))
     print('时区为：{}'.format(time_zone))
@@ -224,12 +226,14 @@ def spider_run(start_time_str, end_time_str, place_str, username='37098219930506
     element.click()
     element.run_js('this.select();')
     element.input(start_time_str)
+    log('开始时间设置为：{}'.format(start_time_str))
 
     # 设置结束时间
     element = page.ele('css:input[placeholder="结束时间"]')
     element.click()
     element.run_js('this.select();')
     element.input(end_time_str)
+    log('结束时间设置为：{}'.format(end_time_str))
 
     # 点击查询按钮
     element = page.ele('.el-button primary_search-but el-button--primary')
@@ -252,6 +256,7 @@ def spider_run(start_time_str, end_time_str, place_str, username='37098219930506
     time.sleep(1)
 
     # ==================== 3. 遍历所有页面抓取数据 ====================
+    old_src = 'palceholder'  # 常出现的问题是，如果前面对行的点击没有生效，则抓拍照是旧的。因此需要进行循环判断抓拍照是否被更新。为此就要初始化一个src
     while True:
         # 处理当前页面
         persons = page.eles('.el-table__row ') + page.eles('.el-table__row current-row') + page.eles('.el-table__row')
@@ -261,9 +266,15 @@ def spider_run(start_time_str, end_time_str, place_str, username='37098219930506
             log('----------- 处理行人 {} ------------'.format(person_idx + 1))
             # 判断是否被抓拍
             person_row.click()
-            time.sleep(3)
-            img_element = page.ele('xpath=//img[@class="iu-img-view__img"]')
-            src = img_element.attr('src')
+
+            # 获取抓拍照。此处常出现的问题是，如果前面对行的点击没有生效，则此处的抓拍照是旧的。因此需要进行循环判断抓拍照是否被更新。
+            while True:
+                time.sleep(3)
+                img_element = page.ele('xpath=//img[@class="iu-img-view__img"]')
+                src = img_element.attr('src')
+                if src != old_src:
+                    old_src = src
+                    break
             log(f"图片源地址: {src}", "DEBUG")
             image_path = '{}.png'.format(src.split('/')[-1])
             if os.path.exists(image_path):
@@ -286,10 +297,6 @@ def spider_run(start_time_str, end_time_str, place_str, username='37098219930506
             time_element = person_row.ele('css=td.el-table_1_column_2 .cell .plate span')
             if time_element:
                 time_str = time_element.text
-                log('抓拍时间为: {}'.format(time_str))
-                if time_str == '2026/02/09 23:36:33':
-                    page.get_screenshot()
-                    print('已经获取屏幕截图')
                 time_str = re.sub(r'\D+', '', time_str)
             
             """START: 获取姓名与身份证号"""
@@ -388,7 +395,7 @@ def spider_run(start_time_str, end_time_str, place_str, username='37098219930506
 def main():
     # 示例：搜索 2026年1月3日 00:00:00 到 23:59:59
     # for result in spider_run('20260103000000', '20260103235959', '凤瑞路七峰大道东南角向北'):
-    for result in spider_run('20260204080000', '20260205080000', '工业路与新华路'):
+    for result in spider_run('20260202000000', '20260209235959', '工业路与新华路', headless=False):
         print(f"Found violation: {result['name']} at {result['location']}")
 
 
