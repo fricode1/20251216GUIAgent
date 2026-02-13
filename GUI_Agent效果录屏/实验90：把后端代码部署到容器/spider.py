@@ -264,11 +264,8 @@ def spider_run(start_time_str, end_time_str, place_str, username='37098219930506
         
         for person_idx, person_row in enumerate(persons):
             log('----------- 处理行人 {} ------------'.format(person_idx + 1))
-            # 判断是否被抓拍
-            person_row.click()
-
-            # 获取抓拍照。此处常出现的问题是，如果前面对行的点击没有生效，则此处的抓拍照是旧的。因此需要进行循环判断抓拍照是否被更新。
             while True:
+                page.actions.click(person_row.ele('.el-table_1_column_2  '))  # 这句话很关键。直接点击person_row不行，点击person_row的第一个元素也不行。这是魏鹏帮忙试出来的。
                 time.sleep(3)
                 img_element = page.ele('xpath=//img[@class="iu-img-view__img"]')
                 src = img_element.attr('src')
