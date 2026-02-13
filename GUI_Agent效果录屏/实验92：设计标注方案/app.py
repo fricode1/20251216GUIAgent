@@ -84,6 +84,7 @@ def generate():
 - 变量即核心：操作的目标（如“泰安”）是一个变量。选择器必须包含该文本内容。
 - 元素点击策略：page.actions.click(ele_selector)
 - ele_selector 写法：要以 xpath: 开头，如 "xpath://ele_1//ele_2"
+- 列表选择方法：list_ele.select.by_text('xxx')
 
 网页 DOM HTML:
 {dom_html}
