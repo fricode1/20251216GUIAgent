@@ -83,7 +83,7 @@ def generate():
 - 严禁使用索引 ID：禁止使用类似 citem_0, list-item-1 这种包含数字索引的 ID，因为列表顺序是随机的。
 - 变量即核心：操作的目标（如“泰安”）是一个变量。选择器必须包含该文本内容。
 - 元素点击策略：page.actions.click(ele_selector)
-- ele_selector 写法：要以 xpath: 开头，如 xpath://ele_1//ele_2
+- ele_selector 写法：要以 xpath: 开头，如 "xpath://ele_1//ele_2"
 
 网页 DOM HTML:
 {dom_html}
