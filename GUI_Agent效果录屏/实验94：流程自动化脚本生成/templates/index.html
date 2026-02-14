@@ -271,17 +271,35 @@
         }
 
         .dom-content {
-            background: #f8f9fa;
+            background: #282c34;
             padding: 16px;
             border-radius: 6px;
             font-family: 'Consolas', 'Monaco', monospace;
             font-size: 12px;
             line-height: 1.6;
-            color: #606266;
-            max-height: 400px;
+            color: #abb2bf;
+            max-height: 600px;
             overflow-y: auto;
-            white-space: pre-wrap;
-            word-wrap: break-word;
+            white-space: pre;
+            overflow-x: auto;
+        }
+
+        /* HTML语法高亮 */
+        .dom-content .html-tag {
+            color: #e06c75;
+        }
+
+        .dom-content .html-attr {
+            color: #d19a66;
+        }
+
+        .dom-content .html-string {
+            color: #98c379;
+        }
+
+        .dom-content .html-comment {
+            color: #5c6370;
+            font-style: italic;
         }
 
         .empty-state {
@@ -499,8 +517,8 @@
                     <div class="code-block">${escapeHtml(action.script)}</div>
                 </div>
                 <div class="detail-section">
-                    <h3>DOM快照</h3>
-                    <div class="dom-content">${escapeHtml(action.dom_snapshot)}</div>
+                    <h3>DOM 快照（HTML）</h3>
+                    <div class="dom-content">${highlightHtml(action.dom_snapshot)}</div>
                 </div>
             `;
         }
@@ -560,6 +578,25 @@
             const div = document.createElement('div');
             div.textContent = text;
             return div.innerHTML;
+        }
+
+        // HTML语法高亮
+        function highlightHtml(html) {
+            // 先转义HTML
+            let escaped = escapeHtml(html);
+
+            // 高亮HTML标签
+            escaped = escaped.replace(/&lt;(\/?[\w-]+)/g, '<span class="html-tag">&lt;$1</span>');
+            escaped = escaped.replace(/&gt;/g, '<span class="html-tag">&gt;</span>');
+
+            // 高亮属性名
+            escaped = escaped.replace(/\s([\w-]+)=/g, ' <span class="html-attr">$1</span>=');
+
+            // 高亮属性值
+            escaped = escaped.replace(/=&quot;([^&]*)&quot;/g, '=<span class="html-string">&quot;$1&quot;</span>');
+            escaped = escaped.replace(/=&#39;([^&]*)&#39;/g, '=<span class="html-string">&#39;$1&#39;</span>');
+
+            return escaped;
         }
     </script>
 </body>

@@ -6,6 +6,7 @@ Web界面后端服务
 from flask import Flask, render_template, jsonify, request
 from flask_cors import CORS
 from workflow_automation import WorkflowAutomation
+from utils import truncate_dom
 import threading
 import queue
 import traceback
@@ -97,8 +98,9 @@ def generate_next_action():
         # 生成下一步脚本
         script = automation.generate_next_step()
 
-        # 获取当前DOM快照（精简版）
-        dom_snapshot = get_simplified_dom(automation.get_current_dom())
+        # 获取当前DOM快照（使用truncate_dom处理）
+        raw_dom = automation.get_current_dom()
+        dom_snapshot = truncate_dom(raw_dom)
 
         # 生成动作描述
         description = extract_action_description(script)
@@ -220,40 +222,6 @@ def close_automation():
             "success": False,
             "error": str(e)
         }), 500
-
-
-def get_simplified_dom(html_content: str, max_length: int = 5000) -> str:
-    """
-    获取精简的DOM内容
-
-    Args:
-        html_content: 完整的HTML内容
-        max_length: 最大长度
-
-    Returns:
-        精简后的DOM内容
-    """
-    from bs4 import BeautifulSoup
-
-    try:
-        soup = BeautifulSoup(html_content, 'html.parser')
-
-        # 移除script和style标签
-        for tag in soup(['script', 'style', 'meta', 'link']):
-            tag.decompose()
-
-        # 获取body内容
-        body = soup.find('body')
-        if body:
-            text = body.get_text(separator='\n', strip=True)
-            # 限制长度
-            if len(text) > max_length:
-                text = text[:max_length] + "..."
-            return text
-
-        return "无法获取DOM内容"
-    except Exception as e:
-        return f"DOM解析错误: {str(e)}"
 
 
 def extract_action_description(script: str) -> str:
