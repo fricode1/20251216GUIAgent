@@ -38,11 +38,10 @@ def run_workflow_automation(
             tab.get(initial_url)
         
         # 初始脚本
-        current_script = '''from DrissionPage import Chromium, ChromiumOptions
+        current_script = '''from DrissionPage import Chromium
 from DrissionPage.common import Keys
 import pyperclip
-co = ChromiumOptions().auto_port()
-browser = Chromium(co)
+browser = Chromium()
 tab = browser.latest_tab'''
         
         print(f"开始执行任务: {task_description}")

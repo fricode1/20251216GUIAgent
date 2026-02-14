@@ -25,11 +25,10 @@ class WorkflowAutomation:
     
     def _get_initial_script(self) -> str:
         """获取初始脚本模板"""
-        return '''from DrissionPage import Chromium, ChromiumOptions
+        return '''from DrissionPage import Chromium
 from DrissionPage.common import Keys
 import pyperclip
-co = ChromiumOptions().auto_port()
-browser = Chromium(co)
+browser = Chromium()
 tab = browser.latest_tab'''
     
     def start_browser(self):

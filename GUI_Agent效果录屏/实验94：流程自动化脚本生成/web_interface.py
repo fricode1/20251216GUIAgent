@@ -65,11 +65,13 @@ def init_automation():
         action_cards = []
         action_id_counter = 0
 
-        # 初始化自动化
+        # 初始化自动化（只启动浏览器，不访问网站）
         automation = WorkflowAutomation()
         automation.start_browser()
-        automation.tab.get(url)
-        automation.set_task(task)
+        # 保存目标URL到任务描述中
+        automation.set_task(f"访问 {url}，然后{task}")
+        # 保存URL供后续使用
+        automation.target_url = url
 
         return jsonify({
             "success": True,
@@ -226,7 +228,7 @@ def close_automation():
 
 def extract_action_description(script: str) -> str:
     """
-    从脚本中提取动作描述
+    从脚本中提取动作描述（提取最后一个新增的操作）
 
     Args:
         script: Python脚本
@@ -237,15 +239,19 @@ def extract_action_description(script: str) -> str:
     # 简单的启发式规则提取描述
     lines = script.split('\n')
 
-    for line in lines:
+    # 从后往前查找最后一个操作
+    for line in reversed(lines):
         line = line.strip()
+
+        if not line or line.startswith('#') or line.startswith('import') or line.startswith('from'):
+            continue
 
         # 查找点击操作
         if 'click' in line.lower():
             return f"点击元素"
 
         # 查找输入操作
-        if 'type' in line.lower() or 'input' in line.lower():
+        if 'type' in line.lower() or 'input' in line.lower() or 'pyperclip' in line.lower():
             return f"输入文本"
 
         # 查找选择操作
@@ -255,6 +261,14 @@ def extract_action_description(script: str) -> str:
         # 查找等待操作
         if 'wait' in line.lower() or 'sleep' in line.lower():
             return f"等待页面加载"
+
+        # 查找导航操作
+        if '.get(' in line.lower() or 'tab.get' in line.lower():
+            return f"访问页面"
+
+        # 查找获取元素操作
+        if '.ele(' in line.lower():
+            return f"定位元素"
 
     return "执行操作"
 

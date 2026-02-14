@@ -9,14 +9,13 @@ def example_step_by_step():
     演示如何逐步生成和执行脚本
     """
     automation = WorkflowAutomation()
-    
+
     try:
-        # 启动浏览器并访问目标网站
+        # 启动浏览器（不访问网站）
         automation.start_browser()
-        automation.tab.get("https://www.12306.cn")
-        
-        # 设置任务
-        automation.set_task("订一张从泰安到深圳的火车票")
+
+        # 设置任务（包含访问网站的指令）
+        automation.set_task("访问 https://www.12306.cn，然后订一张从泰安到深圳的火车票")
 
         while True:
             print("=== 生成脚本 ===")
