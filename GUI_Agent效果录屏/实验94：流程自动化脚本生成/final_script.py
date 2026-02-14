@@ -39,7 +39,8 @@ def run_workflow_automation(
         
         # 初始脚本
         current_script = '''from DrissionPage import Chromium
-
+from DrissionPage.common import Keys
+import pyperclip
 browser = Chromium()
 
 tab = browser.latest_tab'''

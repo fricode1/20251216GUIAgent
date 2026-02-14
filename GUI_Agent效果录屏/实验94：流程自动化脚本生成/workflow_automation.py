@@ -26,7 +26,8 @@ class WorkflowAutomation:
     def _get_initial_script(self) -> str:
         """获取初始脚本模板"""
         return '''from DrissionPage import Chromium
-
+from DrissionPage.common import Keys
+import pyperclip
 browser = Chromium()
 
 tab = browser.latest_tab'''
