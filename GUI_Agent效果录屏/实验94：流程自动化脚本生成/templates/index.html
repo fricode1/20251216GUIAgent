@@ -585,16 +585,26 @@
             // 先转义HTML
             let escaped = escapeHtml(html);
 
-            // 高亮HTML标签
-            escaped = escaped.replace(/&lt;(\/?[\w-]+)/g, '<span class="html-tag">&lt;$1</span>');
-            escaped = escaped.replace(/&gt;/g, '<span class="html-tag">&gt;</span>');
+            // 高亮完整的HTML标签（包括开始和结束标签）
+            // 匹配 <tagname ...> 或 </tagname>
+            escaped = escaped.replace(/&lt;(\/?[\w-]+)([^&]*?)&gt;/g, function(match, tagName, attrs) {
+                let result = '<span class="html-tag">&lt;' + tagName + '</span>';
 
-            // 高亮属性名
-            escaped = escaped.replace(/\s([\w-]+)=/g, ' <span class="html-attr">$1</span>=');
+                // 处理属性
+                if (attrs) {
+                    // 高亮属性名和属性值
+                    attrs = attrs.replace(/([\w-]+)=(&quot;[^&]*?&quot;|&#39;[^&]*?&#39;)/g,
+                        '<span class="html-attr">$1</span>=<span class="html-string">$2</span>');
+                    result += attrs;
+                }
 
-            // 高亮属性值
-            escaped = escaped.replace(/=&quot;([^&]*)&quot;/g, '=<span class="html-string">&quot;$1&quot;</span>');
-            escaped = escaped.replace(/=&#39;([^&]*)&#39;/g, '=<span class="html-string">&#39;$1&#39;</span>');
+                result += '<span class="html-tag">&gt;</span>';
+                return result;
+            });
+
+            // 高亮HTML注释
+            escaped = escaped.replace(/&lt;!--([^-]*?)--&gt;/g,
+                '<span class="html-comment">&lt;!--$1--&gt;</span>');
 
             return escaped;
         }

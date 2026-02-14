@@ -83,8 +83,15 @@ def truncate_dom(html_content, max_text_length=1000000):
 
     clean_node(body)
 
-    # 4. 后处理：压缩空白
+    # 4. 后处理：压缩空白并格式化
     simplified_html = soup.decode(formatter="minimal")
+
+    # 在块级元素后添加换行，提高可读性
+    block_tags = ['div', 'ul', 'li', 'p', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'form', 'fieldset', 'dl', 'dt', 'dd']
+    for tag in block_tags:
+        simplified_html = re.sub(f'</{tag}>', f'</{tag}>\n', simplified_html)
+
+    # 压缩多余空白
     simplified_html = re.sub(r'\s*\n\s*', '\n', simplified_html)
     simplified_html = re.sub(r' +', ' ', simplified_html)
     # 移除空行

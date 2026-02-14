@@ -120,6 +120,7 @@ def truncate_dom(html_content, max_text_length=1000000):
     simplified_html = re.sub(r' +', ' ', simplified_html)      # 压缩空格
 
     print('DOM精简完成')
+    print(simplified_html)
     return simplified_html
 
 
