@@ -65,7 +65,7 @@ class ScriptGenerator:
 7. 确保脚本包含必要的导入语句
 8. 脚本应该基于current_script继续执行，而不是从头开始
 - 如果要填写文本框，需要先清除原有内容，再输入新内容。
-- 如果要填写文本框，要先将待填写的内容放入剪贴板，然后使用 `tab.actions.type((Keys.CTRL_A, Keys.CTRL_V))` 方法。
+- 如果要填写文本框，要先将待填写的内容放入剪贴板（记得 import pyperclip），然后使用 `tab.actions.type((Keys.CTRL_A, Keys.CTRL_V))` 方法。
 - 严禁使用索引 ID：禁止使用类似 citem_0, list-item-1 这种包含数字索引的 ID，因为列表顺序是随机的。
 - 变量即核心：操作的目标（如“泰安”）是一个变量。选择器必须包含该文本内容。
 

@@ -16,7 +16,7 @@ def example_step_by_step():
         automation.tab.get("https://www.12306.cn")
         
         # 设置任务
-        automation.set_task("订一张从泰安到重庆东的火车票")
+        automation.set_task("订一张从泰安到深圳的火车票")
 
         while True:
             print("=== 生成脚本 ===")
