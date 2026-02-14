@@ -68,6 +68,7 @@ class ScriptGenerator:
 - 如果要填写文本框，要先将待填写的内容放入剪贴板（记得 import pyperclip），然后使用 `tab.actions.type((Keys.CTRL_A, Keys.CTRL_V))` 方法。
 - 严禁使用索引 ID：禁止使用类似 citem_0, list-item-1 这种包含数字索引的 ID，因为列表顺序是随机的。
 - 变量即核心：操作的目标（如“泰安”）是一个变量。选择器必须包含该文本内容。
+- 使用一个新的package之前，一定要导入。
 
 输出格式要求：
 - 只输出Python代码，不要输出任何解释文字
@@ -106,6 +107,7 @@ class ScriptGenerator:
 5. 点击操作使用 tab.actions.click(ele_selector)
 6. 列表选择使用 list_ele.select.by_text('xxx')
 - 单步操作的粒度要尽量小。比如，文本的填写与下拉框的选择，是2步操作，不是单步操作。
+- 使用一个新的package之前，一定要导入。
 
 请只输出Python代码，不要包含任何解释。"""
 
