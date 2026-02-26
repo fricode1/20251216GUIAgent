@@ -105,6 +105,15 @@
             text-align: center;
             margin: 1em 0;
         }
+        .sidebar-hidden {
+            transform: translateX(-100%);
+        }
+        .sidebar-visible {
+            transform: translateX(0);
+        }
+        .main-full {
+            margin-left: 0 !important;
+        }
     </style>
 </head>
 <body class="bg-gray-50 text-gray-900">
@@ -116,6 +125,9 @@
                 <h1 class="text-xl font-semibold text-police-800">GUI Agent 技术分享</h1>
             </div>
             <div class="flex items-center space-x-4">
+                <button id="sidebarToggle" class="text-gray-600 hover:text-police-600 transition-colors">
+                    <i class="fa fa-bars"></i>
+                </button>
                 <button class="text-gray-600 hover:text-police-600 transition-colors">
                     <i class="fa fa-question-circle"></i>
                 </button>
@@ -129,7 +141,7 @@
     <!-- 主内容区 -->
     <div class="flex pt-16 min-h-screen">
         <!-- 侧边栏 -->
-        <aside class="fixed left-0 top-16 bottom-0 w-64 bg-white border-r border-gray-200 overflow-y-auto transition-all duration-300 z-40">
+        <aside id="sidebar" class="fixed left-0 top-16 bottom-0 w-64 bg-white border-r border-gray-200 overflow-y-auto transition-all duration-300 z-40 sidebar-visible">
             <nav class="py-4">
                 <div class="px-4 py-2 text-xs font-semibold text-gray-500 uppercase tracking-wider">
                     目录
@@ -174,7 +186,7 @@
         </aside>
 
         <!-- 内容区域 -->
-        <main class="ml-64 flex-1 p-8">
+        <main id="mainContent" class="ml-64 flex-1 p-8 transition-all duration-300">
             <div class="max-w-4xl mx-auto">
                 <!-- 标题部分 -->
                 <div class="text-center mb-12">
@@ -863,6 +875,27 @@
                     top: 0,
                     behavior: 'smooth'
                 });
+            });
+
+            // 侧边栏显示/隐藏功能
+            const sidebarToggle = document.getElementById('sidebarToggle');
+            const sidebar = document.getElementById('sidebar');
+            const mainContent = document.getElementById('mainContent');
+            let sidebarVisible = true;
+
+            sidebarToggle.addEventListener('click', function() {
+                sidebarVisible = !sidebarVisible;
+                if (sidebarVisible) {
+                    sidebar.classList.remove('sidebar-hidden');
+                    sidebar.classList.add('sidebar-visible');
+                    mainContent.classList.remove('main-full');
+                    mainContent.classList.add('ml-64');
+                } else {
+                    sidebar.classList.remove('sidebar-visible');
+                    sidebar.classList.add('sidebar-hidden');
+                    mainContent.classList.remove('ml-64');
+                    mainContent.classList.add('main-full');
+                }
             });
         });
     </script>
