@@ -1,0 +1,866 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GUI Agent 在公安业务流程自动化中的应用</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)'], ['\\[', '\\]']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']]
+            },
+            svg: {
+                fontCache: 'global'
+            }
+        };
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-svg.js" async></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        police: {
+                            50: '#f0f9ff',
+                            100: '#e0f2fe',
+                            200: '#bae6fd',
+                            300: '#7dd3fc',
+                            400: '#38bdf8',
+                            500: '#0ea5e9',
+                            600: '#0284c7',
+                            700: '#0369a1',
+                            800: '#075985',
+                            900: '#0c4a6e',
+                            950: '#082f49',
+                        },
+                    },
+                    fontFamily: {
+                        sans: ['-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'Helvetica Neue', 'Arial', 'sans-serif'],
+                    },
+                },
+            }
+        }
+    </script>
+    <style type="text/tailwindcss">
+        @layer utilities {
+            .content-auto {
+                content-visibility: auto;
+            }
+            .backdrop-blur-xl {
+                backdrop-filter: blur(24px);
+            }
+            .text-shadow {
+                text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            }
+            .transition-all-300 {
+                transition: all 300ms ease-in-out;
+            }
+        }
+    </style>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica Neue, Arial, sans-serif;
+            scroll-behavior: smooth;
+        }
+        .sidebar-link {
+            transition: all 0.2s ease;
+        }
+        .sidebar-link:hover {
+            background-color: rgba(14, 165, 233, 0.1);
+        }
+        .sidebar-link.active {
+            background-color: rgba(14, 165, 233, 0.2);
+            border-left: 3px solid #0ea5e9;
+        }
+        .card {
+            transition: all 0.3s ease;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+        table {
+            border-collapse: separate;
+            border-spacing: 0;
+        }
+        th, td {
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+        }
+        th {
+            background-color: rgba(14, 165, 233, 0.1);
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-900">
+    <!-- 顶部导航栏 -->
+    <header class="fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-xl border-b border-gray-200">
+        <div class="container mx-auto px-4 py-3 flex items-center justify-between">
+            <div class="flex items-center space-x-2">
+                <i class="fa fa-shield text-police-600 text-2xl"></i>
+                <h1 class="text-xl font-semibold text-police-800">GUI Agent 技术分享</h1>
+            </div>
+            <div class="flex items-center space-x-4">
+                <button class="text-gray-600 hover:text-police-600 transition-colors">
+                    <i class="fa fa-question-circle"></i>
+                </button>
+                <button class="text-gray-600 hover:text-police-600 transition-colors">
+                    <i class="fa fa-cog"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- 主内容区 -->
+    <div class="flex pt-16 min-h-screen">
+        <!-- 侧边栏 -->
+        <aside class="fixed left-0 top-16 bottom-0 w-64 bg-white border-r border-gray-200 overflow-y-auto transition-all duration-300 z-40">
+            <nav class="py-4">
+                <div class="px-4 py-2 text-xs font-semibold text-gray-500 uppercase tracking-wider">
+                    目录
+                </div>
+                <a href="#background" class="sidebar-link flex items-center px-4 py-3 text-gray-700 hover:text-police-600 active">
+                    <i class="fa fa-info-circle w-5 text-center mr-3"></i>
+                    <span>背景与需求</span>
+                </a>
+                <a href="#automation" class="sidebar-link flex items-center px-4 py-3 text-gray-700 hover:text-police-600">
+                    <i class="fa fa-cogs w-5 text-center mr-3"></i>
+                    <span>流程自动化</span>
+                </a>
+                <a href="#principle" class="sidebar-link flex items-center px-4 py-3 text-gray-700 hover:text-police-600">
+                    <i class="fa fa-lightbulb-o w-5 text-center mr-3"></i>
+                    <span>工作原理</span>
+                </a>
+                <a href="#task-definition" class="sidebar-link flex items-center px-4 py-3 text-gray-700 hover:text-police-600">
+                    <i class="fa fa-list-alt w-5 text-center mr-3"></i>
+                    <span>任务定义</span>
+                </a>
+                <a href="#perception" class="sidebar-link flex items-center px-4 py-3 text-gray-700 hover:text-police-600">
+                    <i class="fa fa-eye w-5 text-center mr-3"></i>
+                    <span>感知</span>
+                </a>
+                <a href="#thinking-action" class="sidebar-link flex items-center px-4 py-3 text-gray-700 hover:text-police-600">
+                    <i class="fa fa-cogs w-5 text-center mr-3"></i>
+                    <span>思考与行动</span>
+                </a>
+                <a href="#memory" class="sidebar-link flex items-center px-4 py-3 text-gray-700 hover:text-police-600">
+                    <i class="fa fa-database w-5 text-center mr-3"></i>
+                    <span>记忆</span>
+                </a>
+                <a href="#training" class="sidebar-link flex items-center px-4 py-3 text-gray-700 hover:text-police-600">
+                    <i class="fa fa-graduation-cap w-5 text-center mr-3"></i>
+                    <span>训练数据集构建与模型训练</span>
+                </a>
+                <a href="#police-domain" class="sidebar-link flex items-center px-4 py-3 text-gray-700 hover:text-police-600">
+                    <i class="fa fa-university w-5 text-center mr-3"></i>
+                    <span>公安领域的模型增量微调</span>
+                </a>
+            </nav>
+        </aside>
+
+        <!-- 内容区域 -->
+        <main class="ml-64 flex-1 p-8">
+            <div class="max-w-4xl mx-auto">
+                <!-- 标题部分 -->
+                <div class="text-center mb-12">
+                    <h1 class="text-4xl font-bold text-police-800 mb-4 text-shadow">GUI Agent 在公安业务流程自动化中的应用</h1>
+                    <p class="text-gray-600 text-lg">技术分享报告</p>
+                </div>
+
+                <!-- 背景与需求 -->
+                <section id="background" class="mb-16">
+                    <div class="bg-white rounded-2xl shadow-sm p-8 mb-8">
+                        <h2 class="text-2xl font-bold text-police-700 mb-6 flex items-center">
+                            <i class="fa fa-info-circle mr-3 text-police-500"></i>
+                            背景与需求
+                        </h2>
+                        <div class="space-y-4">
+                            <div class="space-y-4">
+                                <div class="bg-gray-50 rounded-xl p-4">
+                                    <img src="背景与需求.png" alt="背景与需求" class="w-full h-auto rounded-lg">
+                                </div>
+                                <div class="bg-gray-50 rounded-xl p-4">
+                                    <img src="背景与需求2.png" alt="背景与需求2" class="w-full h-auto rounded-lg">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 流程自动化 -->
+                <section id="automation" class="mb-16">
+                    <div class="bg-white rounded-2xl shadow-sm p-8 mb-8">
+                        <h2 class="text-2xl font-bold text-police-700 mb-6 flex items-center">
+                            <i class="fa fa-cogs mr-3 text-police-500"></i>
+                            流程自动化
+                        </h2>
+                        <div class="space-y-6">
+                            <div class="space-y-2">
+                                <p>- 目前主要依赖RPA/浏览器自动化，规则驱动。</p>
+                                <p>- 发展趋势：基于大模型的 GUI Agent，数据驱动。</p>
+                            </div>
+
+                            <!-- RPA -->
+                            <div>
+                                <h3 class="text-xl font-semibold text-police-600 mb-4">RPA</h3>
+                                <p class="text-gray-700 mb-4">流程自动化的典型产品形态为 RPA (Robotic Process Automation)，通过模拟人类在计算机界面上的操作逻辑，在不改变企业现有 IT 架构的前提下，实现跨系统、跨平台的业务衔接，能够极大地提升数据流转的效率与精准度。</p>
+                                <div class="overflow-x-auto">
+                                    <table class="w-full text-left">
+                                        <thead>
+                                            <tr>
+                                                <th class="px-4 py-3 rounded-tl-lg">时间</th>
+                                                <th class="px-4 py-3">里程碑</th>
+                                                <th class="px-4 py-3 rounded-tr-lg">说明</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td class="px-4 py-3">2005年</td>
+                                                <td class="px-4 py-3">UiPath</td>
+                                                <td class="px-4 py-3">UiPath公司成立。全球RPA行业领军企业，提供自动化平台。帮助企业处理重复性办公任务。市值70亿美元。</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="px-4 py-3">2012年</td>
+                                                <td class="px-4 py-3">RPA 术语提出</td>
+                                                <td class="px-4 py-3">Prism 公司正式提出RPA术语。该行业进入黄金期，大量金融企业使用RPA系统处理银行账单与表格。</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="px-4 py-3">2019年</td>
+                                                <td class="px-4 py-3">国产 RPA</td>
+                                                <td class="px-4 py-3">国产RPA产品影刀RPA诞生。广泛应用于电商行业，完成自动上架商品、批量抓取竞品价格等任务。</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <!-- 浏览器自动化 -->
+                            <div>
+                                <h3 class="text-xl font-semibold text-police-600 mb-4">浏览器自动化</h3>
+                                <p class="text-gray-700 mb-4">RPA软件的核心技术之一是浏览器自动化技术，用于模拟人类用户在Web环境下的交互行为，实现复杂业务流程的自动化处理。</p>
+                                <div class="overflow-x-auto">
+                                    <table class="w-full text-left">
+                                        <thead>
+                                            <tr>
+                                                <th class="px-4 py-3 rounded-tl-lg">时间</th>
+                                                <th class="px-4 py-3">里程碑</th>
+                                                <th class="px-4 py-3 rounded-tr-lg">说明</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td class="px-4 py-3">2004年</td>
+                                                <td class="px-4 py-3">Selenium</td>
+                                                <td class="px-4 py-3">成立于2004年，老牌Web自动化工具，目前网页自动化测试及任务处理领域最权威的全球行业标准。</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="px-4 py-3">2017年</td>
+                                                <td class="px-4 py-3">Puppeteer</td>
+                                                <td class="px-4 py-3">2017年由谷歌推出。基于Chrome DevTools Protocol (CDP)，能够以极高的效率和稳定性控制 Chrome 浏览器。</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="px-4 py-3">2020年</td>
+                                                <td class="px-4 py-3">Playwright</td>
+                                                <td class="px-4 py-3">2020年，由微软发布，由原 Puppeteer 团队打造，支持跨浏览器的统一自动化，解决多窗口、异步加载等待等痛点。</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <!-- GUI Agent -->
+                            <div>
+                                <h3 class="text-xl font-semibold text-police-600 mb-4">GUI Agent</h3>
+                                <p class="text-gray-700 mb-4">定义：泛指能够像人类一样通过视觉感知图形界面，并执行点击、输入等交互行为的 AI Agent。</p>
+                                <div class="bg-gray-50 rounded-xl p-4 mb-6">
+                                    <img src="GUI_Agent介绍.png" alt="GUI Agent介绍" class="w-full h-auto rounded-lg">
+                                </div>
+                            </div>
+
+                            <!-- 与传统自动化的区别 -->
+                            <div>
+                                <h3 class="text-xl font-semibold text-police-600 mb-4">与传统自动化（RPA/浏览器自动化脚本）的区别</h3>
+                                <div class="overflow-x-auto">
+                                    <table class="w-full text-left">
+                                        <thead>
+                                            <tr>
+                                                <th class="px-4 py-3 rounded-tl-lg">特性</th>
+                                                <th class="px-4 py-3">传统自动化 (RPA/Selenium)</th>
+                                                <th class="px-4 py-3 rounded-tr-lg">GUI Agent (AI)</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td class="px-4 py-3 font-medium">依赖基础</td>
+                                                <td class="px-4 py-3">依赖底层代码（HTML ID, DOM 结构）或固定坐标</td>
+                                                <td class="px-4 py-3">依赖视觉图像，像人眼一样看</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="px-4 py-3 font-medium">适应性</td>
+                                                <td class="px-4 py-3">极差。一旦 UI 改版或按钮位置移动，脚本就会报错</td>
+                                                <td class="px-4 py-3">强。按钮换了位置或颜色，AI 依然认得那是"提交"按钮</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="px-4 py-3 font-medium">通用性</td>
+                                                <td class="px-4 py-3">专用的。针对特定软件编写特定脚本</td>
+                                                <td class="px-4 py-3">通用的。同一个 Agent 可以学着买火车票，也可以学着发邮件</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="px-4 py-3 font-medium">指令理解</td>
+                                                <td class="px-4 py-3">只能执行预设的死命令</td>
+                                                <td class="px-4 py-3">可以理解自然语言指令（模糊指令）</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="px-4 py-3 font-medium">处理异常</td>
+                                                <td class="px-4 py-3">遇到未预设的弹窗通常会崩溃</td>
+                                                <td class="px-4 py-3">可以根据弹窗内容尝试解决或绕过</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <!-- 适用场景 -->
+                            <div>
+                                <h3 class="text-xl font-semibold text-police-600 mb-4">适用场景</h3>
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                    <div class="bg-police-50 rounded-xl p-6">
+                                        <h4 class="font-semibold text-police-700 mb-3">RPA/浏览器自动化：</h4>
+                                        <ul class="list-disc list-inside space-y-2 text-gray-700">
+                                            <li>需求已预先明确的任务、定义明确的任务</li>
+                                            <li>需要7*24运行的重复性任务</li>
+                                            <li>容错率极低的任务</li>
+                                        </ul>
+                                    </div>
+                                    <div class="bg-police-50 rounded-xl p-6">
+                                        <h4 class="font-semibold text-police-700 mb-3">GUI Agent：</h4>
+                                        <ul class="list-disc list-inside space-y-2 text-gray-700">
+                                            <li>未预定义的任务</li>
+                                            <li>持续收集新的交互数据，可以对模型进行微调或进一步训练</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- 发展现状 -->
+                            <div>
+                                <h3 class="text-xl font-semibold text-police-600 mb-4">发展现状</h3>
+                                <div class="space-y-6">
+                                    <div>
+                                        <h4 class="font-semibold text-police-700 mb-3">Anthropic</h4>
+                                        <p class="text-gray-700">Anthropic 于 2024 年 10 月发布了闭源 GUI Agent （公测）产品，通过API调用。——按照用户的命令在电脑屏幕上移动光标、点击相关位置，并通过虚拟键盘输入信息，模拟人们与自己电脑的交互方式。</p>
+                                        <p class="text-gray-700 mt-2">Claude 3.5 Sonnet 是首个在公开测试阶段提供计算机使用功能的 AI 模型。目前，该功能仍处于实验阶段，有时会出现操作繁琐的现象，且容易出错。当时，在 OSWorld 测试集上的准确率为 14.9%。</p>
+                                        <div class="bg-gray-50 rounded-xl p-4 mt-3">
+                                            <img src="anthropic_20241022.png" alt="anthropic 20241022" class="w-full h-auto rounded-lg">
+                                        </div>
+                                    </div>
+
+                                    <div>
+                                        <h4 class="font-semibold text-police-700 mb-3">OpenAI</h4>
+                                        <p class="text-gray-700">OpenAI 于 2025 年 1 月发布了闭源 GUI Agent，像人类一样与屏幕上的按钮、菜单和文本进行交互，无需使用操作系统或网络特定的 API。该产品为研究预览版，仅供美国的 Pro 用户使用。 在 OSWorld 测试集上的准确率为 38.1%。</p>
+                                        <div class="bg-gray-50 rounded-xl p-4 mt-3">
+                                            <img src="openai_20250123.png" alt="openai 20250123" class="w-full h-auto rounded-lg">
+                                        </div>
+                                    </div>
+
+                                    <div>
+                                        <h4 class="font-semibold text-police-700 mb-3">Google</h4>
+                                        <p class="text-gray-700">谷歌于 2025 年 10 月发布了 GUI Agent，这是基于 Gemini 2.5 Pro 构建的专用模型。该模型主要针对网页浏览器进行了优化，同时也也展现出在手机 UI 操作任务方面的潜力。目前，该产品尚未针对桌面操作系统级别的操作进行优化。</p>
+                                        <div class="bg-gray-50 rounded-xl p-4 mt-3">
+                                            <img src="google_20251007.png" alt="google 20251007" class="w-full h-auto rounded-lg">
+                                        </div>
+                                    </div>
+
+                                    <div>
+                                        <h4 class="font-semibold text-police-700 mb-3">智谱</h4>
+                                        <p class="text-gray-700">智谱于 2025 年 12 月发布了 Open-AutoGLM，这是专用于手机的流程自动化智能体。</p>
+                                        <div class="bg-gray-50 rounded-xl p-4 mt-3">
+                                            <img src="zai_20251208.png" alt="zai 20251208" class="w-full h-auto rounded-lg">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="mt-6 overflow-x-auto">
+                                    <table class="w-full text-left">
+                                        <thead>
+                                            <tr>
+                                                <th class="px-4 py-3 rounded-tl-lg">产品/项目</th>
+                                                <th class="px-4 py-3">开发方/机构</th>
+                                                <th class="px-4 py-3">地址</th>
+                                                <th class="px-4 py-3">Stars</th>
+                                                <th class="px-4 py-3 rounded-tr-lg">发布时间</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td class="px-4 py-3">Claude Computer Use</td>
+                                                <td class="px-4 py-3">Anthropic</td>
+                                                <td class="px-4 py-3"><a href="https://platform.claude.com/docs/en/agents-and-tools/tool-use/computer-use" class="text-police-600 hover:underline">platform.claude.com</a></td>
+                                                <td class="px-4 py-3">闭源</td>
+                                                <td class="px-4 py-3">2024年10月</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="px-4 py-3">Operator</td>
+                                                <td class="px-4 py-3">OpenAI</td>
+                                                <td class="px-4 py-3"><a href="https://openai.com/zh-Hans-CN/index/introducing-operator/" class="text-police-600 hover:underline">openai.com</a></td>
+                                                <td class="px-4 py-3">闭源</td>
+                                                <td class="px-4 py-3">2025年1月23日</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="px-4 py-3">UFO²</td>
+                                                <td class="px-4 py-3">Microsoft</td>
+                                                <td class="px-4 py-3"><a href="https://github.com/microsoft/UFO" class="text-police-600 hover:underline">github.com/microsoft/UFO</a></td>
+                                                <td class="px-4 py-3">7.8k</td>
+                                                <td class="px-4 py-3">2025年5月6日</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="px-4 py-3">UI-TARS-desktop</td>
+                                                <td class="px-4 py-3">ByteDance</td>
+                                                <td class="px-4 py-3"><a href="https://github.com/bytedance/UI-TARS-desktop" class="text-police-600 hover:underline">github.com/bytedance/UI-TARS-desktop</a></td>
+                                                <td class="px-4 py-3">19.8k</td>
+                                                <td class="px-4 py-3">2025年1月23日</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="px-4 py-3">Open Interpreter</td>
+                                                <td class="px-4 py-3">Open Interpreter</td>
+                                                <td class="px-4 py-3"><a href="https://github.com/openinterpreter/open-interpreter" class="text-police-600 hover:underline">github.com/openinterpreter/open-interpreter</a></td>
+                                                <td class="px-4 py-3">61k</td>
+                                                <td class="px-4 py-3">2023年</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="px-4 py-3">self-operating-computer</td>
+                                                <td class="px-4 py-3">OthersideAI</td>
+                                                <td class="px-4 py-3"><a href="https://github.com/OthersideAI/self-operating-computer" class="text-police-600 hover:underline">github.com/OthersideAI/self-operating-computer</a></td>
+                                                <td class="px-4 py-3">10k</td>
+                                                <td class="px-4 py-3">2023年</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="px-4 py-3">OS-Copilot</td>
+                                                <td class="px-4 py-3">上海AI Lab</td>
+                                                <td class="px-4 py-3"><a href="https://github.com/OS-Copilot/OS-Copilot" class="text-police-600 hover:underline">github.com/OS-Copilot/OS-Copilot</a></td>
+                                                <td class="px-4 py-3">1.7k</td>
+                                                <td class="px-4 py-3">2024年2月</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="px-4 py-3">ShowUI</td>
+                                                <td class="px-4 py-3">新加坡国立大学</td>
+                                                <td class="px-4 py-3"><a href="https://github.com/showlab/ShowUI" class="text-police-600 hover:underline">github.com/showlab/ShowUI</a></td>
+                                                <td class="px-4 py-3">1.6k</td>
+                                                <td class="px-4 py-3">2024年11月</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="px-4 py-3">Cradle</td>
+                                                <td class="px-4 py-3">智源研究院</td>
+                                                <td class="px-4 py-3"><a href="https://github.com/BAAI-Agents/Cradle" class="text-police-600 hover:underline">github.com/BAAI-Agents/Cradle</a></td>
+                                                <td class="px-4 py-3">2.4k</td>
+                                                <td class="px-4 py-3">2024年3月</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="px-4 py-3">OpenCUA</td>
+                                                <td class="px-4 py-3">香港大学</td>
+                                                <td class="px-4 py-3"><a href="https://github.com/xlang-ai/OpenCUA" class="text-police-600 hover:underline">github.com/xlang-ai/OpenCUA</a></td>
+                                                <td class="px-4 py-3">594</td>
+                                                <td class="px-4 py-3">2025年8月</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="px-4 py-3">Agent-S</td>
+                                                <td class="px-4 py-3">Simular AI</td>
+                                                <td class="px-4 py-3"><a href="https://github.com/simular-ai/Agent-S" class="text-police-600 hover:underline">github.com/simular-ai/Agent-S</a></td>
+                                                <td class="px-4 py-3">8.6k</td>
+                                                <td class="px-4 py-3">2025年10月</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="px-4 py-3">AppAgent</td>
+                                                <td class="px-4 py-3">腾讯</td>
+                                                <td class="px-4 py-3"><a href="https://github.com/TencentQQGYLab/AppAgent" class="text-police-600 hover:underline">github.com/TencentQQGYLab/AppAgent</a></td>
+                                                <td class="px-4 py-3">6.3k</td>
+                                                <td class="px-4 py-3">2023年12月</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="px-4 py-3">MobileAgent</td>
+                                                <td class="px-4 py-3">阿里</td>
+                                                <td class="px-4 py-3"><a href="https://github.com/X-PLUG/MobileAgent" class="text-police-600 hover:underline">github.com/X-PLUG/MobileAgent</a></td>
+                                                <td class="px-4 py-3">6.6k</td>
+                                                <td class="px-4 py-3">2025年8月</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="px-4 py-3">AutoGLM</td>
+                                                <td class="px-4 py-3">智谱华章</td>
+                                                <td class="px-4 py-3"><a href="https://github.com/zai-org/Open-AutoGLM" class="text-police-600 hover:underline">github.com/zai-org/Open-AutoGLM</a></td>
+                                                <td class="px-4 py-3">2.2k</td>
+                                                <td class="px-4 py-3">2025年12月9日</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="px-4 py-3">Fara-7B</td>
+                                                <td class="px-4 py-3">微软</td>
+                                                <td class="px-4 py-3"><a href="https://github.com/microsoft/fara" class="text-police-600 hover:underline">github.com/microsoft/fara</a></td>
+                                                <td class="px-4 py-3">3.5k</td>
+                                                <td class="px-4 py-3">2025年12月24日</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <!-- 各 GUI Agent 的测评结果 -->
+                            <div>
+                                <h3 class="text-xl font-semibold text-police-600 mb-4">各 GUI Agent 的测评结果</h3>
+                                <div class="bg-gray-50 rounded-xl p-4">
+                                    <img src="image-1.png" alt="image-1" class="w-full h-auto rounded-lg">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 工作原理 -->
+                <section id="principle" class="mb-16">
+                    <div class="bg-white rounded-2xl shadow-sm p-8 mb-8">
+                        <h2 class="text-2xl font-bold text-police-700 mb-6 flex items-center">
+                            <i class="fa fa-lightbulb-o mr-3 text-police-500"></i>
+                            工作原理
+                        </h2>
+                        <div class="space-y-6">
+                            <p class="text-gray-700">根据用户的指令，GUI Agent 通过一个迭代循环将感知、推理和操作整合在一起：</p>
+                            <ul class="list-disc list-inside space-y-2 text-gray-700 pl-4">
+                                <li><span class="font-medium">感知：</span>计算机的屏幕截图被添加到模型的上下文中，提供计算机当前状态的视觉快照。</li>
+                                <li><span class="font-medium">思考：</span>GUI Agent 对下一步进行推理，同时考虑当前和过去的屏幕截图和操作。这种推理过程可使模型评估其观察结果、跟踪中间步骤并进行动态调整，从而提高任务性能。</li>
+                                <li><span class="font-medium">行动：</span>Agent 执行点击、滚动或键入等操作，直到确定任务已完成或需要用户输入。虽然它能自动处理大多数步骤，但对于敏感操作，如输入登录信息或回复验证码表单，GUI Agent 会寻求用户确认。</li>
+                            </ul>
+                            <div class="bg-gray-50 rounded-xl p-4">
+                                <img src="image-2.png" alt="image-2" class="w-full h-auto rounded-lg">
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 任务定义 -->
+                <section id="task-definition" class="mb-16">
+                    <div class="bg-white rounded-2xl shadow-sm p-8 mb-8">
+                        <h2 class="text-2xl font-bold text-police-700 mb-6 flex items-center">
+                            <i class="fa fa-list-alt mr-3 text-police-500"></i>
+                            任务定义
+                        </h2>
+                        <div class="space-y-6">
+                            <p class="text-gray-700">给定用户的初始自然语言查询 $q_0$，GUI Agent 会根据环境状态，以多步骤的方式逐一输出动作，直到输出停止动作为止。</p>
+                            <p class="text-gray-700">一条轨迹中的单个步骤 $t$ 包含三部分：</p>
+                            <ul class="list-disc list-inside space-y-2 text-gray-700 pl-4">
+                                <li>来自网页环境的观测（$o_t$​）</li>
+                                <li>对当前状态进行反思、并决定下一步该做什么的思考 / 思维链（$r_t$​）</li>
+                                <li>要执行的下一个动作（$a_t$）</li>
+                            </ul>
+                            <p class="text-gray-700">一个任务对应的完整轨迹为：</p>
+                            <div class="bg-gray-50 rounded-xl p-6 flex justify-center">
+                                <p class="text-lg font-mono">$$\mathcal{T} = (q_0, \{o_0, r_0, a_0\}, \cdots, \{o_T, r_T, a_T\})$$</p>
+                            </div>
+                            <p class="text-gray-700">GUI Agent 对于步骤 $t$ 的预测：</p>
+                            <div class="bg-gray-50 rounded-xl p-6 flex justify-center">
+                                <p class="text-lg font-mono">$$P(r_t, a_t | q_0, \{o_0, r_0, a_0\}, \cdots, \{o_{t-1}, r_{t-1}, a_{t-1}\})$$</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 感知 -->
+                <section id="perception" class="mb-16">
+                    <div class="bg-white rounded-2xl shadow-sm p-8 mb-8">
+                        <h2 class="text-2xl font-bold text-police-700 mb-6 flex items-center">
+                            <i class="fa fa-eye mr-3 text-police-500"></i>
+                            感知
+                        </h2>
+                        <div class="space-y-6">
+                            <div>
+                                <h3 class="text-xl font-semibold text-police-600 mb-4">基于 DOM 的</h3>
+                                <div class="bg-gray-50 rounded-xl p-4">
+                                    <img src="DOM内容展示.png" alt="DOM内容展示" class="w-full h-auto rounded-lg">
+                                </div>
+                                <p class="text-gray-700 mt-4">早期的 GUI Agent 受限于 LLM 只能处理文本输入的局限性。因此，这些代理依赖于将GUI页面转换为结构化的文本表示，例如HTML、可访问性树或文档对象模型（DOM）。</p>
+                                <p class="text-gray-700 mt-2">然而，DOM的缺点是内容过分冗余。比如，12306.cn主页的DOM文本消耗高达90万tokens。即使对DOM内容进行过滤裁剪，也需要消耗20万tokens。相比而言，一张截图仅消耗1000 tokens左右。</p>
+                                <p class="text-gray-700 mt-2">此外，DOM是不完备的。它不是网页的最终呈现，还受到CSS文件、业务逻辑JS代码的很大影响。</p>
+                                <div class="bg-gray-50 rounded-xl p-4 mt-4">
+                                    <img src="DOM的不完备性.png" alt="DOM的不完备性" class="w-full h-auto rounded-lg">
+                                </div>
+                                <p class="text-gray-700 mt-4">在收集操作轨迹训练数据时，图像数据具有极强的环境解耦属性，能够有效支持数据在互联网采集与内网标注平台之间的无损迁移。相比之下，单纯的DOM数据由于对外部样式资源及执行环境的强依赖性，在脱离原始网络上下文支持的情况下，无法在离线或隔离环境中精确复现原始交互界面，从而导致标注一致性的失效。</p>
+                                <p class="text-gray-700 mt-2">在 2025 年的一篇博客中，从技术视角分析了使用 DOM 作为感知方式的缺点。</p>
+                                <div class="bg-gray-50 rounded-xl p-4 mt-4">
+                                    <img src="DOM的缺点.png" alt="DOM的缺点" class="w-full h-auto rounded-lg">
+                                </div>
+                            </div>
+
+                            <div>
+                                <h3 class="text-xl font-semibold text-police-600 mb-4">基于屏幕截图的</h3>
+                                <p class="text-gray-700">难点：GUI图像的信息密度和结构性通常比通用场景图像更高，往往包含数百个排列成复杂布局的元素。模型不仅要识别单个元素，还要理解它们的空间关系和功能交互。此外，GUI图像中的许多元素都很小（例如，在 $1920 \times 1080$ 的屏幕截图中的一个 $10 \times 10$ 像素的图标），这使得准确感知和定位这些元素变得困难。</p>
+                                <p class="text-gray-700 mt-2">为了解决这一问题，我们需要构建专门的GUI数据集和训练任务，对基线模型进行微调，从而提高大模型对于屏幕截图中元素感知与定位的准确性。</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 思考与行动 -->
+                <section id="thinking-action" class="mb-16">
+                    <div class="bg-white rounded-2xl shadow-sm p-8 mb-8">
+                        <h2 class="text-2xl font-bold text-police-700 mb-6 flex items-center">
+                            <i class="fa fa-cogs mr-3 text-police-500"></i>
+                            思考与行动
+                        </h2>
+                        <div class="space-y-6">
+                            <p class="text-gray-700">大模型将屏幕截图作为观测输入，首先输出思考内容，例如网页内容或当前状态，以及下一步要采取的行动。然后，根据这些思考内容，模型输出一个以工具调用形式表示的行动。</p>
+                            <div class="bg-gray-50 rounded-xl p-4">
+                                <img src="image-5.png" alt="image-5" class="w-full h-auto rounded-lg">
+                            </div>
+                            <p class="text-gray-700">例如，用户希望 GUI Agent 自动执行任务：在 GitHub 网站上购买 Copilot 增值服务。</p>
+                            <p class="text-gray-700">大模型首先观察到的是浏览器的初始界面。其思考内容是：应该导航至 GitHub Copilot 产品购买界面，然后执行对应动作。</p>
+                            <p class="text-gray-700">接下来，大模型观察到已经进入到了指定页面，其思考内容是：应该点击"查看订阅计划及价格"链接。执行的动作为，点击该链接对应的坐标。</p>
+                            <p class="text-gray-700">GUI Agent 能够执行的全部动作列举如下：</p>
+                            <div class="overflow-x-auto">
+                                <table class="w-full text-left">
+                                    <thead>
+                                        <tr>
+                                            <th class="px-4 py-3 rounded-tl-lg">动作</th>
+                                            <th class="px-4 py-3 rounded-tr-lg">描述</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td class="px-4 py-3 font-medium">按键</td>
+                                            <td class="px-4 py-3">按指定顺序按下按键（例如 *CTRL+C*）。</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="px-4 py-3 font-medium">输入</td>
+                                            <td class="px-4 py-3">在坐标 $(x, y)$ 处输入字符串。</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="px-4 py-3 font-medium">移动鼠标</td>
+                                            <td class="px-4 py-3">移动光标悬停在坐标 $(x, y)$ 上。</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="px-4 py-3 font-medium">左键单击</td>
+                                            <td class="px-4 py-3">在坐标 $(x, y)$ 处单击鼠标左键。</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="px-4 py-3 font-medium">滚动</td>
+                                            <td class="px-4 py-3">滚动鼠标滚轮。</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="px-4 py-3 font-medium">访问链接</td>
+                                            <td class="px-4 py-3">访问指定的 URL。</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="px-4 py-3 font-medium">网络搜索</td>
+                                            <td class="px-4 py-3">使用指定查询进行网络搜索。</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="px-4 py-3 font-medium">历史回退</td>
+                                            <td class="px-4 py-3">返回上一页。</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="px-4 py-3 font-medium">记忆</td>
+                                            <td class="px-4 py-3">记忆信息以供将来参考。</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="px-4 py-3 font-medium">等待</td>
+                                            <td class="px-4 py-3">等待指定的秒数。</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="px-4 py-3 font-medium">终止</td>
+                                            <td class="px-4 py-3">结束当前任务。</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 记忆 -->
+                <section id="memory" class="mb-16">
+                    <div class="bg-white rounded-2xl shadow-sm p-8 mb-8">
+                        <h2 class="text-2xl font-bold text-police-700 mb-6 flex items-center">
+                            <i class="fa fa-database mr-3 text-police-500"></i>
+                            记忆
+                        </h2>
+                        <div class="space-y-4">
+                            <p class="text-gray-700">GUI Agent 能够存储在后续轨迹中可能有用的重要信息。当完成任务所需的关键信息位于不同页面时（例如，比较某一商品在不同零售网站上的价格），记忆功能不可或缺。</p>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 训练数据集构建与模型训练 -->
+                <section id="training" class="mb-16">
+                    <div class="bg-white rounded-2xl shadow-sm p-8 mb-8">
+                        <h2 class="text-2xl font-bold text-police-700 mb-6 flex items-center">
+                            <i class="fa fa-graduation-cap mr-3 text-police-500"></i>
+                            训练数据集构建与模型训练
+                        </h2>
+                        <div class="space-y-6">
+                            <p class="text-gray-700">未针对流程自动化任务训练的通用模型存在如下缺点：</p>
+                            <ul class="list-disc list-inside space-y-2 text-gray-700 pl-4">
+                                <li>屏幕截图属于领域性很强的图像，且要定位的元素很小，通用模型表现不佳。</li>
+                                <li>完成流程自动化任务需要领域专门知识。比如，如果大模型不知道 GitHub Copilot 的产品购买页面对应的网址，便无法完整相关流程自动化任务。</li>
+                            </ul>
+                            <p class="text-gray-700">为此，需要设计多种训练任务，通过对通用模型的微调，实现流程自动化的能力。</p>
+
+                            <div>
+                                <h3 class="text-xl font-semibold text-police-600 mb-4">操作轨迹数据集</h3>
+                                <div class="bg-gray-50 rounded-xl p-6 flex justify-center mb-4">
+                                    <p class="text-lg font-mono">$$\mathcal{T} = (q_0, \{o_0, r_0, a_0\}, \cdots, \{o_T, r_T, a_T\})$$</p>
+                                </div>
+                                <p class="text-gray-700">$q_0$: 在 GitHub 网站上购买 Copilot 增值服务。</p>
+                                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
+                                    <div class="bg-gray-50 rounded-xl p-4">
+                                        <img src="step1.png" alt="step1" class="w-full h-auto rounded-lg">
+                                    </div>
+                                    <div class="bg-gray-50 rounded-xl p-4">
+                                        <img src="step2.png" alt="step2" class="w-full h-auto rounded-lg">
+                                    </div>
+                                    <div class="bg-gray-50 rounded-xl p-4">
+                                        <img src="step3.png" alt="step3" class="w-full h-auto rounded-lg">
+                                    </div>
+                                    <div class="bg-gray-50 rounded-xl p-4">
+                                        <img src="step4.png" alt="step4" class="w-full h-auto rounded-lg">
+                                    </div>
+                                    <div class="bg-gray-50 rounded-xl p-4">
+                                        <img src="step5.png" alt="step5" class="w-full h-auto rounded-lg">
+                                    </div>
+                                </div>
+                                <p class="text-gray-700 mt-4">训练方式：将每条轨迹的每一步单独作为一个训练样本，把截至当前步骤的历史观测与动作作为模型输入。</p>
+                                <p class="text-gray-700 mt-2">使用 Qwen2.5-VL-7B 作为基座模型，并在其基础上进行监督微调（SFT）。</p>
+                                <p class="text-gray-700 mt-2">使用标准的交叉熵损失，所有输出都是模型词表中的 token，包括坐标。</p>
+                                <p class="text-gray-700 mt-2">除了轨迹数据外，训练 GUI Agent 还有要一些辅助任务，用于专项提高模型的定位和理解能力。</p>
+                            </div>
+
+                            <div>
+                                <h3 class="text-xl font-semibold text-police-600 mb-4">UI截图问答与描述任务</h3>
+                                <p class="text-gray-700">该任务用于提高模型从网页中提取信息的能力，并避免幻觉现象。</p>
+                                <p class="text-gray-700 mt-2">在该任务中，一条训练数据包括三部分：网页截图、用户查询、回答。</p>
+                                <div class="bg-gray-50 rounded-xl p-4">
+                                    <img src="image-3.png" alt="image-3" class="w-full h-auto rounded-lg">
+                                </div>
+                                <p class="text-gray-700 mt-2">用户查询：门票的配送日期是？</p>
+                                <p class="text-gray-700">回答：2025 年 3 月 28 日</p>
+                            </div>
+
+                            <div>
+                                <h3 class="text-xl font-semibold text-police-600 mb-4">UI定位任务</h3>
+                                <p class="text-gray-700">这是 GUI Agent 的一项基本子任务。目的是令模型准确识别截图中的特定元素，并能准确输出该元素的坐标。</p>
+                                <p class="text-gray-700 mt-2">对于UI定位任务，一条训练数据包括三部分：网页截图、用户查询、回答。</p>
+                                <div class="bg-gray-50 rounded-xl p-4">
+                                    <img src="image-4.png" alt="image-4" class="w-full h-auto rounded-lg">
+                                </div>
+                                <p class="text-gray-700 mt-2">用户查询：点击衣服的 XL 尺寸</p>
+                                <p class="text-gray-700">回答：click(1189, 252)</p>
+                            </div>
+
+                            <div>
+                                <h3 class="text-xl font-semibold text-police-600 mb-4">训练细节</h3>
+                                <ul class="list-disc list-inside space-y-2 text-gray-700 pl-4">
+                                    <li>优化器：AdamW，其参数设置为 $\beta_1 = 0.9, \beta_2 = 0.95$</li>
+                                    <li>学习率：在训练步数的前 10% 阶段采用余弦学习率预热策略；预热结束后，初始学习率设置为 $5\times 10^{-6}$</li>
+                                    <li>梯度裁剪：最大阈值设为 1</li>
+                                    <li>批次大小 = 128</li>
+                                    <li>参数精度：BF16</li>
+                                </ul>
+                            </div>
+
+                            <div>
+                                <h3 class="text-xl font-semibold text-police-600 mb-4">基线模型的选择</h3>
+                                <div class="bg-gray-50 rounded-xl p-4">
+                                    <img src="fara7b.png" alt="fara7b" class="w-full h-auto rounded-lg">
+                                </div>
+                                <p class="text-gray-700 mt-4">微软与2025年底提出的 Fara-7B，以 Qwen2.5-VL-7B 作为基座模型，并在其基础上进行监督微调（SFT），微调样本量为 180 万。</p>
+                                <div class="bg-gray-50 rounded-xl p-4 mt-4">
+                                    <img src="fara7b训练数据.png" alt="fara7b训练数据" class="w-full h-auto rounded-lg">
+                                </div>
+                                <p class="text-gray-700 mt-4">训练对于模型处理GUI自动化任务具有关键作用。</p>
+                                <p class="text-gray-700 mt-2">与 Fara-7B 类似的模型是 UI-Tars-1.5-7B。两者性能接近，但Fara-7B仅使用监督微调（SFT），而UI-TARS-1.5-7B则采用了强化学习（RL）。SFT是进一步微调的更经济的选择。</p>
+                                <div class="bg-gray-50 rounded-xl p-4 mt-4">
+                                    <img src="训练的作用.png" alt="训练的作用" class="w-full h-auto rounded-lg">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 公安领域的模型增量微调 -->
+                <section id="police-domain" class="mb-16">
+                    <div class="bg-white rounded-2xl shadow-sm p-8 mb-8">
+                        <h2 class="text-2xl font-bold text-police-700 mb-6 flex items-center">
+                            <i class="fa fa-university mr-3 text-police-500"></i>
+                            公安领域的模型增量微调
+                        </h2>
+                        <div class="space-y-6">
+                            <p class="text-gray-700">为提升 GUI Agent 在垂直领域的任务成功率，需构建针对公安业务场景的专用数据集，通过监督微调 (SFT) 引导模型学习特定系统的 UI 布局逻辑与业务流程。</p>
+                            <p class="text-gray-700">首先，基于实际警务需求定义典型任务基准 (Benchmarks)，例如：人员身份信息核查、车辆轨迹溯源等交互任务。随后，利用基线模型自动化执行任务，评估其在公安业务系统上的初始泛化能力。</p>
+                            <p class="text-gray-700">建立量化的评价体系，计算在benchmark上的任务成功率 (SR)。识别模型在视觉定位、意图推理或长序列决策中的性能瓶颈。</p>
+                            <p class="text-gray-700">针对模型失效的任务，由标注员进行规范化操作，录制纠正的操作轨迹。该过程不仅捕捉屏幕截图与点击坐标，还需通过思维链（CoT）标注，显式记录每步操作背后的思考过程，从而构建高质量的专家演示数据集。</p>
+                            <p class="text-gray-700">利用 SFT（监督微调）技术，引导模型学习公安业务系统的特有交互模式。</p>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </main>
+    </div>
+
+    <!-- 返回顶部按钮 -->
+    <button id="back-to-top" class="fixed bottom-8 right-8 bg-police-600 text-white rounded-full p-3 shadow-lg opacity-0 invisible transition-all duration-300 hover:bg-police-700">
+        <i class="fa fa-arrow-up"></i>
+    </button>
+
+    <script>
+        // 侧边栏链接激活状态
+        document.addEventListener('DOMContentLoaded', function() {
+            const sections = document.querySelectorAll('section');
+            const sidebarLinks = document.querySelectorAll('.sidebar-link');
+            const backToTopButton = document.getElementById('back-to-top');
+
+            // 滚动监听
+            window.addEventListener('scroll', function() {
+                let current = '';
+
+                sections.forEach(section => {
+                    const sectionTop = section.offsetTop;
+                    const sectionHeight = section.clientHeight;
+                    if (pageYOffset >= (sectionTop - 300)) {
+                        current = section.getAttribute('id');
+                    }
+                });
+
+                sidebarLinks.forEach(link => {
+                    link.classList.remove('active');
+                    if (link.getAttribute('href').substring(1) === current) {
+                        link.classList.add('active');
+                    }
+                });
+
+                // 显示/隐藏返回顶部按钮
+                if (window.pageYOffset > 300) {
+                    backToTopButton.classList.remove('opacity-0', 'invisible');
+                    backToTopButton.classList.add('opacity-100', 'visible');
+                } else {
+                    backToTopButton.classList.remove('opacity-100', 'visible');
+                    backToTopButton.classList.add('opacity-0', 'invisible');
+                }
+            });
+
+            // 返回顶部功能
+            backToTopButton.addEventListener('click', function() {
+                window.scrollTo({
+                    top: 0,
+                    behavior: 'smooth'
+                });
+            });
+        });
+    </script>
+    <script>
+        window.addEventListener('load', function() {
+            if (window.MathJax && MathJax.typeset) {
+                MathJax.typeset();
+            } else if (window.MathJax && MathJax.typesetPromise) {
+                MathJax.typesetPromise();
+            }
+        });
+    </script>
+</body>
+</html>
