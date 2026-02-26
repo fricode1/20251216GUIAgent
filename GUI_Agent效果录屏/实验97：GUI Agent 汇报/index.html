@@ -9,15 +9,20 @@
     <script>
         window.MathJax = {
             tex: {
-                inlineMath: [['$', '$'], ['\\(', '\\)'], ['\\[', '\\]']],
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
                 displayMath: [['$$', '$$'], ['\\[', '\\]']]
             },
-            svg: {
-                fontCache: 'global'
+            chtml: {
+                fontURL: 'https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2'
+            },
+            options: {
+                renderActions: {
+                    addMenu: []
+                }
             }
         };
     </script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-svg.js" async></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-chtml.js" async></script>
     <script>
         tailwind.config = {
             theme: {
@@ -91,6 +96,14 @@
         }
         th {
             background-color: rgba(14, 165, 233, 0.1);
+        }
+        mjx-container {
+            display: inline-block !important;
+        }
+        mjx-container[display="true"] {
+            display: block !important;
+            text-align: center;
+            margin: 1em 0;
         }
     </style>
 </head>
@@ -855,10 +868,10 @@
     </script>
     <script>
         window.addEventListener('load', function() {
-            if (window.MathJax && MathJax.typeset) {
-                MathJax.typeset();
-            } else if (window.MathJax && MathJax.typesetPromise) {
-                MathJax.typesetPromise();
+            if (window.MathJax && MathJax.startup && MathJax.startup.promise) {
+                MathJax.startup.promise.then(function() {
+                    MathJax.typesetPromise();
+                });
             }
         });
     </script>
