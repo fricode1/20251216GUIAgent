@@ -182,6 +182,18 @@
                     <i class="fa fa-university w-5 text-center mr-3"></i>
                     <span>公安领域的模型增量微调</span>
                 </a>
+                <a href="#ai-era" class="sidebar-link flex items-center px-4 py-3 text-gray-700 hover:text-police-600">
+                    <i class="fa fa-robot w-5 text-center mr-3"></i>
+                    <span>AI时代的流程自动化</span>
+                </a>
+                <a href="#comparison" class="sidebar-link flex items-center px-4 py-3 text-gray-700 hover:text-police-600">
+                    <i class="fa fa-balance-scale w-5 text-center mr-3"></i>
+                    <span>各种方案的优缺点</span>
+                </a>
+                <a href="#adaptive-architecture" class="sidebar-link flex items-center px-4 py-3 text-gray-700 hover:text-police-600">
+                    <i class="fa fa-sitemap w-5 text-center mr-3"></i>
+                    <span>自适应Web自动化架构</span>
+                </a>
             </nav>
         </aside>
 
@@ -289,6 +301,11 @@
                                                 <td class="px-4 py-3">2020年</td>
                                                 <td class="px-4 py-3">Playwright</td>
                                                 <td class="px-4 py-3">2020年，由微软发布，由原 Puppeteer 团队打造，支持跨浏览器的统一自动化，解决多窗口、异步加载等待等痛点。</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="px-4 py-3">2020年</td>
+                                                <td class="px-4 py-3">DrissionPage</td>
+                                                <td class="px-4 py-3">由国内开发者发布。极大地简化了语法的复杂度。</td>
                                             </tr>
                                         </tbody>
                                     </table>
@@ -534,6 +551,196 @@
                                 <h3 class="text-xl font-semibold text-police-600 mb-4">各 GUI Agent 的测评结果</h3>
                                 <div class="bg-gray-50 rounded-xl p-4">
                                     <img src="image-1.png" alt="image-1" class="w-full h-auto rounded-lg">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- AI 时代的流程自动化 -->
+                <section id="ai-era" class="mb-16">
+                    <div class="bg-white rounded-2xl shadow-sm p-8 mb-8">
+                        <h2 class="text-2xl font-bold text-police-700 mb-6 flex items-center">
+                            <i class="fa fa-robot mr-3 text-police-500"></i>
+                            AI 时代的流程自动化
+                        </h2>
+                        <div class="space-y-6">
+                            <p class="text-gray-700">相比于传统的浏览器自动化，在AI时代，兴起了三类新的流程自动化方式：</p>
+                            <ul class="list-disc list-inside space-y-2 text-gray-700 pl-4">
+                                <li>AI + RPA，即 IPA（Intelligent Process Automation，智能流程自动化）</li>
+                                <li>GUI Agent
+                                    <ul class="list-disc list-inside space-y-1 text-gray-700 pl-8">
+                                        <li>基于视觉感知的 GUI Agent</li>
+                                        <li>基于 DOM 感知的 Web Agent</li>
+                                    </ul>
+                                </li>
+                            </ul>
+                            <p class="text-gray-700">接下来依次介绍每种方式及其优缺点。</p>
+
+                            <!-- AI + RPA -->
+                            <div>
+                                <h3 class="text-xl font-semibold text-police-600 mb-4">AI + RPA</h3>
+                                <p class="text-gray-700 mb-4">是 RPA 在 AI 时代的演进。以前RPA是针对每个任务都要写自动化脚本。但同一网站的不同任务之间往往有知识重叠，传统 RPA 无法复用这些共有的知识。</p>
+                                <p class="text-gray-700 mb-4">不是为每个任务构建自动化脚本，而是为整个网站构建语义地图——为网站中的每个关键元素定义AI可理解的含义及操作方式。当用户提出一个自动化任务时，AI能够根据语义地图自动生成自动化脚本并执行。具体来说，Web 应用 $A$ 的最小功能单元是 <strong>Element（元素）</strong>，记为 $e$。一个 Web 应用可以被定义为所有可见及可交互元素的集合：</p>
+                                <div class="bg-gray-50 rounded-xl p-6 flex justify-center">
+                                    <p class="text-lg font-mono">$$A = \{e_1, e_2, e_3, \dots, e_n\}$$</p>
+                                </div>
+                                <p class="text-gray-700 mt-4">每个元素 $e_i$ 并非孤立存在，而是由三个维度构成的复合体：</p>
+                                <ul class="list-disc list-inside space-y-4 text-gray-700 pl-4 mt-4">
+                                    <li>
+                                        <span class="font-medium">元素标识（Identity - 感知层）：</span>
+                                        <ul class="list-disc list-inside space-y-1 text-gray-700 pl-8 mt-2">
+                                            <li><strong>定义：</strong> 机器定位元素的物理路径或特征（如 CSS 选择器、XPath、ID）。</li>
+                                            <li><strong>示例：</strong> `login_button = tab.ele('.form-cut-item-btn')`</li>
+                                            <li><strong>作用：</strong> 解决"它在哪里"的问题，实现机器对页面的<strong>物理感知</strong>。</li>
+                                        </ul>
+                                    </li>
+                                    <li>
+                                        <span class="font-medium">元素操作（Action - 行动层）：</span>
+                                        <ul class="list-disc list-inside space-y-1 text-gray-700 pl-8 mt-2">
+                                            <li><strong>定义：</strong> 对元素施加的状态改变或交互指令。</li>
+                                            <li><strong>示例：</strong> `login_button.click()`</li>
+                                            <li><strong>作用：</strong> 解决"如何交互"的问题，定义交互原语（Click/Input/Select），触发页面的<strong>状态转换</strong>。</li>
+                                        </ul>
+                                    </li>
+                                    <li>
+                                        <span class="font-medium">元素含义（Semantics - 语义层）：</span>
+                                        <ul class="list-disc list-inside space-y-1 text-gray-700 pl-8 mt-2">
+                                            <li><strong>定义：</strong> 描述该元素在业务逻辑中的角色、前置条件及行为后果。</li>
+                                            <li><strong>示例：</strong> "在用户输入凭据后点击此按钮，验证通过后将跳转至【应用市场页】。"</li>
+                                            <li><strong>作用：</strong> 解决"它是做什么的"的问题，赋予操作以<strong>业务含义</strong>。描述业务角色、前置依赖及跳转后果。</li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                                <p class="text-gray-700 mt-4">通过对 Web 应用中原子元素 $e_i$ 进行上述三要素的建模，便可构建出一张<strong>网页语义地图</strong>，每个元素成为地图上的一个具有业务意义的节点。</p>
+                                <div class="bg-gray-50 rounded-xl p-6 mt-4">
+                                    <pre class="text-sm text-gray-700 overflow-x-auto">## 特征搜索页面
+
+### 正常过车信息
+
+点击正常过车信息按钮：tab.ele('正常过车信息').wait.enabled().click(); time.sleep(4) 可加载机动车信息查询界面。
+
+在机动车信息查询界面，输入车牌号码 tab.ele('车牌号码').wait.enabled().parent().parent().ele('.el-input__inner').input(车牌号码)
+
+点击查询按钮：tab.ele( '查询 ').wait.enabled().click()
+
+查询结果是一个个的卡片，表示该车牌号对应的抓拍结果：tab.eles('.BS-snap-card card-item')
+
+对于每一个查询结果 result = tab.eles('.BS-snap-card card-item')[i]，其：
+- 抓拍地点是：result.eles('.info-item')[0].text
+- 抓拍时间是：result.eles('.info-item')[0].text
+
+### 监控点位信息
+
+点击正常过车信息按钮：tab.ele('监控点位信息').wait.enabled().click(); time.sleep(3) 可加载监控点位信息查询界面。
+
+在监控点位信息查询界面，点击查询按钮：tab.ele( '查询 ').wait.enabled().click() 可获得各监控点信息
+
+查询结果是一个个的卡片，表示各监控点信息：tab.eles('.card-item basic-wrap BS-subInfoCard_wrap')
+
+对于每一个监控点信息卡片 result = tab.eles('.card-item basic-wrap BS-subInfoCard_wrap')[i]，其监控点名称为：result.ele('.item-value text-ellipsis).text
+
+## 身份确认页面
+
+该页面有多种使用方式：根据图片确认身份、根据姓名确认身份、根据身份证号确认身份。
+
+### 根据图片确认身份
+
+在身份确认页面上传图像：tab.ele('.el-upload-dragger').click.to_upload('/home/zcc/zhbli/projects/实验86：AI化/face.png')
+
+获取图像对应的身份的姓名：tab.ele('.human-name').wait.enabled().text
+
+获取图像对应的身份的身份证号：tab.ele('.certificate-num').text
+
+### 根据姓名确认身份
+
+在身份确认页面输入姓名：tab.ele('@placeholder=请输入精确姓名').click().input(用户提供的想要查询的姓名)
+
+在身份确认页面，输入姓名后，点击查询按钮：tab.ele(' 查询 ').click() 获取所有该姓名的人的卡片
+
+在身份确认页面，输入姓名后，点击查询按钮后，获取所有卡片：tab.eles('@class:basic-wrap id-l-content__card hover')
+
+对于每个人的卡片，获取图像：person_card.ele('tag:img')
+
+对于每个人的卡片，获取行人： person_card.ele('@class:text-ellipsis').text
+
+对于每个人的卡片，获取身份证号：person_card.ele('@class:text_certificateNumber').text
+
+### 根据身份证号确认身份
+
+在身份确认页面输入身份证号：tab.ele('@placeholder=请输入身份证号').wait.enabled().click().input(用户提供的想要查询的身份证号)
+
+在身份确认页面，输入身份证号后，点击查询按钮：tab.ele(' 查询 ').click() 获取该身份账号的人的卡片
+
+获取姓名：tab.ele('@class:text-ellipsis').wait.enabled().text</pre>
+                                </div>
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
+                                    <div class="bg-police-50 rounded-xl p-6">
+                                        <h4 class="font-semibold text-police-700 mb-3">优点：</h4>
+                                        <ul class="list-disc list-inside space-y-2 text-gray-700">
+                                            <li>生成的流程自动化脚本可人工确认（准确性能够保证）。</li>
+                                            <li>速度有保证。一旦生成了自动化脚本，不用思考即可长期运行，不用每步都思考。</li>
+                                        </ul>
+                                    </div>
+                                    <div class="bg-police-50 rounded-xl p-6">
+                                        <h4 class="font-semibold text-police-700 mb-3">难点：</h4>
+                                        <ul class="list-disc list-inside space-y-2 text-gray-700">
+                                            <li>如何为网页元素建模？如果靠人工，需要浏览器领域专业人员才能做到（正如只有RPA从业者才知道如何构建RPA脚本），即使想通过大模型进行构建，依然缺乏初始的专家知识。</li>
+                                            <li>处理不了突发情况。系统稳定。</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- GUI Agent -->
+                            <div>
+                                <h3 class="text-xl font-semibold text-police-600 mb-4">GUI Agent</h3>
+                                <p class="text-gray-700 mb-4">定义：泛指能够像人类一样通过视觉感知图形界面，并执行点击、输入等交互行为的 AI Agent。</p>
+                                <div class="bg-gray-50 rounded-xl p-4 mb-6">
+                                    <img src="GUI_Agent介绍.png" alt="GUI Agent介绍" class="w-full h-auto rounded-lg">
+                                </div>
+
+                                <!-- 与传统自动化的区别 -->
+                                <div>
+                                    <h3 class="text-xl font-semibold text-police-600 mb-4">与传统自动化（RPA/浏览器自动化脚本）的区别</h3>
+                                    <div class="overflow-x-auto">
+                                        <table class="w-full text-left">
+                                            <thead>
+                                                <tr>
+                                                    <th class="px-4 py-3 rounded-tl-lg">特性</th>
+                                                    <th class="px-4 py-3">传统自动化 (RPA/Selenium)</th>
+                                                    <th class="px-4 py-3 rounded-tr-lg">GUI Agent (AI)</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td class="px-4 py-3 font-medium">依赖基础</td>
+                                                    <td class="px-4 py-3">依赖底层代码（HTML ID, DOM 结构）或固定坐标</td>
+                                                    <td class="px-4 py-3">依赖视觉图像，像人眼一样看</td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="px-4 py-3 font-medium">适应性</td>
+                                                    <td class="px-4 py-3">极差。一旦 UI 改版或按钮位置移动，脚本就会报错</td>
+                                                    <td class="px-4 py-3">强。按钮换了位置或颜色，AI 依然认得那是"提交"按钮</td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="px-4 py-3 font-medium">通用性</td>
+                                                    <td class="px-4 py-3">专用的。针对特定软件编写特定脚本</td>
+                                                    <td class="px-4 py-3">通用的。同一个 Agent 可以学着买火车票，也可以学着发邮件</td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="px-4 py-3 font-medium">指令理解</td>
+                                                    <td class="px-4 py-3">只能执行预设的死命令</td>
+                                                    <td class="px-4 py-3">可以理解自然语言指令（模糊指令）</td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="px-4 py-3 font-medium">处理异常</td>
+                                                    <td class="px-4 py-3">遇到未预设的弹窗通常会崩溃</td>
+                                                    <td class="px-4 py-3">可以根据弹窗内容尝试解决或绕过</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -821,6 +1028,147 @@
                             <p class="text-gray-700">建立量化的评价体系，计算在benchmark上的任务成功率 (SR)。识别模型在视觉定位、意图推理或长序列决策中的性能瓶颈。</p>
                             <p class="text-gray-700">针对模型失效的任务，由标注员进行规范化操作，录制纠正的操作轨迹。该过程不仅捕捉屏幕截图与点击坐标，还需通过思维链（CoT）标注，显式记录每步操作背后的思考过程，从而构建高质量的专家演示数据集。</p>
                             <p class="text-gray-700">利用 SFT（监督微调）技术，引导模型学习公安业务系统的特有交互模式。</p>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 各种流程自动化方案的优缺点及适用场景 -->
+                <section id="comparison" class="mb-16">
+                    <div class="bg-white rounded-2xl shadow-sm p-8 mb-8">
+                        <h2 class="text-2xl font-bold text-police-700 mb-6 flex items-center">
+                            <i class="fa fa-balance-scale mr-3 text-police-500"></i>
+                            各种流程自动化方案的优缺点及适用场景
+                        </h2>
+                        <div class="space-y-8">
+                            <!-- 基于 DOM 的 Web Agent -->
+                            <div>
+                                <h3 class="text-xl font-semibold text-police-600 mb-4">基于 DOM 的 Web Agent</h3>
+                                <p class="text-gray-700 mb-4">直接读取网页源代码（DOM）进行分析与操作。</p>
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                    <div class="bg-police-50 rounded-xl p-6">
+                                        <h4 class="font-semibold text-police-700 mb-3">优点</h4>
+                                        <ul class="list-disc list-inside space-y-2 text-gray-700">
+                                            <li>能够获取网页全文、原始图像链接。</li>
+                                            <li>处理浮动元素时有优势。</li>
+                                        </ul>
+                                    </div>
+                                    <div class="bg-police-50 rounded-xl p-6">
+                                        <h4 class="font-semibold text-police-700 mb-3">缺点</h4>
+                                        <ul class="list-disc list-inside space-y-2 text-gray-700">
+                                            <li>DOM 树通常非常庞大，会导致 Token 消耗极快。</li>
+                                            <li>难以针对特定网站收集训练数据并微调。</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- 基于视觉感知的 GUI Agent -->
+                            <div>
+                                <h3 class="text-xl font-semibold text-police-600 mb-4">基于视觉感知的 GUI Agent</h3>
+                                <p class="text-gray-700 mb-4">像人类一样"看"屏幕截图，通过坐标模拟点击。</p>
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                    <div class="bg-police-50 rounded-xl p-6">
+                                        <h4 class="font-semibold text-police-700 mb-3">优点</h4>
+                                        <ul class="list-disc list-inside space-y-2 text-gray-700">
+                                            <li>相比DOM，截图消耗的tokens数更少。</li>
+                                            <li>易于针对特定网站收集数据集并训练。</li>
+                                        </ul>
+                                    </div>
+                                    <div class="bg-police-50 rounded-xl p-6">
+                                        <h4 class="font-semibold text-police-700 mb-3">缺点</h4>
+                                        <ul class="list-disc list-inside space-y-2 text-gray-700">
+                                            <li>截图采样存在延迟，难以处理具有浮动元素的网页。</li>
+                                            <li>处理网页中的长文本和图像时不如DOM便利。</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- AI + RPA -->
+                            <div>
+                                <h3 class="text-xl font-semibold text-police-600 mb-4">AI + RPA</h3>
+                                <p class="text-gray-700 mb-4">利用 AI 自动生成 RPA 脚本，由传统 RPA 引擎执行。</p>
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                    <div class="bg-police-50 rounded-xl p-6">
+                                        <h4 class="font-semibold text-police-700 mb-3">优点</h4>
+                                        <ul class="list-disc list-inside space-y-2 text-gray-700">
+                                            <li>可验证性：生成的脚本可由人工审核优化，确保上线前的准确性。</li>
+                                            <li>运行高效：一旦脚本生成，执行阶段不再依赖大模型推理，速度极快且成本极低。</li>
+                                        </ul>
+                                    </div>
+                                    <div class="bg-police-50 rounded-xl p-6">
+                                        <h4 class="font-semibold text-police-700 mb-3">缺点</h4>
+                                        <ul class="list-disc list-inside space-y-2 text-gray-700">
+                                            <li>网站语义地图的构建难度：网页元素的抽象建模领域专业知识。即使想通过大模型进行构建，依然缺乏初始的专家知识。</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- 传统流程自动化 -->
+                            <div>
+                                <h3 class="text-xl font-semibold text-police-600 mb-4">传统流程自动化</h3>
+                                <p class="text-gray-700 mb-4">固定规则编写的自动化程序。</p>
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                    <div class="bg-police-50 rounded-xl p-6">
+                                        <h4 class="font-semibold text-police-700 mb-3">优点</h4>
+                                        <ul class="list-disc list-inside space-y-2 text-gray-700">
+                                            <li>稳定：在预设路径下，成功率接近 100%，速度最快。</li>
+                                        </ul>
+                                    </div>
+                                    <div class="bg-police-50 rounded-xl p-6">
+                                        <h4 class="font-semibold text-police-700 mb-3">缺点</h4>
+                                        <ul class="list-disc list-inside space-y-2 text-gray-700">
+                                            <li>异常处理能力差：缺乏灵活性，遇到计划外的弹窗、广告或微小改动即会崩溃。</li>
+                                            <li>可复用性极低：每一个任务都需要单独开发，无法规模化。</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- 场景与技术方案的匹配 -->
+                            <div>
+                                <h3 class="text-xl font-semibold text-police-600 mb-4">场景与技术方案的匹配</h3>
+                                <div class="space-y-6">
+                                    <div class="bg-gray-50 rounded-xl p-6">
+                                        <h4 class="font-semibold text-police-700 mb-3">高频重复、定义明确、速度要求高、AI算力受限的任务</h4>
+                                        <p class="text-gray-700 mb-2"><strong>方案：</strong>自动化脚本</p>
+                                        <p class="text-gray-700"><strong>理由：</strong>脚本一旦生成（并经过人工确认），运行速度最快且稳定，不需要为每一步支付 AI 推理费用。</p>
+                                    </div>
+                                    
+                                    <div class="bg-gray-50 rounded-xl p-6">
+                                        <h4 class="font-semibold text-police-700 mb-3">需求模糊、任务随机</h4>
+                                        <p class="text-gray-700 mb-2"><strong>方案：</strong>基于 DOM 或视觉的 GUI Agent</p>
+                                        <p class="text-gray-700"><strong>理由：</strong>无需（也无法）预先编写流程自动化脚本。</p>
+                                    </div>
+                                    
+                                    <div class="bg-gray-50 rounded-xl p-6">
+                                        <h4 class="font-semibold text-police-700 mb-3">图文数据抓取任务</h4>
+                                        <p class="text-gray-700 mb-2"><strong>方案：</strong>基于 DOM 的 Web Agent</p>
+                                        <p class="text-gray-700"><strong>理由：</strong>不通过OCR便可获取网页全量文本内容，且能获取在视觉上隐藏的图像下载链接。</p>
+                                    </div>
+                                    
+                                    <div class="bg-gray-50 rounded-xl p-6">
+                                        <h4 class="font-semibold text-police-700 mb-3">针对特定系统构建数据集并微调</h4>
+                                        <p class="text-gray-700 mb-2"><strong>方案：</strong>基于视觉的 GUI Agent</p>
+                                        <p class="text-gray-700"><strong>理由：</strong>通过截图，持续收集 Agent 运行时的交互数据，可以不断微调模型，让模型在特定网站的操作越来越精准。</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 基于 Agent 调度的自适应 Web 自动化架构 -->
+                <section id="adaptive-architecture" class="mb-16">
+                    <div class="bg-white rounded-2xl shadow-sm p-8 mb-8">
+                        <h2 class="text-2xl font-bold text-police-700 mb-6 flex items-center">
+                            <i class="fa fa-sitemap mr-3 text-police-500"></i>
+                            基于 Agent 调度的自适应 Web 自动化架构
+                        </h2>
+                        <div class="space-y-6">
+                            <p class="text-gray-700">当任务启动时，负责任务调度的 Agent 首先执行资源检索，若发现存在与当前站点及任务相匹配的现成流程自动化脚本，则直接调用，从而确保较高的响应速度与稳定性。在缺乏现成脚本但拥有该站点"语义地图"的情况下，Agent 会利用预存的网页元素映射关系，以组装积木的方式即时构建出针对性的流程自动化脚本。</p>
+                            <p class="text-gray-700">针对从未接触过的全新站点，系统则会自动切换至自主感知模式。此时，DOM Agent 与视觉 GUI Agent 协同工作，利用多模态大模型实时解析网页结构并识别交互元素，确保系统具备在任何未知环境下从零开始完成任务的能力，从而扩展了自动化的通用性。</p>
                         </div>
                     </div>
                 </section>
