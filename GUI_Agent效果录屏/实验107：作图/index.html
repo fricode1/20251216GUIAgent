@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI模型训练数据管道与管理架构</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            font-size: 24px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .main-container {
+            display: flex;
+            justify-content: space-between;
+            gap: 20px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .left-section {
+            flex: 3;
+            position: relative;
+        }
+
+        .right-section {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        /* 数据源模块 */
+        .data-sources {
+            position: absolute;
+            left: 0;
+            top: 50px;
+            width: 150px;
+            background: white;
+            border: 2px solid #4a90e2;
+            border-radius: 8px;
+            padding: 10px;
+        }
+
+        .data-sources h3 {
+            color: #4a90e2;
+            margin-bottom: 10px;
+            font-size: 14px;
+        }
+
+        .data-source-item {
+            display: flex;
+            align-items: center;
+            margin: 8px 0;
+            font-size: 12px;
+        }
+
+        .data-source-icon {
+            width: 16px;
+            height: 16px;
+            margin-right: 8px;
+            background-color: #4a90e2;
+            border-radius: 3px;
+        }
+
+        /* 处理流程模块样式 */
+        .pipeline-module {
+            background: white;
+            border-radius: 8px;
+            padding: 15px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            min-height: 120px;
+            margin-bottom: 20px;
+        }
+
+        .module-blue {
+            background-color: #e3f2fd;
+            border: 2px solid #4a90e2;
+        }
+
+        .module-green {
+            background-color: #e8f5e8;
+            border: 2px solid #4caf50;
+        }
+
+        .module-yellow {
+            background-color: #fff8e1;
+            border: 2px solid #ffc107;
+        }
+
+        .module-purple {
+            background-color: #f3e5f5;
+            border: 2px solid #9c27b0;
+        }
+
+        .module-orange {
+            background-color: #fff3e0;
+            border: 2px solid #ff9800;
+        }
+
+        .module-pink {
+            background-color: #fce4ec;
+            border: 2px solid #e91e63;
+        }
+
+        .module-title {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        .module-content {
+            font-size: 12px;
+            line-height: 1.4;
+        }
+
+        .module-item {
+            margin: 5px 0;
+        }
+
+        /* 箭头连接线 */
+        .arrow {
+            position: absolute;
+            background-color: #333;
+            height: 2px;
+        }
+
+        .arrow::after {
+            content: '';
+            position: absolute;
+            right: -6px;
+            top: -4px;
+            width: 10px;
+            height: 10px;
+            border-right: 2px solid #333;
+            border-bottom: 2px solid #333;
+            transform: rotate(-45deg);
+        }
+
+        .arrow-vertical {
+            position: absolute;
+            background-color: #333;
+            width: 2px;
+        }
+
+        .arrow-vertical::after {
+            content: '';
+            position: absolute;
+            right: -4px;
+            bottom: -6px;
+            width: 10px;
+            height: 10px;
+            border-right: 2px solid #333;
+            border-bottom: 2px solid #333;
+            transform: rotate(45deg);
+        }
+
+        .arrow-diagonal {
+            position: absolute;
+            background-color: #333;
+            height: 2px;
+            transform-origin: left center;
+        }
+
+        .arrow-diagonal::after {
+            content: '';
+            position: absolute;
+            right: -6px;
+            top: -4px;
+            width: 10px;
+            height: 10px;
+            border-right: 2px solid #333;
+            border-bottom: 2px solid #333;
+            transform: rotate(-45deg);
+        }
+
+        /* 监控面板 */
+        .monitoring-dashboard {
+            background: white;
+            border: 2px solid #ff9800;
+            border-radius: 8px;
+            padding: 15px;
+            text-align: center;
+        }
+
+        .dashboard-title {
+            color: #ff9800;
+            margin-bottom: 15px;
+        }
+
+        .chart {
+            width: 60px;
+            height: 40px;
+            background-color: #ff9800;
+            margin: 10px auto;
+            opacity: 0.7;
+        }
+
+        /* 特征存储 */
+        .feature-store {
+            background: white;
+            border: 2px solid #4a90e2;
+            border-radius: 8px;
+            padding: 15px;
+            text-align: center;
+        }
+
+        .db-icon {
+            width: 50px;
+            height: 50px;
+            background-color: #4a90e2;
+            margin: 0 auto 10px;
+            border-radius: 5px;
+            position: relative;
+        }
+
+        .db-icon::before {
+            content: '';
+            position: absolute;
+            width: 30px;
+            height: 10px;
+            background-color: white;
+            top: 15px;
+            left: 10px;
+        }
+
+        .db-icon::after {
+            content: '';
+            position: absolute;
+            width: 30px;
+            height: 10px;
+            background-color: white;
+            top: 25px;
+            left: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Data Pipeline & Management Architecture for AI Model Training</h1>
+    </div>
+
+    <div class="main-container">
+        <div class="left-section">
+            <!-- 数据源 -->
+            <div class="data-sources">
+                <h3>Data Sources</h3>
+                <div class="data-source-item">
+                    <div class="data-source-icon"></div>
+                    <span>Local Files</span>
+                </div>
+                <div class="data-source-item">
+                    <div class="data-source-icon"></div>
+                    <span>Object Storage (S3)</span>
+                </div>
+                <div class="data-source-item">
+                    <div class="data-source-icon"></div>
+                    <span>Databases</span>
+                </div>
+                <div class="data-source-item">
+                    <div class="data-source-icon"></div>
+                    <span>APIs</span>
+                </div>
+                <div class="data-source-item">
+                    <div class="data-source-icon"></div>
+                    <span>Kafka (Streaming)</span>
+                </div>
+                <div class="data-source-item">
+                    <div class="data-source-icon"></div>
+                    <span>External Systems</span>
+                </div>
+            </div>
+
+            <!-- 数据摄入 -->
+            <div class="pipeline-module module-blue" style="position: absolute; left: 180px; top: 50px; width: 200px;">
+                <div class="module-title">Data Source Ingestion</div>
+                <div class="module-content">
+                    <div class="module-item">Batch Import</div>
+                    <div class="module-item">Stream Ingestion</div>
+                    <div class="module-item">API Connectors</div>
+                    <div class="module-item">Scheduling & Retry</div>
+                    <div class="module-item">CDC / Incremental</div>
+                </div>
+            </div>
+
+            <!-- 数据版本与治理 -->
+            <div class="pipeline-module module-green" style="position: absolute; left: 410px; top: 50px; width: 180px;">
+                <div class="module-title">Data Version & Governance</div>
+                <div class="module-content">
+                    <div class="module-item">Dataset Versioning</div>
+                    <div class="module-item">Snapshot</div>
+                    <div class="module-item">Lineage</div>
+                    <div class="module-item">Rollback</div>
+                </div>
+            </div>
+
+            <!-- 数据清洗与标准化 -->
+            <div class="pipeline-module module-yellow" style="position: absolute; left: 410px; top: 220px; width: 250px;">
+                <div class="module-title">Data Cleaning & Standardization</div>
+                <div class="module-content">
+                    <div class="module-item">Deduplication (MinHash / SimHash)</div>
+                    <div class="module-item">Noise Filtering</div>
+                    <div class="module-item">Length/Size Filters</div>
+                    <div class="module-item">Illegal/Irrelevant Content Filter</div>
+                    <div class="module-item">Schema & Type Standardization</div>
+                    <div class="module-item">Metadata & Quality Check</div>
+                </div>
+            </div>
+
+            <!-- 数据存储与格式 -->
+            <div class="pipeline-module module-purple" style="position: absolute; left: 410px; top: 410px; width: 200px;">
+                <div class="module-title">Data Storage & Format</div>
+                <div class="module-content">
+                    <div class="module-item">TB ~ PB Storage</div>
+                    <div class="module-item">Sharding</div>
+                    <div class="module-item">Compression</div>
+                    <div class="module-item">Pre-tokenized / Lazy Tokenize</div>
+                </div>
+            </div>
+
+            <!-- 标记化与特征提取 -->
+            <div class="pipeline-module module-blue" style="position: absolute; left: 680px; top: 50px; width: 200px;">
+                <div class="module-title">Tokenization & Feature Extraction</div>
+                <div class="module-content">
+                    <div class="module-item">Tokenizer Training</div>
+                    <div class="module-item">Token Cache</div>
+                    <div class="module-item">Special Token Mgmt</div>
+                    <div class="module-item">Multi-modal Encoding</div>
+                </div>
+            </div>
+
+            <!-- 数据质量评估 -->
+            <div class="pipeline-module module-green" style="position: absolute; left: 680px; top: 220px; width: 180px;">
+                <div class="module-title">Data Quality Evaluation</div>
+                <div class="module-content">
+                    <div class="module-item">Deduplication Rate</div>
+                    <div class="module-item">Noise Ratio</div>
+                    <div class="module-item">Semantic Diversity</div>
+                </div>
+            </div>
+
+            <!-- 数据调度与采样 -->
+            <div class="pipeline-module module-orange" style="position: absolute; left: 680px; top: 320px; width: 200px;">
+                <div class="module-title">Data Scheduling & Sampling</div>
+                <div class="module-content">
+                    <div class="module-item">Batch Loading</div>
+                    <div class="module-item">Dynamic Packing</div>
+                    <div class="module-item">Global Shuffle</div>
+                    <div class="module-item">Multi-process / Multi-node Sync</div>
+                </div>
+            </div>
+
+            <!-- 在线数据监控与采样策略 -->
+            <div class="pipeline-module module-pink" style="position: absolute; left: 680px; top: 470px; width: 250px;">
+                <div class="module-title">Online Data Monitoring & Sampling Strategy</div>
+                <div class="module-content">
+                    <div class="module-item">Data Source Ratio Control</div>
+                    <div class="module-item">Difficulty-based Sampling</div>
+                    <div class="module-item">Re-weighted Sampling</div>
+                    <div class="module-item">Dynamic Mixing (Warmup, etc.)</div>
+                    <div class="module-item">Curriculum Learning</div>
+                    <div class="module-item">Hard Example Mining</div>
+                </div>
+            </div>
+
+            <!-- 模型训练 -->
+            <div class="pipeline-module module-green" style="position: absolute; left: 960px; top: 520px; width: 150px;">
+                <div class="module-title">Model Training</div>
+            </div>
+
+            <!-- 箭头连接 -->
+            <!-- 数据源到数据摄入 -->
+            <div class="arrow" style="left: 150px; top: 100px; width: 30px;"></div>
+            <!-- 数据摄入到数据版本 -->
+            <div class="arrow" style="left: 380px; top: 100px; width: 30px;"></div>
+            <!-- 数据版本到标记化 -->
+            <div class="arrow" style="left: 590px; top: 100px; width: 30px;"></div>
+            <!-- 数据版本到数据清洗竖向 -->
+            <div class="arrow-vertical" style="left: 500px; top: 170px; height: 50px;"></div>
+            <!-- 数据清洗到数据存储竖向 -->
+            <div class="arrow-vertical" style="left: 500px; top: 370px; height: 40px;"></div>
+            <!-- 数据存储到数据调度 -->
+            <div class="arrow-diagonal" style="left: 520px; top: 440px; width: 160px; transform: rotate(-30deg);"></div>
+            <!-- 标记化到数据质量评估 -->
+            <div class="arrow-vertical" style="left: 760px; top: 170px; height: 50px;"></div>
+            <!-- 数据质量评估到数据调度 -->
+            <div class="arrow-vertical" style="left: 760px; top: 300px; height: 50px;"></div>
+            <!-- 数据调度到在线监控 -->
+            <div class="arrow-vertical" style="left: 760px; top: 440px; height: 50px;"></div>
+            <!-- 在线监控到模型训练 -->
+            <div class="arrow" style="left: 930px; top: 520px; width: 30px;"></div>
+            <!-- 模型训练到特征存储 -->
+            <div class="arrow-diagonal" style="left: 1060px; top: 520px; width: 100px; transform: rotate(45deg);"></div>
+            <!-- 特征存储到监控仪表盘反馈 -->
+            <div class="arrow-diagonal" style="left: 1120px; top: 450px; width: 80px; transform: rotate(-135deg);"></div>
+            <!-- 监控仪表盘到在线监控反馈 -->
+            <div class="arrow-diagonal" style="left: 1100px; top: 580px; width: 120px; transform: rotate(135deg);"></div>
+        </div>
+
+        <div class="right-section">
+            <!-- 监控仪表盘 -->
+            <div class="monitoring-dashboard" style="position: absolute; top: 100px; right: 20px; width: 180px;">
+                <div class="dashboard-title">Monitoring Dashboard</div>
+                <div class="chart"></div>
+                <div class="chart"></div>
+                <div class="chart"></div>
+            </div>
+
+            <!-- 特征存储 -->
+            <div class="feature-store" style="position: absolute; top: 320px; right: 20px; width: 180px;">
+                <div class="db-icon"></div>
+                <div>Feature Store / Vector DB</div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

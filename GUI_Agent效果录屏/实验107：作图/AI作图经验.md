@@ -1,0 +1,316 @@
+# 思路一：根据参考图，生成图片
+
+grok: 速度快，但内容不如chatgpt丰富
+
+chatgpt：中文鬼画符。但英文效果很好
+
+# 思路二：根据参考图，用前端复刻
+
+![alt text](image.png)
+
+# 思路三：根据参考图，生成提示词，再根据提示词生成图片
+
+![alt text](image-1.png)
+
+# 思路四：Figma AI
+
+gemini 说参考图用 figma 生成最合适。
+
+figma 有AI生成功能，其原理是代码生成 tsx 文件。
+
+![alt text](image-2.png)
+
+手绘效果：又慢又丑
+
+# 思路五：根据文档生成python图
+
+- 根据该文件，采用python的graphviz，绘制科研用的框图。
+- 只生成一个图，总体框架为“多模态基础大模型”，具备三个部分：多模态理解大模型，多模态表征大模型，多模态生成大模型
+- 用英文，不要出现中文
+
+![alt text](image-3.png)
+
+# 思路六：根据文档生成绘制提纲，再让AI生图
+
+![alt text](image-4.png)
+
+![alt text](架构图.png)
+
+这个最好的结果是由 openrouter 中的 nanobanana2 生成的，提示词如下：
+
+```text
+Multimodal Large Model Architecture Drawing Outline
+
+I. Overall Layout Structure
+┌─────────────────────────────────────────────────────────────────────────────┐
+│ Layer 1: Multimodal Input Layer (Top horizontal arrangement) │
+│ Layer 2: Tokenizer Encoding Layer (Following input layer) │
+│ Layer 3: Unified Token Sequence (Central hub) │
+│ Layer 4: Three Sub-models Parallel Processing (Left-Center-Right layout) │
+│ Layer 5: Detailed Internal Modules of Each Sub-model (Vertical expansion) │
+│ Layer 6: Output Layer (Bottom aggregation) │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+II. Layer 1: Multimodal Input Layer
+Position: Topmost, horizontally divided into three equal parts
+Elements:
+├─ Left Box: Text Input
+│ Annotation: Natural language text, query description, instruction prompt
+│
+├─ Center Box: Image Input
+│ Annotation: Static images, visual documents, layout images
+│
+└─ Right Box: Video Input
+Annotation: Dynamic video sequences, temporal visual data
+
+Connection Lines: Three boxes each extend downward arrows → converging to Tokenizer layer
+
+III. Layer 2: Tokenizer Encoding Layer
+Position: Directly below input layer, horizontally spanning large box
+Internal Structure (Left-Center-Right arrangement):
+├─ Left: Text Tokenizer
+│ Output Annotation: → Text Tokens
+│
+├─ Center: Image Encoder (MoonViT-3D)
+│ Key Technical Annotations:
+│ • NaViT Patch packing strategy
+│ • Native resolution processing
+│ Output Annotation: → Visual Tokens
+│
+└─ Right: Video Encoder (3D ViT Compression)
+Key Technical Annotations:
+• 4-frame grouped spatiotemporal compression
+• Temporal pooling feature aggregation
+Output Annotation: → Spatiotemporal Tokens
+
+Connection Lines: Three types of Tokens converge downward → Unified Token Sequence
+
+IV. Layer 3: Unified Token Sequence (Central Hub)
+Position: Directly below Tokenizer layer, centered and prominently displayed
+Content Box:
+Internal Text: [Text Tokens] + [Visual Tokens] + [Modality Separator] + [PAD Anchor]
+
+Connection Lines: From this layer, three main arrows extend downward → pointing to left (Understanding)/center (Embedding)/right (Generation) sub-models respectively
+
+V. Layer 4: Three Sub-models Title Area (Horizontal three-part division)
+Position: Directly below Unified Token Sequence, horizontally divided into three equal title boxes
+
+Left Box Title:
+Multimodal Understanding Model
+Base: Kimi K2 MoE
+Output Type: Text Output
+
+Center Box Title:
+Multimodal Embedding Model
+Base: Qwen3-VL
+Output Type: Vector Output
+
+Right Box Title:
+Multimodal Generation Model
+Base: DiT / Qwen3
+Output Type: Media Output
+
+VI. Layer 5A: Understanding Model Internal Detailed Structure (Left vertical expansion)
+Located below left box title, vertically stacked with 5 modules:
+
+Module 1: MoonViT-3D Visual Encoder
+Technical Details:
+• NaViT Patch packing strategy (supports arbitrary resolution)
+• 3D ViT spatiotemporal compression (4-frame grouped processing)
+• Temporal pooling feature aggregation
+• Shared weights between image/video encoders
+Input: Visual Tokens
+Output: Visual Features → downward arrow
+
+Module 2: MLP Projector
+Function: Visual-language feature space alignment transformation
+Technology: Multi-layer perceptron mapping
+Input: Visual Features
+Output: Aligned fused features → downward arrow
+
+Module 3: Kimi K2 MoE Language Model (Core, bold box)
+Parameter Scale:
+• Total parameters: 1.04 trillion
+• Activated parameters: 32 billion
+• Expert units: 384
+• Per-token activation: 8 experts
+• Sparsity: 48%
+Function: Cross-modal reasoning and generation
+Input: Fused features + Text Tokens
+Output: Reasoning results → downward arrow
+
+Module 4: Output Layer
+Content: Understanding/reasoning/generation results (text format)
+
+Connection Lines: Module 1→Module 2→Module 3→Module 4, vertically connected in series
+
+VII. Layer 5B: Embedding Model Internal Detailed Structure (Center vertical expansion)
+Located below center box title, vertically stacked with 5 modules:
+
+Module 1: Modality Adaptation Processing Module
+Processing Logic:
+├─ Image: Preserve original aspect ratio → convert to tensor format
+├─ Video: Fixed frame rate sampling + maximum frame limit → preserve temporal characteristics
+└─ Document: Split by layout into text/image/table → concatenate in order
+Constraint: 32K sequence length upper limit
+
+Module 2: Input Processing and Template Parsing Module
+Technology: Qwen3-VL instruction-aware contextual template
+Structure:
+├─ System message segment: Task instruction
+├─ User message segment: Multimodal instance
+└─ PAD token: Anchor function
+Output: Standardized token sequence
+
+Module 3: Foundation Support Module (Dual components in parallel)
+Component A: Qwen3-VL Visual Encoder → Visual Tokens feature extraction
+Component B: Qwen3 LM Dense Decoder → Cross-modal semantic fusion
+Mechanism: Causal attention mechanism
+Capability: 32K ultra-long sequences, 30+ languages
+
+Module 4: Core Encoding Module (Dual-encoder architecture)
+Processing Flow:
+├─ Text modality: Direct encoding by language decoder
+├─ Visual modality: Visual encoder → language decoder encoding
+└─ Multimodal combination: Independent encoding per modality → cross-modal lightweight fusion
+Output: High-dimensional feature sequence
+
+Module 5: Embedding Vector Generation Module (Output layer)
+Mechanism: Use PAD token as anchor, extract corresponding hidden state
+Specifications:
+• 2B version: 2048-dimensional fixed vector
+• 8B version: 4096-dimensional fixed vector
+Characteristic: Dimension independent of input modality/length
+Application: Cosine similarity measurement, multimodal retrieval
+
+Connection Lines: Module 1→Module 2→Module 3→Module 4→Module 5, vertically connected in series
+
+VIII. Layer 5C: Generation Model Internal Detailed Structure (Right vertical expansion, divided into two major branches)
+Located below right box title, first divided into two subtitle boxes, then each expands vertically
+
+Subtitle Left: Video Generation Model (MMDiT dual-branch architecture)
+Subtitle Right: Speech Generation Model (Dual-track autoregressive architecture)
+
+[Video Generation Branch Detailed Modules] (Vertical 5 layers)
+
+Module 1: Text/Image Encoder (Input layer)
+Function A: Text prompt semantic encoding → standardized feature vector
+Function B: Reference image visual feature extraction (image-guided tasks)
+
+Module 2: Dual-branch Parallel Processing (Left-right side-by-side sub-boxes)
+Left Sub-box - Visual Branch Processing Module (MMDiT):
+• Scene subject construction
+• Motion dynamics modeling
+• Camera movement design
+• Scene transition handling
+→ Built-in auditory branch interaction interface
+
+Right Sub-box - Auditory Branch Processing Module (MMDiT):
+• Human voice generation
+• Sound effect design
+• Background music
+• Speech prosody capture (language/dialect)
+→ Built-in visual branch interaction interface
+
+Module 3: Cross-modal Joint Module (Central fusion)
+Mechanism: Cross-modal attention mechanism
+Functions:
+• Deep interaction between visual-auditory features
+• Temporal dimension matching optimization
+• Semantic dimension collaborative calibration
+Objective: Ensure precise synchronization of lip movements/actions/sound effects
+
+Module 4: Audio-Video Joint Generation Module (DiT)
+Technology: Diffusion Transformer generation
+Input: Unified cross-modal feature representation
+Output:
+• Video frame sequence
+• Audio waveform data
+
+Module 5: Output Layer
+Content: Audio-video content (temporal synchronization, semantic consistency)
+
+Connection Lines: Module 1→Module 2 (branches) →Module 3 (converges) →Module 4→Module 5
+
+[Speech Generation Branch Detailed Modules] (Vertical 8 layers)
+
+Module 1: Text Tokenizer
+Function: Natural language text → Text Tokens
+
+Module 2: Speaker Encoder (Learnable module)
+Function: Extract from reference speech
+• Timbre features
+• Prosody features
+Application: Voice cloning, specific speaker generation
+
+Module 3: Speech Tokenizer (Dual versions in parallel)
+Version A - 25Hz Single Codebook:
+• Semantic + acoustic fusion encoding
+• Qwen2-Audio encoder
+• Block-wise diffusion transformer streaming reconstruction
+
+Version B - 12Hz Multi-codebook:
+• Semantic-acoustic disentangled quantization
+• 12.5Hz multi-layer multi-codebook
+• Lightweight causal convolutional network
+• Millisecond-level first-packet latency
+
+Module 4: Dual-track Representation Fusion Module
+Operation: Text Tokens + Acoustic Tokens → channel dimension concatenation
+Output: Fused feature representation
+
+Module 5: Qwen3 Language Model (Backbone network)
+Capability: High concurrency, low-latency inference
+Function: Real-time prediction of acoustic token sequence based on text tokens
+Special: 12Hz version prioritizes prediction of codebook 0
+
+Module 6: Multi-token Prediction Module (12Hz version exclusive)
+Input: Codebook 0 features
+Output: All residual codebook features
+Mechanism: Single-frame instant generation
+Objective: Reduce end-to-end latency, improve expression consistency
+
+Module 7: Code2Wav Module (Dual versions)
+Version A - Adapted for 25Hz:
+• Block-wise diffusion transformer
+• Improved BigVGAN vocoder
+• Flow matching technology for high-fidelity reconstruction
+
+Version B - Adapted for 12Hz:
+• Pure left-context streaming codec
+• No waiting for future context
+• Incremental audio reconstruction
+
+Module 8: Streaming Decoder (Output layer)
+Version A - 25Hz:
+• Sliding window block attention mechanism
+• Limit context reference range
+• Long sequence stable streaming generation
+
+Version B - 12Hz:
+• Fully causal feature codec
+• 12.5Hz rate frame-by-frame processing
+• Meet real-time online service requirements
+
+Module 9: Output Layer
+Content: Real-time speech output
+Capabilities: Multilingual generation, voice cloning, fine-grained control
+
+Connection Lines: Module 1/2/3→Module 4→Module 5→Module 6→Module 7→Module 8→Module 9 (vertically connected in series, Module 6 is 12Hz exclusive side branch)
+
+IX. Layer 6: Output Aggregation Layer (Bottom)
+Position: Bottommost, horizontally divided into three parts corresponding to three sub-models
+
+Left Box: Understanding Model Output
+Content: Text format understanding/reasoning/generation results
+
+Center Box: Embedding Model Output
+Content: Fixed-dimensional dense vectors (2048D/4096D)
+
+Right Box: Generation Model Output
+Content:
+├─ Video branch: Video frames + audio waveform (synchronized audio-video)
+└─ Speech branch: Real-time speech stream
+```
+
+要附上 参考图.png
