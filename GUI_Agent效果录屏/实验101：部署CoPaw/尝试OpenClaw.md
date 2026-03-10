@@ -122,3 +122,41 @@ openclaw-gateway-1 | 2026-03-10T01:35:54.215+00:00 Gateway failed to start: Erro
 ```
 
 当你运行 docker-compose up 时，Docker Compose 程序会在当前运行命令的目录下自动寻找名为 .env 的文件。
+
+# 读文档
+
+默认情况下，安装脚本会从源代码构建镜像。要改为拉取 pre-built image，在运行脚本之前设置 OPENCLAW_IMAGE：
+```bash
+export OPENCLAW_IMAGE="ghcr.io/openclaw/openclaw:latest"
+./docker-setup.sh
+```
+脚本检测到OPENCLAW_IMAGE不是默认值openclaw:local，并运行该脚本 docker pull 代替默认值 docker build。其他所有操作（注册、网关启动、令牌生成）不变。
+
+# 在互联网电脑构建镜像、跑通后，将镜像拷贝至内网
+
+pass
+
+# 终于成功了
+
+直接进入容器，运行如下命令即可启动网关：
+```
+openclaw setup
+openclaw gateway
+```
+
+但是有基本bug：![alt text](90bdd0a4fdd59fcae83d9f09c96b6d1.jpg)
+```bash
+[agent/embedded] embedded run agent end: isError=true error=LLM request timed out.
+```
+
+是不是内网大模型的原因？
+
+我在互联网的镜像中运行，就能判断了。
+
+结果：在互联网的镜像中，一切正常。
+
+说明是内网大模型的问题么？
+
+https://github.com/openclaw/openclaw/issues/17613
+
+网友也遇到了类似的问题。
