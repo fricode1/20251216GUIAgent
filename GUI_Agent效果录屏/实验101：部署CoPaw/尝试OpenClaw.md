@@ -104,3 +104,21 @@ services:
 ---
 
 验证服务是否正常运行：docker compose ps：有结果输出。
+
+# 运行 ./docker-setup.sh
+
+该脚本中，只有识别到镜像名为 openclaw:local 时，才会调用本地镜像，否则会从互联网拉取。这就需要修改镜像名。
+
+```bash
+docker tag 原镜像名:原标签 openclaw:local
+```
+
+决定是直接拉取远程镜像还是本地构建 openclaw:local。这句话说明，要么从远程拉取镜像，要么从头开始构建镜像，这两者都不是我想要的。
+
+# 运行 docker compose up
+
+```bash
+openclaw-gateway-1 | 2026-03-10T01:35:54.215+00:00 Gateway failed to start: Error: non-loopback Control UI requires gateway.controlUi.allowedOrigins (set explicit origins), or set gateway.controlUi.dangerouslyAllowHostHeaderOriginFallback=true to use Host header origin fallback mode
+```
+
+当你运行 docker-compose up 时，Docker Compose 程序会在当前运行命令的目录下自动寻找名为 .env 的文件。
