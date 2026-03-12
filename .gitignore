@@ -1,3 +1,4 @@
 .obsidian/
 *.tar
 */*/__pycache__
+code/
