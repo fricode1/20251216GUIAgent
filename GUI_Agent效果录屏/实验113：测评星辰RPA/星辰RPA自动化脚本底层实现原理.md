@@ -47,20 +47,4 @@ by comate：支持MCP和REST API调用。
 
 # 如何用MCP调用一个自动化脚本？
 
-需要 RPA 服务器地址。应该是部署了容器后就能获得
-
-# 部署星辰RPA的服务端和客户端
-
-astron-rpa\BUILD_GUIDE.zh.md
-
-## 容器部署星辰RPA（后端）
-
-关键：http://localhost:8000/ 用户名：admin 密码：123（comate帮我找到的）
-
-## 部署星辰RPA前端
-
-```powershell
-cd C:\Users\admin\Documents\GitHub\fri\20251216GUIAgent\code\astron-rpa
-
-./build.bat -p "C:\Users\admin\Documents\GitHub\fri\20251216GUIAgent\code\astron-rpa\astron_py313\Scripts\python.exe"
-```
+需要 RPA 服务器地址。应该是部署了容器后就能获得。见《部署星辰RPA服务端与客户端.md》
