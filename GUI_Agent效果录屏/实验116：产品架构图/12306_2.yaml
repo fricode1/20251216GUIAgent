@@ -1,0 +1,10 @@
+web:
+  url: "https://www.12306.cn/index/"
+tasks:
+  - name: 买票
+    flow:
+      - aiTap: "出发地输入框"
+      - aiKeyboardPress:
+        keyName: "b"
+        locate: "出发地输入框"
+      - aiTap: "复选框 with text '南京南' in departure search dropdown"
