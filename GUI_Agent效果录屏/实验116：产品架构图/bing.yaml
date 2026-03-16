@@ -1,0 +1,11 @@
+web:
+  url: https://www.bing.com
++ bridgeMode: newTabWithUrl
++ closeNewTabsAfterDisconnect: true
+tasks:
+  - name: 搜索武林外传
+    flow:
+      - aiInput:
+        value: "武林外传"
+        locate: "搜索框"
+      - aiTap: "搜索按钮"
