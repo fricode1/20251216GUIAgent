@@ -1,0 +1,28 @@
+
+web:
+  url: "https://www.12306.cn/index/"
+  viewportWidth: 1280
+  viewportHeight: 960
+
+tasks:
+  - name: "Search train tickets from Beijing to Shenzhen"
+    flow:
+      - aiTap: "出发地输入框 with text '北京'"
+      - aiInput:
+          value: "南京"
+          locate: "出发地输入框 with text '北京'"
+      - aiTap: "复选框 with text '南京南' in departure search dropdown"
+      - aiInput:
+          value: "深圳"
+          locate: "输入框 with text '廊坊' in 到达地 field"
+      - aiTap: "下拉选项 with text '深圳东' in arrival search results"
+      - aiTap: "出发日期输入框 with text '2028-03-18'"
+      - aiTap: "日期单元格 with text '18' in calendar"
+      - aiTap: "查询按钮 with text '查询' in 车票查询表单"
+      - aiAssert: "Train search results page showing tickets from Nanjing South to Shenzhen East for March 18, 2026"
+
+  - name: "Verify search results are displayed"
+    flow:
+      - aiAssert: "Train listings table is visible with multiple train options"
+      - aiAssert: "Page shows departure and arrival stations correctly set to 南京南 and 深圳东"
+      - aiAssert: "Date is correctly displayed as 2026-03-18"
