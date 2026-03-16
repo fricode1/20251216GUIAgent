@@ -197,6 +197,8 @@ Promise.resolve(
 
     await agent.ai('点击查询按钮')
 
+    await agent.ai('在弹出的查询结果中，为我购买一张车票。如需登录信息，选择扫码登录，过段时间便会登录成功。')
+
     await agent.destroy();
   })()
 );
