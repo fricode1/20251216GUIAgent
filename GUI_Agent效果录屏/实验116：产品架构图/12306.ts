@@ -190,6 +190,9 @@ Promise.resolve(
     await agent.ai('如果出现了城市下拉选项，点击"深圳北"');
     
     await sleep(500);
+
+    await agent.ai('将出发时间设置为 2026-03-20');
+
     await agent.destroy();
   })()
 );
