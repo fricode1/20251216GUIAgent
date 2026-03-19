@@ -1,0 +1,27 @@
+<mxfile host="app.diagrams.net" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36" version="29.6.3">
+  <diagram name="第 1 页" id="34xba6AkAYwnRsQgyUFj">
+    <mxGraphModel dx="365" dy="364" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="jGA7piVetAyofH3zNrOz-4" edge="1" parent="1" source="jGA7piVetAyofH3zNrOz-1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="jGA7piVetAyofH3zNrOz-3" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="jGA7piVetAyofH3zNrOz-5" connectable="0" parent="jGA7piVetAyofH3zNrOz-4" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="Y" vertex="1">
+          <mxGeometry relative="1" x="-0.4692" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="jGA7piVetAyofH3zNrOz-1" parent="1" style="rhombus;whiteSpace=wrap;html=1;" value="是否采用浏览器插件形式？" vertex="1">
+          <mxGeometry height="80" width="240" x="280" y="240" as="geometry" />
+        </mxCell>
+        <mxCell id="jGA7piVetAyofH3zNrOz-2" edge="1" parent="1" source="jGA7piVetAyofH3zNrOz-1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;" target="jGA7piVetAyofH3zNrOz-1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="jGA7piVetAyofH3zNrOz-3" parent="1" style="rounded=1;whiteSpace=wrap;html=1;" value="缺点：局限于浏览器环境&lt;div&gt;缺点：如果说咱们平台某个功能有用，用户直接收藏那个网址不就行了吗？&lt;br&gt;缺点：采用插件形式和采用前端形式作为入口，没有本质区别。&lt;br&gt;问题：调用我们平台的哪个功能？可以是行人违章功能。&lt;/div&gt;&lt;div&gt;如果是调用行人违章，那么执行CoPaw是最简单的。&lt;br&gt;优点：依赖当前用户浏览的网页内容。但是有应用场景吗？&lt;br&gt;优点：能够调用GUI Agent&lt;br&gt;缺点：难道CoPaw就不能调用midscene吗？&lt;/div&gt;" vertex="1">
+          <mxGeometry height="130" width="410" x="195" y="360" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
