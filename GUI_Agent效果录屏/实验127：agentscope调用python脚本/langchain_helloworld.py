@@ -12,15 +12,19 @@ def get_weather(city: str) -> str:
     """Get weather for a given city."""
     return f"It's always sunny in {city}!"
 
+def get_coord(city):
+    """get gps coord for a given city"""
+    return f"The gps coord of {city} is [123, 456]"
+
 agent = create_agent(
     model=llm,
-    tools=[get_weather],
+    tools=[get_weather, get_coord],
     system_prompt="You are a helpful assistant",
 )
 
 # Run the agent
 response = agent.invoke(
-    {"messages": [{"role": "user", "content": "what is the weather in sf"}]}
+    {"messages": [{"role": "user", "content": "What is the weather in 北京？What is the gps coord of sf？"}]}
 )
 
 print(response)
