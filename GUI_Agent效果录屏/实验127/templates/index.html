@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI 智能布控助手</title>
+    <style>
+        /* 纯手工编写 CSS，确保完全离线可用 */
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: "Microsoft YaHei", sans-serif; background-color: #f0f2f5; display: flex; justify-content: center; height: 100vh; }
+        .chat-container { width: 100%; max-width: 800px; background: #fff; display: flex; flex-direction: column; height: 100vh; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
+        .header { background-color: #1890ff; color: white; padding: 15px 20px; text-align: center; font-size: 18px; font-weight: bold; }
+        .chat-box { flex: 1; padding: 20px; overflow-y: auto; background-color: #f5f5f5; }
+        .message-row { display: flex; margin-bottom: 20px; }
+        .message-row.user { justify-content: flex-end; }
+        .message-row.ai { justify-content: flex-start; }
+        .message-row.tool { justify-content: center; }
+        
+        .message-content { max-width: 75%; padding: 12px 16px; border-radius: 8px; font-size: 14px; line-height: 1.5; word-wrap: break-word; white-space: pre-wrap; }
+        .message-row.user .message-content { background-color: #95ec69; color: #000; border-top-right-radius: 0; }
+        .message-row.ai .message-content { background-color: #fff; color: #000; border-top-left-radius: 0; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+        .message-row.tool .message-content { background-color: #e6e6e6; color: #666; font-size: 12px; border-radius: 4px; padding: 6px 12px; text-align: center; }
+
+        .tool-call-info { font-size: 12px; color: #d8820f; margin-top: 8px; border-top: 1px dashed #ccc; padding-top: 5px; }
+
+        .input-area { display: flex; padding: 15px; background: #fff; border-top: 1px solid #ddd; }
+        .input-area textarea { flex: 1; padding: 10px; border: 1px solid #ccc; border-radius: 4px; resize: none; height: 50px; font-size: 14px; font-family: inherit; }
+        .input-area textarea:focus { outline: none; border-color: #1890ff; }
+        .btn-send { width: 80px; margin-left: 10px; background-color: #1890ff; color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 14px; transition: 0.3s; }
+        .btn-send:hover { background-color: #40a9ff; }
+        .btn-send:disabled { background-color: #ccc; cursor: not-allowed; }
+
+        /* Loading 动画 */
+        .typing-indicator { display: none; padding: 10px; color: #999; font-size: 13px; font-style: italic; }
+    </style>
+</head>
+<body>
+
+<div class="chat-container">
+    <div class="header">AI 智能布控助手 (离线版)</div>
+    
+    <div class="chat-box" id="chatBox">
+        <div class="message-row ai">
+            <div class="message-content">🤖 AI: 您好！我是布控助手，可以帮您查询违章应用、管理任务等。请问有什么可以帮您？</div>
+        </div>
+    </div>
+
+    <div class="typing-indicator" id="loading">🤖 AI 正在思考并调用工具，请稍候...</div>
+
+    <div class="input-area">
+        <textarea id="userInput" placeholder="输入消息 (Enter 发送，Shift+Enter 换行)..."></textarea>
+        <button class="btn-send" id="sendBtn" onclick="sendMessage()">发送</button>
+    </div>
+</div>
+
+<script>
+    // 维护对话上下文历史记录
+    let chatHistory = [];
+
+    const chatBox = document.getElementById('chatBox');
+    const userInput = document.getElementById('userInput');
+    const sendBtn = document.getElementById('sendBtn');
+    const loading = document.getElementById('loading');
+
+    // 监听键盘事件，Enter发送
+    userInput.addEventListener('keypress', function (e) {
+        if (e.key === 'Enter' && !e.shiftKey) {
+            e.preventDefault();
+            sendMessage();
+        }
+    });
+
+    // 渲染消息到页面
+    function renderMessages(messages) {
+        chatBox.innerHTML = ''; // 清空并重新渲染全部消息
+        messages.forEach(msg => {
+            if (!msg.content && !msg.tool_calls) return; // 忽略空消息
+            
+            const row = document.createElement('div');
+            const contentDiv = document.createElement('div');
+            contentDiv.className = 'message-content';
+
+            if (msg.role === 'user') {
+                row.className = 'message-row user';
+                contentDiv.textContent = msg.content;
+            } else if (msg.role === 'assistant') {
+                row.className = 'message-row ai';
+                let html = `<strong>${msg.display_role}</strong><br>${msg.content}`;
+                if (msg.tool_calls) {
+                    html += `<div class="tool-call-info">🔧 正在调用系统工具: ${msg.tool_calls}</div>`;
+                }
+                contentDiv.innerHTML = html;
+            } else if (msg.role === 'tool') {
+                row.className = 'message-row tool';
+                contentDiv.innerHTML = `${msg.display_role}<br>返回结果: ${msg.content}`;
+            } else {
+                return;
+            }
+
+            row.appendChild(contentDiv);
+            chatBox.appendChild(row);
+        });
+        // 滚动到底部
+        chatBox.scrollTop = chatBox.scrollHeight;
+    }
+
+    async function sendMessage() {
+        const text = userInput.value.trim();
+        if (!text) return;
+
+        // 1. 将用户输入加入历史记录
+        chatHistory.push({ role: 'user', content: text });
+        
+        // 构建临时用于显示的列表（合并初始打招呼信息和历史记录）
+        const displayList = chatHistory.map(h => {
+            return { role: h.role, content: h.content, display_role: h.role === 'user' ? '👤 User' : '🤖 AI' }
+        });
+        renderMessages(displayList);
+
+        // 2. 清空输入框，显示加载状态
+        userInput.value = '';
+        sendBtn.disabled = true;
+        loading.style.display = 'block';
+
+        try {
+            // 3. 发送请求给后端 API (无外部依赖 Fetch)
+            const response = await fetch('/api/chat', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ messages: chatHistory })
+            });
+            
+            const result = await response.json();
+            
+            if (result.code === 200) {
+                // 将后端返回的完整对话格式化为用于显示的历史
+                const cleanMsgs = result.data;
+                renderMessages(cleanMsgs);
+                
+                // 将后端干净的历史记录同步回本地 history (移除 tool 等前端不需要传回后端的辅助显示记录，Langchain 会自动管理)
+                // 为保证上下文连贯，更新聊天历史为您封装后的结果
+                chatHistory = cleanMsgs.map(m => ({
+                    role: m.role,
+                    content: m.content
+                }));
+            } else {
+                alert('API 错误: ' + result.msg);
+            }
+        } catch (error) {
+            alert('网络或服务异常: ' + error.message);
+        } finally {
+            // 4. 恢复状态
+            sendBtn.disabled = false;
+            loading.style.display = 'none';
+        }
+    }
+</script>
+
+</body>
+</html>
