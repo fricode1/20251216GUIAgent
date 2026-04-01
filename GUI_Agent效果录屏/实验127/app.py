@@ -2,12 +2,14 @@
 from flask import Flask, request, jsonify, render_template
 from langchain_openai import ChatOpenAI
 from langchain.agents import create_agent
+from langchain_core.messages import HumanMessage # 新增导入
 from create_deploy_task import create_deploy_task
 from list_deploy_tasks import list_deploy_tasks
 from list_deploy_alarms import list_deploy_alarms
 from spider import pedestrian_violation
 import config
 import urllib3
+import uuid # 新增导入
 
 # 禁用安全警告
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
@@ -40,7 +42,6 @@ def simplify_langchain_messages(data, output_format="text"):
 
     if output_format == "dict":
         return simplified_list
-    # ... 省略了纯文本输出部分，因为前端需要 dict
     return simplified_list
 
 # --- 初始化 AI Agent ---
@@ -63,27 +64,42 @@ agent = create_agent(
 # --- Flask Web 服务 ---
 app = Flask(__name__)
 
+# --- 新增：用于在内存中存储会话历史的字典 ---
+session_store = {}
+
 @app.route('/')
 def index():
-    # 渲染前端页面
     return render_template('index.html')
 
 @app.route('/api/chat', methods=['POST'])
 def chat():
     print('调用chat接口')
     data = request.json
-    # 接收前端传来的历史消息上下文
-    messages_history = data.get("messages", [])
     
-    if not messages_history:
-        return jsonify({"code": 400, "msg": "消息不能为空"})
+    # 获取前端传来的会话ID和最新消息
+    session_id = data.get("session_id")
+    user_message = data.get("message")
+    
+    if not user_message or not session_id:
+        return jsonify({"code": 400, "msg": "消息或会话ID不能为空"})
 
-    try:
-        # 调用 LangChain Agent
-        print('启动智能体')
-        response = agent.invoke({"messages": messages_history})
+    # 初始化或获取当前会话的历史记录
+    if session_id not in session_store:
+        session_store[session_id] = []
         
-        # 使用你的格式化函数，将结果转化为干净的字典列表返回给前端
+    try:
+        # 将用户最新的一句话追加到后端的历史记录中（保留 LangChain 原生对象）
+        session_store[session_id].append(HumanMessage(content=user_message))
+        
+        print('启动智能体')
+        # 将完整的、包含所有原生对象的历史记录传给 Agent
+        response = agent.invoke({"messages": session_store[session_id]})
+        
+        # 关键步骤：更新后端的历史记录为 Agent 返回的完整记录 
+        # (这包含了带有正确 tool_call_id 的 AIMessage 和 ToolMessage)
+        session_store[session_id] = response["messages"]
+        
+        # 使用你的格式化函数，提取显示所需内容返回给前端渲染
         clean_msgs = simplify_langchain_messages(response, output_format="dict")
         
         return jsonify({
@@ -91,8 +107,9 @@ def chat():
             "data": clean_msgs
         })
     except Exception as e:
+        import traceback
+        traceback.print_exc()
         return jsonify({"code": 500, "msg": str(e)})
 
 if __name__ == "__main__":
-    # 在局域网所有网卡上运行，端口设为 5000
     app.run(host="0.0.0.0", port=5000, debug=True)

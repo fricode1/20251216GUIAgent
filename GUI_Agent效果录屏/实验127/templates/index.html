@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
+    <!-- CSS 样式保持不变 -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AI 智能布控助手</title>
     <style>
-        /* 纯手工编写 CSS，确保完全离线可用 */
         * { box-sizing: border-box; margin: 0; padding: 0; }
         body { font-family: "Microsoft YaHei", sans-serif; background-color: #f0f2f5; display: flex; justify-content: center; height: 100vh; }
         .chat-container { width: 100%; max-width: 800px; background: #fff; display: flex; flex-direction: column; height: 100vh; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
@@ -29,8 +29,6 @@
         .btn-send { width: 80px; margin-left: 10px; background-color: #1890ff; color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 14px; transition: 0.3s; }
         .btn-send:hover { background-color: #40a9ff; }
         .btn-send:disabled { background-color: #ccc; cursor: not-allowed; }
-
-        /* Loading 动画 */
         .typing-indicator { display: none; padding: 10px; color: #999; font-size: 13px; font-style: italic; }
     </style>
 </head>
@@ -40,6 +38,7 @@
     <div class="header">AI 智能布控助手 (离线版)</div>
     
     <div class="chat-box" id="chatBox">
+        <!-- 初始化界面欢迎语 -->
         <div class="message-row ai">
             <div class="message-content">🤖 AI: 您好！我是布控助手，可以帮您查询违章应用、管理任务等。请问有什么可以帮您？</div>
         </div>
@@ -54,8 +53,11 @@
 </div>
 
 <script>
-    // 维护对话上下文历史记录
-    let chatHistory = [];
+    // 1. 生成唯一 Session ID (简单实现)，刷新页面等于新会话
+    const sessionId = 'sess_' + Math.random().toString(36).substr(2, 9) + Date.now().toString(36);
+    
+    // 用于纯前端显示的临时数组（在请求等待期间让用户看到自己发的话）
+    let displayHistory = [];
 
     const chatBox = document.getElementById('chatBox');
     const userInput = document.getElementById('userInput');
@@ -72,9 +74,14 @@
 
     // 渲染消息到页面
     function renderMessages(messages) {
-        chatBox.innerHTML = ''; // 清空并重新渲染全部消息
+        // 保留开头的静态欢迎语，清空后续动态追加的内容
+        chatBox.innerHTML = `
+        <div class="message-row ai">
+            <div class="message-content">🤖 AI: 您好！我是布控助手，可以帮您查询违章应用、管理任务等。请问有什么可以帮您？</div>
+        </div>`; 
+
         messages.forEach(msg => {
-            if (!msg.content && !msg.tool_calls) return; // 忽略空消息
+            if (!msg.content && !msg.tool_calls) return; 
             
             const row = document.createElement('div');
             const contentDiv = document.createElement('div');
@@ -100,7 +107,6 @@
             row.appendChild(contentDiv);
             chatBox.appendChild(row);
         });
-        // 滚动到底部
         chatBox.scrollTop = chatBox.scrollHeight;
     }
 
@@ -108,49 +114,42 @@
         const text = userInput.value.trim();
         if (!text) return;
 
-        // 1. 将用户输入加入历史记录
-        chatHistory.push({ role: 'user', content: text });
-        
-        // 构建临时用于显示的列表（合并初始打招呼信息和历史记录）
-        const displayList = chatHistory.map(h => {
-            return { role: h.role, content: h.content, display_role: h.role === 'user' ? '👤 User' : '🤖 AI' }
-        });
-        renderMessages(displayList);
+        // 1. 临时追加到前端显示数组并渲染，优化用户体验
+        displayHistory.push({ role: 'user', content: text, display_role: '👤 User' });
+        renderMessages(displayHistory);
 
-        // 2. 清空输入框，显示加载状态
         userInput.value = '';
         sendBtn.disabled = true;
         loading.style.display = 'block';
 
         try {
-            // 3. 发送请求给后端 API (无外部依赖 Fetch)
+            // 2. 将 Session ID 和 纯文本消息 发给后端
             const response = await fetch('/api/chat', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ messages: chatHistory })
-                // body: JSON.stringify({ messages: text })
+                body: JSON.stringify({ 
+                    session_id: sessionId, 
+                    message: text 
+                })
             });
             
             const result = await response.json();
-            console.log(result)
+            
             if (result.code === 200) {
-                // 将后端返回的完整对话格式化为用于显示的历史
-                const cleanMsgs = result.data;
-                renderMessages(cleanMsgs);
-                
-                // 将后端干净的历史记录同步回本地 history (移除 tool 等前端不需要传回后端的辅助显示记录，Langchain 会自动管理)
-                // 为保证上下文连贯，更新聊天历史为您封装后的结果
-                chatHistory = cleanMsgs.map(m => ({
-                    role: m.role,
-                    content: m.content
-                }));
+                // 后端返回完整的历史记录，直接覆盖当前显示的数组
+                displayHistory = result.data;
+                renderMessages(displayHistory);
             } else {
                 alert('API 错误: ' + result.msg);
+                // 发生错误时把刚刚临时追加的话删掉
+                displayHistory.pop();
+                renderMessages(displayHistory);
             }
         } catch (error) {
             alert('网络或服务异常: ' + error.message);
+            displayHistory.pop();
+            renderMessages(displayHistory);
         } finally {
-            // 4. 恢复状态
             sendBtn.disabled = false;
             loading.style.display = 'none';
         }
