@@ -4,6 +4,7 @@ import urllib3
 # 导入提取地点和地点转摄像头的函数 (请确保这三个py文件在同一个目录下)
 from language_to_location import language_to_location
 from location_to_camera import location_to_camera
+import config
 
 # 禁用 requests 在使用 verify=False 时产生的安全警告
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
@@ -37,7 +38,7 @@ def create_deploy_task(user_input: str):
     # ---------------------------------------------------------
     # 预设的环境及认证参数 (均来自原文件默认值)
     base_url = "https://62.168.243.10:19080"
-    authorization = "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiLljZfpmLPmtYvor5UiLCJsb2dpbl91c2VyX2tleSI6ImVhMjlkZWQ2LTIxODgtNDM1Mi1hY2IwLTJkNjYzMDQ1ZDY5YSJ9.zB3zVMF_myi729dV_1PfZn9hgBWTzmWAsGyJ2ata17q-HKtsnC67c_28VJKiuExpnhVBKj-DvnmqvaOSJPEaiQ"
+    authorization = config.authorization
     
     url = f"{base_url}/mrag/api/deploy/tasks/create"
     

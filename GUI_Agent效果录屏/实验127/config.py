@@ -1,0 +1,2 @@
+api_key = "b04e2a51-8283-438a-7c4c-6531284503b0"
+authorization = "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiLljZfpmLPmtYvor5UiLCJsb2dpbl91c2VyX2tleSI6IjM5MWM2YzdkLWU1ZjktNDMwOC04YjMxLTMzMGZkNDc3YTMzYyJ9.C7XWg-n5yP1gCCq4OC0pM88NK33VIAucol0NdG6YFgLQEwqFZA3pgglefdQC8edC9zWcj-Vy0igm9Mh4ZltRog"

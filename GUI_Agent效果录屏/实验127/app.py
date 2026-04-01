@@ -3,9 +3,10 @@ from flask import Flask, request, jsonify, render_template
 from langchain_openai import ChatOpenAI
 from langchain.agents import create_agent
 from create_deploy_task import create_deploy_task
+from list_deploy_tasks import list_deploy_tasks
 from list_deploy_alarms import list_deploy_alarms
 from spider import pedestrian_violation
-import requests
+import config
 import urllib3
 
 # 禁用安全警告
@@ -43,20 +44,19 @@ def simplify_langchain_messages(data, output_format="text"):
     return simplified_list
 
 # --- 初始化 AI Agent ---
-api_key = "172423d8-0ab8-4e60-659b-de3cda928f95"
 model_name = "qwen3-235b-a22b"
 base_url = "http://44.71.1.34:8088/lm/v2/"
 
 llm = ChatOpenAI(
     base_url=base_url,
-    api_key=api_key,
+    api_key=config.api_key,
     model=model_name
 )
 
 # 初始化 Agent
 agent = create_agent(
     model=llm,
-    tools=[create_deploy_task, list_deploy_alarms, pedestrian_violation],
+    tools=[create_deploy_task, list_deploy_tasks, list_deploy_alarms, pedestrian_violation],
     system_prompt="You are a helpful assistant",
 )
 
@@ -70,6 +70,7 @@ def index():
 
 @app.route('/api/chat', methods=['POST'])
 def chat():
+    print('调用chat接口')
     data = request.json
     # 接收前端传来的历史消息上下文
     messages_history = data.get("messages", [])
@@ -79,6 +80,7 @@ def chat():
 
     try:
         # 调用 LangChain Agent
+        print('启动智能体')
         response = agent.invoke({"messages": messages_history})
         
         # 使用你的格式化函数，将结果转化为干净的字典列表返回给前端

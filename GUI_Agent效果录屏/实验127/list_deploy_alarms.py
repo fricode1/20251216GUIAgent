@@ -1,32 +1,30 @@
 import requests
 import urllib3
+import config
 
 # 禁用 requests 在使用 verify=False 时产生的安全警告
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
 def list_deploy_alarms(
-    task_id: str = "21",      # <--- 默认查询任务ID为 21 的结果
-    page_no: int = 1,         # <--- 默认第1页
-    page_size: int = 10,      # <--- 默认每页10条
-    authorization: str = "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiLljZfpmLPmtYvor5UiLCJsb2dpbl91c2VyX2tleSI6ImVhMjlkZWQ2LTIxODgtNDM1Mi1hY2IwLTJkNjYzMDQ1ZDY5YSJ9.zB3zVMF_myi729dV_1PfZn9hgBWTzmWAsGyJ2ata17q-HKtsnC67c_28VJKiuExpnhVBKj-DvnmqvaOSJPEaiQ",
-    base_url: str = "https://62.168.243.10:19080"
+    task_id: str = "21"
 ):
     """
     列出指定任务的告警信息
     """
     # 接口的基础路径（不包含查询参数）
+    base_url = "https://62.168.243.10:19080"
     url = f"{base_url}/mrag/api/deploy/alarm/list"
     
     # 设置请求头 Headers
     headers = {
-        "Authorization": authorization
+        "Authorization": config.authorization
     }
     
     # 设置 URL 查询参数 (Query Parameters)
     params = {
         "id": task_id,
-        "pageNo": page_no,
-        "pageSize": page_size
+        "pageNo": 1,
+        "pageSize": 10
     }
 
     try:
@@ -56,7 +54,7 @@ if __name__ == "__main__":
     target_id = "21"
     print(f"正在获取布控应用 (ID: {target_id}) 的告警结果...\n")
     
-    result = list_deploy_alarms(task_id=target_id, page_no=1, page_size=10)
+    result = list_deploy_alarms(task_id=target_id)
     
     if result:
         if result.get("code") == 0:

@@ -1,5 +1,6 @@
 import requests
 import urllib3
+import config
 
 # 禁用因 verify=False 产生的不安全请求警告
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
@@ -15,7 +16,7 @@ def location_to_camera(location):
     
     # 设置请求头
     headers = {
-        "Authorization": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiLljZfpmLPmtYvor5UiLCJsb2dpbl91c2VyX2tleSI6ImU3OGZlOWYxLWE1YzAtNDg0OS1iMTUxLTE3MmZkZjY3MTIzNiJ9.FgNeLLZAiaI3VE3fBZONZ7aWHiROGjIFso0hnv1D1yZXmLvQhe9Z0SSMXINucSrvIkCP_ab5LCsmeFk-tPhoyQ",
+        "Authorization": config.authorization,
         "Content-Type": "application/json"
     }
     
