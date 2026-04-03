@@ -39,7 +39,6 @@ DB_PATH = "traffic_violations.db"
 running_tasks: Dict[int, asyncio.Task] = {}
 
 
-
 # MinIO client
 minio_client = Minio(
     '62.168.243.12:19111',
@@ -74,7 +73,7 @@ async def init_db():
             )
         """)
         
-        # Images table
+        # Images table (新增了 career 字段)
         await db.execute("""
             CREATE TABLE IF NOT EXISTS images (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -85,10 +84,17 @@ async def init_db():
                 location TEXT NOT NULL,
                 name TEXT NOT NULL,
                 id_number TEXT NOT NULL,
+                career TEXT DEFAULT 'unknown',
                 created_at TEXT DEFAULT (datetime('now', 'localtime')),
                 FOREIGN KEY (application_id) REFERENCES applications(id) ON DELETE CASCADE
             )
         """)
+        
+        # 兼容旧数据库：如果旧库没有 career 字段，则自动添加
+        try:
+            await db.execute("ALTER TABLE images ADD COLUMN career TEXT DEFAULT 'unknown'")
+        except aiosqlite.OperationalError:
+            pass # 字段已存在时忽略报错
         
         # Logs table
         await db.execute("""
@@ -141,6 +147,7 @@ class ImageItem(BaseModel):
     person_name: str
     person_id: str
     url: str
+    career: str  # 新增职业字段
 
 class ImageListData(BaseModel):
     list: list[ImageItem]
@@ -230,18 +237,23 @@ async def run_spider_for_application(app_id: int, address: str, start_time: str,
                         expires=timedelta(days=7)
                     )
                     
-                    # Save to SQLite
+                    # Save to SQLite (新增了对 career 的获取和存储)
+                    career = result.get("career", "unknown")
+                    
                     async with aiosqlite.connect(DB_PATH) as db:
                         await db.execute(
                             """
-                            INSERT INTO images (application_id, minio_path, url, time, location, name, id_number)
-                            VALUES (?, ?, ?, ?, ?, ?, ?)
+                            INSERT INTO images (application_id, minio_path, url, time, location, name, id_number, career)
+                            VALUES (?, ?, ?, ?, ?, ?, ?, ?)
                             """,
-                            (app_id, minio_path, presigned_url, result["time"], result["location"], result["name"], result["id_number"])
+                            (
+                                app_id, minio_path, presigned_url, result["time"], 
+                                result["location"], result["name"], result["id_number"], career
+                            )
                         )
                         await db.commit()
                     
-                    await add_log(app_id, f"已保存违章图片: {result['name']} at {result['location']}")
+                    await add_log(app_id, f"已保存违章图片: {result['name']} at {result['location']} 职业: {career}")
                     
                 except StopIteration:
                     break
@@ -449,58 +461,47 @@ async def delete_application(id: int):
 async def get_images(
     pageSize: int = Query(10, description="每页条数"),
     pageNo: int = Query(1, description="页码"),
-    id: Optional[int] = Query(None, description="应用id")
+    id: Optional[int] = Query(None, description="应用id"),
+    onlyCourier: Optional[bool] = Query(False, description="是否仅查询快递/外卖员") # 接收前端传入的参数
 ):
-    """查询图片列表（支持分页和按应用id过滤）"""
+    """查询图片列表（支持分页、应用id过滤、职业过滤）"""
     try:
-        print(f"Received query params: pageSize={pageSize}, pageNo={pageNo}, id={id}")
+        print(f"Received query params: pageSize={pageSize}, pageNo={pageNo}, id={id}, onlyCourier={onlyCourier}")
         
         async with aiosqlite.connect(DB_PATH) as db:
-            # Build query based on whether id is provided
-            if id is not None:
-                print(f"Filtering by application_id = {id}")
-                # Filter by application_id
-                count_query = "SELECT COUNT(*) FROM images WHERE application_id = ?"
-                select_query = """
-                    SELECT time, name, id_number, url
-                    FROM images
-                    WHERE application_id = ?
-                    ORDER BY created_at DESC
-                    LIMIT ? OFFSET ?
-                """
-                count_params = (id,)
-                
-                # Get total count
-                async with db.execute(count_query, count_params) as cursor:
-                    row = await cursor.fetchone()
-                    total = row[0]
-                print(f"Total images for application {id}: {total}")
-                
-                # Get paginated results
-                offset = (pageNo - 1) * pageSize
-                select_params = (id, pageSize, offset)
-            else:
-                print("Fetching all images (no id filter)")
-                # Get all images
-                count_query = "SELECT COUNT(*) FROM images"
-                select_query = """
-                    SELECT time, name, id_number, url
-                    FROM images
-                    ORDER BY created_at DESC
-                    LIMIT ? OFFSET ?
-                """
-                
-                # Get total count
-                async with db.execute(count_query) as cursor:
-                    row = await cursor.fetchone()
-                    total = row[0]
-                print(f"Total images (all): {total}")
-                
-                # Get paginated results
-                offset = (pageNo - 1) * pageSize
-                select_params = (pageSize, offset)
+            # 动态构建 WHERE 条件
+            where_clauses = []
+            count_params = []
             
-            # Execute select query
+            if id is not None:
+                where_clauses.append("application_id = ?")
+                count_params.append(id)
+                
+            if onlyCourier:
+                where_clauses.append("career = ?")
+                count_params.append("courier")
+                
+            where_str = ""
+            if where_clauses:
+                where_str = "WHERE " + " AND ".join(where_clauses)
+
+            # 查询总数
+            count_query = f"SELECT COUNT(*) FROM images {where_str}"
+            async with db.execute(count_query, count_params) as cursor:
+                row = await cursor.fetchone()
+                total = row[0]
+            
+            # 分页查询数据
+            offset = (pageNo - 1) * pageSize
+            select_query = f"""
+                SELECT time, name, id_number, url, career
+                FROM images
+                {where_str}
+                ORDER BY created_at DESC
+                LIMIT ? OFFSET ?
+            """
+            select_params = count_params + [pageSize, offset]
+            
             async with db.execute(select_query, select_params) as cursor:
                 rows = await cursor.fetchall()
                 
@@ -509,7 +510,8 @@ async def get_images(
                         capture_time=row[0],
                         person_name=row[1],
                         person_id=row[2],
-                        url=row[3]
+                        url=row[3],
+                        career=row[4]  # 映射数据库中查询出的 career 字段
                     )
                     for row in rows
                 ]

@@ -1,4 +1,5 @@
 import os
+# os.environ['TZ'] = 'UTC'
 os.environ['TZ'] = 'Asia/Shanghai'
 
 from DrissionPage import ChromiumPage, ChromiumOptions
@@ -6,6 +7,7 @@ import time
 import re
 from rapidocr import RapidOCR
 from PIL import Image
+from is_courier import get_career
 
 
 def ocr_image(image_path, engine):
@@ -137,6 +139,7 @@ def spider_run(start_time_str, end_time_str, place_str, username='37098219930506
 
     login_page = ChromiumPage(addr_or_opts=co)
 
+    # page.run_cdp('Emulation.setTimezoneOverride', timezoneId='Asia/Shanghai')
     time_zone = login_page.run_js('return Intl.DateTimeFormat().resolvedOptions().timeZone;')
     log('时区为：{}'.format(time_zone))
     print('时区为：{}'.format(time_zone))
@@ -264,14 +267,17 @@ def spider_run(start_time_str, end_time_str, place_str, username='37098219930506
         
         for person_idx, person_row in enumerate(persons):
             log('----------- 处理行人 {} ------------'.format(person_idx + 1))
+            # 获取抓拍照。此处常出现的问题是，如果前面对行的点击没有生效，则此处的抓拍照是旧的。因此需要进行循环判断抓拍照是否被更新。
             while True:
-                page.actions.click(person_row.ele('.el-table_1_column_2  '))  # 这句话很关键。直接点击person_row不行，点击person_row的第一个元素也不行。这是魏鹏帮忙试出来的。
+                page.actions.click(person_row.ele('.el-table_1_column_2  '))
                 time.sleep(3)
                 img_element = page.ele('xpath=//img[@class="iu-img-view__img"]')
                 src = img_element.attr('src')
                 if src != old_src:
                     old_src = src
                     break
+                log('图片路径重复，已获取屏幕截图')
+                page.get_screenshot()
             log(f"图片源地址: {src}", "DEBUG")
             image_path = '{}.png'.format(src.split('/')[-1])
             if os.path.exists(image_path):
@@ -283,6 +289,11 @@ def spider_run(start_time_str, end_time_str, place_str, username='37098219930506
                 continue
             else:
                 log('OCR检测结果：确认存在违法抓拍标记！')
+
+            # 获取违章人员的职业
+            log('开始判断违章人员是否为外卖员')
+            career = get_career(image_path)
+            log('职业判断完成：{}'.format(career))
 
             # 获取抓拍地点和时间
             place_name = '未知地点'
@@ -371,7 +382,8 @@ def spider_run(start_time_str, end_time_str, place_str, username='37098219930506
                 "location": place_name,
                 "time": time_str,
                 "name": person_name,
-                "id_number": id_number
+                "id_number": id_number,
+                "career": career
             }
 
             # 删除图片

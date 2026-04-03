@@ -7,7 +7,8 @@ export default defineConfig({
     port: 3002,
     proxy: {
       '/violation': {
-        target: 'http://62.168.243.13:8000',
+        // target: 'http://62.168.243.13:8000',
+        target: 'http://0.0.0.0:8000',
         changeOrigin: true
       }
     }

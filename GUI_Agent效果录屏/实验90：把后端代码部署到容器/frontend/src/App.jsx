@@ -13,6 +13,7 @@ import {
   Tag,
   Space,
   Image,
+  Switch, // 新增 Switch 组件
 } from 'antd';
 import { PlusOutlined, DeleteOutlined, EyeOutlined, FileTextOutlined } from '@ant-design/icons';
 import dayjs from 'dayjs';
@@ -32,6 +33,10 @@ function App() {
   const [selectedAppId, setSelectedAppId] = useState(null);
   const [logs, setLogs] = useState([]);
   const [logLoading, setLogLoading] = useState(false);
+  
+  // 新增：仅显示外卖员状态
+  const [onlyCourier, setOnlyCourier] = useState(false);
+
   const [form] = Form.useForm();
   
   // 分页状态
@@ -117,11 +122,48 @@ function App() {
     }
   };
 
+  // 修改：获取图片列表，增加 isCourier 参数
+  const fetchImages = async (appId, page = imagePagination.current, pageSize = imagePagination.pageSize, isCourier = onlyCourier) => {
+    setImageLoading(true);
+    try {
+      const response = await violationAPI.getImages({
+        id: appId,
+        pageNo: page,
+        pageSize: pageSize,
+        onlyCourier: isCourier, // 传递给后端
+      });
+      
+      if (response.code === '0') {
+        setImages(response.data.list);
+        setImagePagination({
+          current: response.data.pageNo,
+          pageSize: response.data.pageSize,
+          total: response.data.total,
+        });
+      } else {
+        message.error(response.msg || '获取图片列表失败');
+      }
+    } catch (error) {
+      message.error('获取图片列表失败');
+      console.error(error);
+    } finally {
+      setImageLoading(false);
+    }
+  };
+
   // 查看图片
   const handleViewImages = async (appId) => {
     setSelectedAppId(appId);
     setImageModalVisible(true);
-    fetchImages(appId, 1, imagePagination.pageSize);
+    setOnlyCourier(false); // 每次打开弹窗默认不筛选
+    fetchImages(appId, 1, imagePagination.pageSize, false);
+  };
+
+  // 新增：处理开关切换
+  const handleCourierSwitchChange = (checked) => {
+    setOnlyCourier(checked);
+    // 切换筛选条件后，将页码重置为第 1 页
+    fetchImages(selectedAppId, 1, imagePagination.pageSize, checked);
   };
 
   // 查看日志
@@ -146,34 +188,6 @@ function App() {
       console.error(error);
     } finally {
       setLogLoading(false);
-    }
-  };
-
-  // 获取图片列表
-  const fetchImages = async (appId, page = imagePagination.current, pageSize = imagePagination.pageSize) => {
-    setImageLoading(true);
-    try {
-      const response = await violationAPI.getImages({
-        id: appId,
-        pageNo: page,
-        pageSize: pageSize,
-      });
-      
-      if (response.code === '0') {
-        setImages(response.data.list);
-        setImagePagination({
-          current: response.data.pageNo,
-          pageSize: response.data.pageSize,
-          total: response.data.total,
-        });
-      } else {
-        message.error(response.msg || '获取图片列表失败');
-      }
-    } catch (error) {
-      message.error('获取图片列表失败');
-      console.error(error);
-    } finally {
-      setImageLoading(false);
     }
   };
 
@@ -353,12 +367,22 @@ function App() {
 
         {/* 查看图片模态框 */}
         <Modal
-          title="抓拍图片"
+          // 修改标题部分，加入 Switch 开关
+          title={
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', paddingRight: '24px' }}>
+              <span>抓拍图片</span>
+              <Space>
+                <span style={{ fontSize: '14px', fontWeight: 'normal' }}>仅看快递/外卖员</span>
+                <Switch checked={onlyCourier} onChange={handleCourierSwitchChange} />
+              </Space>
+            </div>
+          }
           open={imageModalVisible}
           onCancel={() => {
             setImageModalVisible(false);
             setImages([]);
             setSelectedAppId(null);
+            setOnlyCourier(false); // 关闭时重置状态
           }}
           footer={null}
           width={1000}
@@ -377,7 +401,8 @@ function App() {
                     display: 'grid', 
                     gridTemplateColumns: 'repeat(auto-fill, minmax(250px, 1fr))',
                     gap: '16px',
-                    marginBottom: '16px'
+                    marginBottom: '16px',
+                    marginTop: '8px'
                   }}>
                     {images.map((image, index) => (
                       <Card
@@ -395,8 +420,14 @@ function App() {
                           title={image.person_name}
                           description={
                             <div style={{ fontSize: '12px' }}>
-                              <div>身份证: {image.person_id}</div>
-                              <div style={{ marginTop: '4px', color: '#999' }}>
+                              <div style={{ marginBottom: '4px' }}>身份证: {image.person_id}</div>
+                              {/* 新增职业显示标签 */}
+                              <div style={{ marginBottom: '4px' }}>
+                                职业: {image.career === 'courier' 
+                                  ? <Tag color="orange" style={{ margin: 0 }}>快递/外卖员</Tag> 
+                                  : <Tag style={{ margin: 0 }}>未知</Tag>}
+                              </div>
+                              <div style={{ color: '#999' }}>
                                 抓拍时间: {image.capture_time}
                               </div>
                             </div>
@@ -416,7 +447,7 @@ function App() {
                       上一页
                     </Button>
                     <span>
-                      第 {imagePagination.current} 页，共 {Math.ceil(imagePagination.total / imagePagination.pageSize)} 页
+                      第 {imagePagination.current} 页，共 {Math.ceil(imagePagination.total / imagePagination.pageSize) || 1} 页
                     </span>
                     <Button
                       disabled={imagePagination.current * imagePagination.pageSize >= imagePagination.total}
@@ -430,6 +461,7 @@ function App() {
             )}
           </div>
         </Modal>
+
         {/* 查看日志模态框 */}
         <Modal
           title="运行日志"
