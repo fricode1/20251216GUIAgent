@@ -1,42 +1,18 @@
 import requests
 import urllib3
-
-# 导入提取地点和地点转摄像头的函数 (请确保这三个py文件在同一个目录下)
-from language_to_location import language_to_location
-from location_to_camera import location_to_camera
 import config
 
 # 禁用 requests 在使用 verify=False 时产生的安全警告
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
-def create_deploy_task(user_input: str):
+def create_deploy_task(text_description, camera_ids):
     """
-    根据用户输入的自然语言，自动提取地点、转换为摄像头ID，并创建布控任务
+    根据 text_description 和 摄像头ID，创建布控任务
+    input:
+        text_description: 对要布控的对象的文本描述
+        camera_ids: 多个相机的id，不同id间用英文逗号隔开，如'123,456'
     """
-    print(f"1. 收到用户输入: '{user_input}'")
-    
-    # ---------------------------------------------------------
-    # 第一步：从自然语言中提取地点
-    # ---------------------------------------------------------
-    location = language_to_location(user_input)
-    if not location or location == "无":
-        print("❌ 错误: 无法从输入中提取到有效的地理位置信息，任务创建终止。")
-        return None
-    print(f"✅ 成功提取地点: {location}")
-
-    # ---------------------------------------------------------
-    # 第二步：将地点转换成相机ID (apeId)
-    # ---------------------------------------------------------
-    camera_id = location_to_camera(location)
-    if not camera_id:
-        print(f"❌ 错误: 未能在系统中查找到地点 '{location}' 对应的摄像头，任务创建终止。")
-        return None
-    print(f"✅ 成功获取摄像头ID: {camera_id}")
-
-    # ---------------------------------------------------------
-    # 第三步：组装请求并创建布控任务
-    # ---------------------------------------------------------
-    # 预设的环境及认证参数 (均来自原文件默认值)
+    camera_id_list = camera_ids.split(',')
     base_url = "https://62.168.243.10:19080"
     authorization = config.authorization
     
@@ -48,24 +24,26 @@ def create_deploy_task(user_input: str):
     }
     
     # 使用获取到的动态 camera_id 组装时空列表
-    space_time_list = [
-        {
-            "device_id": camera_id,
+    space_time_list = []
+    for camera_id_ in camera_id_list:
+        space_time_dict = {
+            "device_id": camera_id_,
             "start_time": "2026-03-17 00:00:00",
             "end_time": "2026-03-24 23:59:59",
             "time_slot_list": []
         }
-    ]
-    
+        space_time_list.append(space_time_dict)
+    print(space_time_list)
+
     # 组装请求体 Body
     payload = {
-        "name": "test1",
+        "name": text_description,
         "deploy_type": 0,
         "left_seconds": 0,
         "right_seconds": 0,
         "target_type": "person",
-        "desc": "test2",
-        "text": user_input,       # 将用户的完整描述作为文本检索条件
+        "desc": text_description,
+        "text": text_description,       # 将用户的完整描述作为文本检索条件
         "image_base64": "",
         "space_time_list": space_time_list,
         "distance": 0.8,
@@ -88,17 +66,5 @@ def create_deploy_task(user_input: str):
         return None
 
 
-# ==========================================
-# 极简调用示例：
-# ==========================================
-if __name__ == "__main__":
-    # 你只需传入用户讲的一句话即可
-    user_query = "查询新华路穿白衣服的人"
-    
-    print("=" * 40)
-    result = create_deploy_task(user_query)
-    
-    if result:
-        print("=" * 40)
-        print("🎉 任务创建成功，服务器返回数据：")
-        print(result)
+if __name__ == '__main__':
+    create_deploy_task(text_description='渣土车', camera_ids='41138130001312152683,41138131001312870011')

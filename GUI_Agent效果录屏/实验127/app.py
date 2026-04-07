@@ -6,7 +6,7 @@ from langchain_core.messages import HumanMessage # 新增导入
 from create_deploy_task import create_deploy_task
 from list_deploy_tasks import list_deploy_tasks
 from list_deploy_alarms import list_deploy_alarms
-from spider import pedestrian_violation
+from location_to_camera import location_to_camera
 import config
 import urllib3
 import uuid # 新增导入
@@ -45,8 +45,8 @@ def simplify_langchain_messages(data, output_format="text"):
     return simplified_list
 
 # --- 初始化 AI Agent ---
-model_name = "qwen3-235b-a22b"
-base_url = "http://44.71.1.34:8088/lm/v2/"
+model_name = config.model_name
+base_url = config.base_url
 
 llm = ChatOpenAI(
     base_url=base_url,
@@ -54,11 +54,24 @@ llm = ChatOpenAI(
     model=model_name
 )
 
+# ### 新增：修改系统 Prompt，教会 Agent 怎么跟用户打配合
+system_prompt = """
+You are a helpful assistant.
+【工作流要求】：
+当用户要求进行布控或创建任务时：你必须遵循以下步骤：
+1. 从用户输入的自然语言中，提取用户提到的初始地点列表和对布控对象的文本描述。
+2. 将初始地点列表传入location_to_camera.py，得到搜索到的具体地点名称及对应的摄像头ID。
+3. **千万不要直接创建任务**，你必须先在对话中回复用户：“系统检测到以下地点：xxx(搜索到的具体地点名称)。请确认是否保留这些地点？(可回复'全部确认'，或告知删除哪些地点)”
+4. 中断当前操作，等待用户的回复。
+5. 当用户回复后，根据新的地点列表得到新的摄像机ID列表。
+6. 最后，使用最终解析出的摄像机ID(camera_ids: 多个相机的id，不同id间用英文逗号隔开，如'123,456')，和对布控对象的文本描述，调用create_deploy_task执行创建布控任务的操作。
+"""
+
 # 初始化 Agent
 agent = create_agent(
     model=llm,
-    tools=[create_deploy_task, list_deploy_tasks, list_deploy_alarms, pedestrian_violation],
-    system_prompt="You are a helpful assistant",
+    tools=[create_deploy_task, list_deploy_tasks, list_deploy_alarms, location_to_camera],
+    system_prompt=system_prompt,
 )
 
 # --- Flask Web 服务 ---

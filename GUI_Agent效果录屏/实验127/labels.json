@@ -1,0 +1,6720 @@
+{
+    "code": "0",
+    "msg": "操作成功",
+    "data": [
+        {
+            "id": 714,
+            "labelName": "易结冰易积雪路段",
+            "level": 1,
+            "parentId": null,
+            "sourceType": 1,
+            "needRefresh": 0,
+            "deviceCount": 24
+        },
+        {
+            "id": 11063,
+            "labelName": "123",
+            "level": 1,
+            "parentId": null,
+            "sourceType": 1,
+            "needRefresh": 0,
+            "deviceCount": 0
+        },
+        {
+            "id": 67900,
+            "labelName": "场景",
+            "level": 1,
+            "parentId": 0,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 173536
+        },
+        {
+            "id": 67901,
+            "labelName": "实体",
+            "level": 1,
+            "parentId": 0,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 1153769
+        },
+        {
+            "id": 67903,
+            "labelName": "道路交通",
+            "level": 2,
+            "parentId": 67900,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 66446
+        },
+        {
+            "id": 67904,
+            "labelName": "居住区域",
+            "level": 2,
+            "parentId": 67900,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 34018
+        },
+        {
+            "id": 67905,
+            "labelName": "公共服务",
+            "level": 2,
+            "parentId": 67900,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 20494
+        },
+        {
+            "id": 67906,
+            "labelName": "商业区域",
+            "level": 2,
+            "parentId": 67900,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 13376
+        },
+        {
+            "id": 67907,
+            "labelName": "工业建筑",
+            "level": 2,
+            "parentId": 67900,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 1509
+        },
+        {
+            "id": 67908,
+            "labelName": "乡村自然",
+            "level": 2,
+            "parentId": 67900,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 26782
+        },
+        {
+            "id": 67909,
+            "labelName": "室内通用",
+            "level": 2,
+            "parentId": 67900,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 3469
+        },
+        {
+            "id": 67910,
+            "labelName": "其他场景",
+            "level": 2,
+            "parentId": 67900,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 7442
+        },
+        {
+            "id": 67911,
+            "labelName": "人员",
+            "level": 2,
+            "parentId": 67901,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 116051
+        },
+        {
+            "id": 67912,
+            "labelName": "机动车辆",
+            "level": 2,
+            "parentId": 67901,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 142027
+        },
+        {
+            "id": 67913,
+            "labelName": "非机动车辆",
+            "level": 2,
+            "parentId": 67901,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 109908
+        },
+        {
+            "id": 67914,
+            "labelName": "交通设施",
+            "level": 2,
+            "parentId": 67901,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 206643
+        },
+        {
+            "id": 67915,
+            "labelName": "街道设施",
+            "level": 2,
+            "parentId": 67901,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 355536
+        },
+        {
+            "id": 67916,
+            "labelName": "临时物体",
+            "level": 2,
+            "parentId": 67901,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 19604
+        },
+        {
+            "id": 67917,
+            "labelName": "公共设施",
+            "level": 2,
+            "parentId": 67901,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 14592
+        },
+        {
+            "id": 67918,
+            "labelName": "自然元素",
+            "level": 2,
+            "parentId": 67901,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 151431
+        },
+        {
+            "id": 67919,
+            "labelName": "动物",
+            "level": 2,
+            "parentId": 67901,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 2670
+        },
+        {
+            "id": 67920,
+            "labelName": "其他实体",
+            "level": 2,
+            "parentId": 67901,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 35307
+        },
+        {
+            "id": 67926,
+            "labelName": "城市主干道",
+            "level": 3,
+            "parentId": 67903,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 14988
+        },
+        {
+            "id": 67927,
+            "labelName": "乡村道路",
+            "level": 3,
+            "parentId": 67903,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 19707
+        },
+        {
+            "id": 67928,
+            "labelName": "高速公路",
+            "level": 3,
+            "parentId": 67903,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 1629
+        },
+        {
+            "id": 67929,
+            "labelName": "路口",
+            "level": 3,
+            "parentId": 67903,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 26141
+        },
+        {
+            "id": 67930,
+            "labelName": "桥梁",
+            "level": 3,
+            "parentId": 67903,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 3602
+        },
+        {
+            "id": 67931,
+            "labelName": "隧道",
+            "level": 3,
+            "parentId": 67903,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 191
+        },
+        {
+            "id": 67932,
+            "labelName": "过街通道",
+            "level": 3,
+            "parentId": 67903,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 152
+        },
+        {
+            "id": 67933,
+            "labelName": "地铁口",
+            "level": 3,
+            "parentId": 67903,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 36
+        },
+        {
+            "id": 67934,
+            "labelName": "居民区",
+            "level": 3,
+            "parentId": 67904,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 1176
+        },
+        {
+            "id": 67935,
+            "labelName": "巷道",
+            "level": 3,
+            "parentId": 67904,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 8325
+        },
+        {
+            "id": 67936,
+            "labelName": "小区",
+            "level": 3,
+            "parentId": 67904,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 11786
+        },
+        {
+            "id": 67937,
+            "labelName": "院落",
+            "level": 3,
+            "parentId": 67904,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 4893
+        },
+        {
+            "id": 67938,
+            "labelName": "建筑",
+            "level": 3,
+            "parentId": 67904,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 2738
+        },
+        {
+            "id": 67939,
+            "labelName": "商铺",
+            "level": 3,
+            "parentId": 67904,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 5100
+        },
+        {
+            "id": 67940,
+            "labelName": "学校",
+            "level": 3,
+            "parentId": 67905,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 10226
+        },
+        {
+            "id": 67941,
+            "labelName": "医院",
+            "level": 3,
+            "parentId": 67905,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 1451
+        },
+        {
+            "id": 67942,
+            "labelName": "政府机关",
+            "level": 3,
+            "parentId": 67905,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 2122
+        },
+        {
+            "id": 67943,
+            "labelName": "公园",
+            "level": 3,
+            "parentId": 67905,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 1507
+        },
+        {
+            "id": 67944,
+            "labelName": "广场",
+            "level": 3,
+            "parentId": 67905,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 2581
+        },
+        {
+            "id": 67945,
+            "labelName": "体育场",
+            "level": 3,
+            "parentId": 67905,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 290
+        },
+        {
+            "id": 67946,
+            "labelName": "宗教场所",
+            "level": 3,
+            "parentId": 67905,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 1358
+        },
+        {
+            "id": 67947,
+            "labelName": "寺庙",
+            "level": 3,
+            "parentId": 67905,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 959
+        },
+        {
+            "id": 67948,
+            "labelName": "商业街",
+            "level": 3,
+            "parentId": 67906,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 7134
+        },
+        {
+            "id": 67949,
+            "labelName": "市场",
+            "level": 3,
+            "parentId": 67906,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 1627
+        },
+        {
+            "id": 67950,
+            "labelName": "商场",
+            "level": 3,
+            "parentId": 67906,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 457
+        },
+        {
+            "id": 67951,
+            "labelName": "店铺",
+            "level": 3,
+            "parentId": 67906,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 308
+        },
+        {
+            "id": 67952,
+            "labelName": "加油站",
+            "level": 3,
+            "parentId": 67906,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 2111
+        },
+        {
+            "id": 67953,
+            "labelName": "停车场",
+            "level": 3,
+            "parentId": 67906,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 1332
+        },
+        {
+            "id": 67954,
+            "labelName": "酒店",
+            "level": 3,
+            "parentId": 67906,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 407
+        },
+        {
+            "id": 67955,
+            "labelName": "工地",
+            "level": 3,
+            "parentId": 67907,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 370
+        },
+        {
+            "id": 67956,
+            "labelName": "工厂",
+            "level": 3,
+            "parentId": 67907,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 565
+        },
+        {
+            "id": 67957,
+            "labelName": "仓库",
+            "level": 3,
+            "parentId": 67907,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 398
+        },
+        {
+            "id": 67958,
+            "labelName": "物流园",
+            "level": 3,
+            "parentId": 67907,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 80
+        },
+        {
+            "id": 67959,
+            "labelName": "施工区域",
+            "level": 3,
+            "parentId": 67907,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 96
+        },
+        {
+            "id": 67960,
+            "labelName": "农田",
+            "level": 3,
+            "parentId": 67908,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 1607
+        },
+        {
+            "id": 67961,
+            "labelName": "树林",
+            "level": 3,
+            "parentId": 67908,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 301
+        },
+        {
+            "id": 67962,
+            "labelName": "村庄",
+            "level": 3,
+            "parentId": 67908,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 24447
+        },
+        {
+            "id": 67963,
+            "labelName": "河流",
+            "level": 3,
+            "parentId": 67908,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 352
+        },
+        {
+            "id": 67964,
+            "labelName": "湖泊",
+            "level": 3,
+            "parentId": 67908,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 75
+        },
+        {
+            "id": 67966,
+            "labelName": "大厅",
+            "level": 3,
+            "parentId": 67909,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 1262
+        },
+        {
+            "id": 67967,
+            "labelName": "走廊",
+            "level": 3,
+            "parentId": 67909,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 877
+        },
+        {
+            "id": 67968,
+            "labelName": "楼梯间",
+            "level": 3,
+            "parentId": 67909,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 455
+        },
+        {
+            "id": 67969,
+            "labelName": "办公室",
+            "level": 3,
+            "parentId": 67909,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 560
+        },
+        {
+            "id": 67970,
+            "labelName": "电梯",
+            "level": 3,
+            "parentId": 67909,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 82
+        },
+        {
+            "id": 67971,
+            "labelName": "屋内",
+            "level": 3,
+            "parentId": 67909,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 233
+        },
+        {
+            "id": 67972,
+            "labelName": "行人",
+            "level": 3,
+            "parentId": 67911,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 101273
+        },
+        {
+            "id": 67973,
+            "labelName": "骑行者",
+            "level": 3,
+            "parentId": 67911,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 5877
+        },
+        {
+            "id": 67974,
+            "labelName": "驾驶员",
+            "level": 3,
+            "parentId": 67911,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 1815
+        },
+        {
+            "id": 67975,
+            "labelName": "儿童",
+            "level": 3,
+            "parentId": 67911,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 2396
+        },
+        {
+            "id": 67976,
+            "labelName": "老人",
+            "level": 3,
+            "parentId": 67911,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 1515
+        },
+        {
+            "id": 67977,
+            "labelName": "工人",
+            "level": 3,
+            "parentId": 67911,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 890
+        },
+        {
+            "id": 67978,
+            "labelName": "商贩",
+            "level": 3,
+            "parentId": 67911,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 525
+        },
+        {
+            "id": 67979,
+            "labelName": "保安",
+            "level": 3,
+            "parentId": 67911,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 625
+        },
+        {
+            "id": 67980,
+            "labelName": "警察",
+            "level": 3,
+            "parentId": 67911,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 244
+        },
+        {
+            "id": 67981,
+            "labelName": "学生",
+            "level": 3,
+            "parentId": 67911,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 891
+        },
+        {
+            "id": 67982,
+            "labelName": "小汽车",
+            "level": 3,
+            "parentId": 67912,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 109071
+        },
+        {
+            "id": 67983,
+            "labelName": "公交车",
+            "level": 3,
+            "parentId": 67912,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 6375
+        },
+        {
+            "id": 67984,
+            "labelName": "卡车",
+            "level": 3,
+            "parentId": 67912,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 17238
+        },
+        {
+            "id": 67985,
+            "labelName": "面包车",
+            "level": 3,
+            "parentId": 67912,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 8014
+        },
+        {
+            "id": 67986,
+            "labelName": "出租车",
+            "level": 3,
+            "parentId": 67912,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 861
+        },
+        {
+            "id": 67987,
+            "labelName": "特种车辆",
+            "level": 3,
+            "parentId": 67912,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 468
+        },
+        {
+            "id": 67988,
+            "labelName": "自行车",
+            "level": 3,
+            "parentId": 67913,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 2358
+        },
+        {
+            "id": 67989,
+            "labelName": "电动车",
+            "level": 3,
+            "parentId": 67913,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 67837
+        },
+        {
+            "id": 67990,
+            "labelName": "婴儿车",
+            "level": 3,
+            "parentId": 67913,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 7539
+        },
+        {
+            "id": 67991,
+            "labelName": "摩托车",
+            "level": 3,
+            "parentId": 67913,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 7724
+        },
+        {
+            "id": 67992,
+            "labelName": "三轮车",
+            "level": 3,
+            "parentId": 67913,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 24450
+        },
+        {
+            "id": 67993,
+            "labelName": "红绿灯",
+            "level": 3,
+            "parentId": 67914,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 27925
+        },
+        {
+            "id": 67994,
+            "labelName": "标志牌",
+            "level": 3,
+            "parentId": 67914,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 27998
+        },
+        {
+            "id": 67995,
+            "labelName": "护栏",
+            "level": 3,
+            "parentId": 67914,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 17655
+        },
+        {
+            "id": 67996,
+            "labelName": "井盖",
+            "level": 3,
+            "parentId": 67914,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 83461
+        },
+        {
+            "id": 67997,
+            "labelName": "锥桶",
+            "level": 3,
+            "parentId": 67914,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 3654
+        },
+        {
+            "id": 67999,
+            "labelName": "配电箱",
+            "level": 3,
+            "parentId": 67914,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 4155
+        },
+        {
+            "id": 68000,
+            "labelName": "斑马线",
+            "level": 3,
+            "parentId": 67914,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 34464
+        },
+        {
+            "id": 68001,
+            "labelName": "减速带",
+            "level": 3,
+            "parentId": 67914,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 7331
+        },
+        {
+            "id": 68002,
+            "labelName": "路灯",
+            "level": 3,
+            "parentId": 67915,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 121206
+        },
+        {
+            "id": 68003,
+            "labelName": "电线杆",
+            "level": 3,
+            "parentId": 67915,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 26648
+        },
+        {
+            "id": 68004,
+            "labelName": "监控杆",
+            "level": 3,
+            "parentId": 67915,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 95552
+        },
+        {
+            "id": 68005,
+            "labelName": "垃圾桶",
+            "level": 3,
+            "parentId": 67915,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 25540
+        },
+        {
+            "id": 68006,
+            "labelName": "消防栓",
+            "level": 3,
+            "parentId": 67915,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 3225
+        },
+        {
+            "id": 68007,
+            "labelName": "广告牌",
+            "level": 3,
+            "parentId": 67915,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 61375
+        },
+        {
+            "id": 68008,
+            "labelName": "公交站台",
+            "level": 3,
+            "parentId": 67915,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 984
+        },
+        {
+            "id": 68009,
+            "labelName": "道闸",
+            "level": 3,
+            "parentId": 67915,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 12937
+        },
+        {
+            "id": 68010,
+            "labelName": "伸缩门",
+            "level": 3,
+            "parentId": 67915,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 4311
+        },
+        {
+            "id": 68011,
+            "labelName": "岗亭",
+            "level": 3,
+            "parentId": 67915,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 3758
+        },
+        {
+            "id": 68012,
+            "labelName": "摊位",
+            "level": 3,
+            "parentId": 67916,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 6699
+        },
+        {
+            "id": 68013,
+            "labelName": "施工围挡",
+            "level": 3,
+            "parentId": 67916,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 1968
+        },
+        {
+            "id": 68014,
+            "labelName": "堆放物",
+            "level": 3,
+            "parentId": 67916,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 6724
+        },
+        {
+            "id": 68015,
+            "labelName": "垃圾堆",
+            "level": 3,
+            "parentId": 67916,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 2005
+        },
+        {
+            "id": 68016,
+            "labelName": "横幅",
+            "level": 3,
+            "parentId": 67916,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 1068
+        },
+        {
+            "id": 68017,
+            "labelName": "帐篷",
+            "level": 3,
+            "parentId": 67916,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 1140
+        },
+        {
+            "id": 68018,
+            "labelName": "健身器材",
+            "level": 3,
+            "parentId": 67917,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 1225
+        },
+        {
+            "id": 68019,
+            "labelName": "篮球架",
+            "level": 3,
+            "parentId": 67917,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 2163
+        },
+        {
+            "id": 68020,
+            "labelName": "乒乓球桌",
+            "level": 3,
+            "parentId": 67917,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 863
+        },
+        {
+            "id": 68021,
+            "labelName": "长椅",
+            "level": 3,
+            "parentId": 67917,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 6369
+        },
+        {
+            "id": 68022,
+            "labelName": "公告栏",
+            "level": 3,
+            "parentId": 67917,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 3221
+        },
+        {
+            "id": 68023,
+            "labelName": "雕塑",
+            "level": 3,
+            "parentId": 67917,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 436
+        },
+        {
+            "id": 68024,
+            "labelName": "凉亭",
+            "level": 3,
+            "parentId": 67917,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 315
+        },
+        {
+            "id": 68025,
+            "labelName": "树木",
+            "level": 3,
+            "parentId": 67918,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 100897
+        },
+        {
+            "id": 68026,
+            "labelName": "草地",
+            "level": 3,
+            "parentId": 67918,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 23799
+        },
+        {
+            "id": 68027,
+            "labelName": "花坛",
+            "level": 3,
+            "parentId": 67918,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 12644
+        },
+        {
+            "id": 68028,
+            "labelName": "灌木",
+            "level": 3,
+            "parentId": 67918,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 14091
+        },
+        {
+            "id": 68029,
+            "labelName": "狗",
+            "level": 3,
+            "parentId": 67919,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 2120
+        },
+        {
+            "id": 68030,
+            "labelName": "猫",
+            "level": 3,
+            "parentId": 67919,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 79
+        },
+        {
+            "id": 68031,
+            "labelName": "牛",
+            "level": 3,
+            "parentId": 67919,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 97
+        },
+        {
+            "id": 68032,
+            "labelName": "羊",
+            "level": 3,
+            "parentId": 67919,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 111
+        },
+        {
+            "id": 68033,
+            "labelName": "鸡",
+            "level": 3,
+            "parentId": 67919,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 263
+        },
+        {
+            "id": 68043,
+            "labelName": "其他场景",
+            "level": 3,
+            "parentId": 67910,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 7004
+        },
+        {
+            "id": 68044,
+            "labelName": "空调外机",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 1892
+        },
+        {
+            "id": 68045,
+            "labelName": "房屋",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 2115
+        },
+        {
+            "id": 68046,
+            "labelName": "围栏",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 1591
+        },
+        {
+            "id": 68047,
+            "labelName": "宣传栏",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 534
+        },
+        {
+            "id": 68048,
+            "labelName": "建筑物",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 2051
+        },
+        {
+            "id": 68049,
+            "labelName": "加油机",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 1165
+        },
+        {
+            "id": 68050,
+            "labelName": "砖墙",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 544
+        },
+        {
+            "id": 68051,
+            "labelName": "灭火器",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 400
+        },
+        {
+            "id": 68052,
+            "labelName": "窗户",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 679
+        },
+        {
+            "id": 68053,
+            "labelName": "石球",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 534
+        },
+        {
+            "id": 68054,
+            "labelName": "风力发电机",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 223
+        },
+        {
+            "id": 68055,
+            "labelName": "电脑",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 473
+        },
+        {
+            "id": 68056,
+            "labelName": "台阶",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 450
+        },
+        {
+            "id": 68057,
+            "labelName": "办公桌",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 493
+        },
+        {
+            "id": 68058,
+            "labelName": "讲台",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 303
+        },
+        {
+            "id": 68059,
+            "labelName": "街道",
+            "level": 3,
+            "parentId": 67910,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 211
+        },
+        {
+            "id": 68060,
+            "labelName": "红灯笼",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 252
+        },
+        {
+            "id": 68061,
+            "labelName": "温室大棚",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 347
+        },
+        {
+            "id": 68062,
+            "labelName": "灯笼",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 198
+        },
+        {
+            "id": 68063,
+            "labelName": "货架",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 241
+        },
+        {
+            "id": 68064,
+            "labelName": "空调",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 209
+        },
+        {
+            "id": 68065,
+            "labelName": "窗帘",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 244
+        },
+        {
+            "id": 68066,
+            "labelName": "吊扇",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 253
+        },
+        {
+            "id": 68067,
+            "labelName": "楼梯",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 436
+        },
+        {
+            "id": 68068,
+            "labelName": "电线",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 280
+        },
+        {
+            "id": 68069,
+            "labelName": "盆栽",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 384
+        },
+        {
+            "id": 68070,
+            "labelName": "挖掘机",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 204
+        },
+        {
+            "id": 68071,
+            "labelName": "交通设施",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 424
+        },
+        {
+            "id": 68072,
+            "labelName": "拖拉机",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 367
+        },
+        {
+            "id": 68073,
+            "labelName": "警示牌",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 64
+        },
+        {
+            "id": 68074,
+            "labelName": "香炉",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 200
+        },
+        {
+            "id": 68075,
+            "labelName": "铁门",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 231
+        },
+        {
+            "id": 68076,
+            "labelName": "石狮子",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 240
+        },
+        {
+            "id": 68077,
+            "labelName": "花盆",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 180
+        },
+        {
+            "id": 68078,
+            "labelName": "扫帚",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 148
+        },
+        {
+            "id": 68079,
+            "labelName": "砖块",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 179
+        },
+        {
+            "id": 68080,
+            "labelName": "海报",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 119
+        },
+        {
+            "id": 68081,
+            "labelName": "旗杆",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 237
+        },
+        {
+            "id": 68082,
+            "labelName": "菜地",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 103
+        },
+        {
+            "id": 68083,
+            "labelName": "太阳能板",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 218
+        },
+        {
+            "id": 68084,
+            "labelName": "水塘",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 58
+        },
+        {
+            "id": 68085,
+            "labelName": "旗帜",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 75
+        },
+        {
+            "id": 68086,
+            "labelName": "凳子",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 275
+        },
+        {
+            "id": 68087,
+            "labelName": "扶手",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 218
+        },
+        {
+            "id": 68088,
+            "labelName": "高架桥",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 115
+        },
+        {
+            "id": 68089,
+            "labelName": "石墙",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 175
+        },
+        {
+            "id": 68090,
+            "labelName": "风扇",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 114
+        },
+        {
+            "id": 68091,
+            "labelName": "池塘",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 179
+        },
+        {
+            "id": 68092,
+            "labelName": "农用机械",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 118
+        },
+        {
+            "id": 68093,
+            "labelName": "施工机械",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 125
+        },
+        {
+            "id": 68094,
+            "labelName": "石墩",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 164
+        },
+        {
+            "id": 68095,
+            "labelName": "围墙",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 506
+        },
+        {
+            "id": 68096,
+            "labelName": "国旗",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 58
+        },
+        {
+            "id": 68097,
+            "labelName": "跑道",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 104
+        },
+        {
+            "id": 68098,
+            "labelName": "供桌",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 144
+        },
+        {
+            "id": 68099,
+            "labelName": "玻璃门",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 152
+        },
+        {
+            "id": 68100,
+            "labelName": "自动扶梯",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 84
+        },
+        {
+            "id": 68101,
+            "labelName": "闸机",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 62
+        },
+        {
+            "id": 68102,
+            "labelName": "晾衣架",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 173
+        },
+        {
+            "id": 68103,
+            "labelName": "变压器",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 167
+        },
+        {
+            "id": 68104,
+            "labelName": "纸箱",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 130
+        },
+        {
+            "id": 68105,
+            "labelName": "应急灯",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 85
+        },
+        {
+            "id": 68106,
+            "labelName": "道路标线",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 140
+        },
+        {
+            "id": 68107,
+            "labelName": "收银台",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 72
+        },
+        {
+            "id": 68108,
+            "labelName": "卷帘门",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 176
+        },
+        {
+            "id": 68109,
+            "labelName": "叉车",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 73
+        },
+        {
+            "id": 68110,
+            "labelName": "文件柜",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 174
+        },
+        {
+            "id": 68111,
+            "labelName": "文件",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 168
+        },
+        {
+            "id": 68112,
+            "labelName": "滑梯",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 72
+        },
+        {
+            "id": 68113,
+            "labelName": "排水沟",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 76
+        },
+        {
+            "id": 68114,
+            "labelName": "管道",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 110
+        },
+        {
+            "id": 68115,
+            "labelName": "佛像",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 105
+        },
+        {
+            "id": 68116,
+            "labelName": "砖堆",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 118
+        },
+        {
+            "id": 68117,
+            "labelName": "雨伞",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 37
+        },
+        {
+            "id": 68118,
+            "labelName": "沙发",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 111
+        },
+        {
+            "id": 68119,
+            "labelName": "水桶",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 69
+        },
+        {
+            "id": 68120,
+            "labelName": "办公椅",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 75
+        },
+        {
+            "id": 68121,
+            "labelName": "道路",
+            "level": 3,
+            "parentId": 67910,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 79
+        },
+        {
+            "id": 68122,
+            "labelName": "打印机",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 98
+        },
+        {
+            "id": 68123,
+            "labelName": "水渠",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 47
+        },
+        {
+            "id": 68124,
+            "labelName": "沙堆",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 62
+        },
+        {
+            "id": 68125,
+            "labelName": "临时物体",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 104
+        },
+        {
+            "id": 68126,
+            "labelName": "大棚",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 41
+        },
+        {
+            "id": 68127,
+            "labelName": "大门",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 317
+        },
+        {
+            "id": 68128,
+            "labelName": "步道",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 51
+        },
+        {
+            "id": 68129,
+            "labelName": "黑板",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 93
+        },
+        {
+            "id": 68130,
+            "labelName": "神像",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 64
+        },
+        {
+            "id": 68131,
+            "labelName": "十字架",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 86
+        },
+        {
+            "id": 68132,
+            "labelName": "饮水机",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 55
+        },
+        {
+            "id": 68133,
+            "labelName": "太阳能热水器",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 61
+        },
+        {
+            "id": 68134,
+            "labelName": "交通护栏",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 32
+        },
+        {
+            "id": 68135,
+            "labelName": "动物",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 40
+        },
+        {
+            "id": 68136,
+            "labelName": "足球门",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 38
+        },
+        {
+            "id": 68137,
+            "labelName": "植物",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 62
+        },
+        {
+            "id": 68138,
+            "labelName": "安全出口",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 38
+        },
+        {
+            "id": 68139,
+            "labelName": "轮胎",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 48
+        },
+        {
+            "id": 68140,
+            "labelName": "键盘",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 76
+        },
+        {
+            "id": 68141,
+            "labelName": "手推车",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 33
+        },
+        {
+            "id": 68142,
+            "labelName": "检查站",
+            "level": 3,
+            "parentId": 67910,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 33
+        },
+        {
+            "id": 68143,
+            "labelName": "石碑",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 96
+        },
+        {
+            "id": 68144,
+            "labelName": "球形石墩",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 106
+        },
+        {
+            "id": 68145,
+            "labelName": "行李箱",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 21
+        },
+        {
+            "id": 68146,
+            "labelName": "墙壁",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 92
+        },
+        {
+            "id": 68147,
+            "labelName": "砖房",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 70
+        },
+        {
+            "id": 68148,
+            "labelName": "篮球场",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 32
+        },
+        {
+            "id": 68149,
+            "labelName": "鼠标",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 62
+        },
+        {
+            "id": 68150,
+            "labelName": "柜子",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 63
+        },
+        {
+            "id": 68151,
+            "labelName": "电子显示屏",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 26
+        },
+        {
+            "id": 68152,
+            "labelName": "彩旗",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 32
+        },
+        {
+            "id": 68153,
+            "labelName": "音响",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 31
+        },
+        {
+            "id": 68154,
+            "labelName": "冰箱",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 51
+        },
+        {
+            "id": 68155,
+            "labelName": "石阶",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 30
+        },
+        {
+            "id": 68156,
+            "labelName": "购物车",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 33
+        },
+        {
+            "id": 68157,
+            "labelName": "棚屋",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 64
+        },
+        {
+            "id": 68158,
+            "labelName": "充电桩",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 29
+        },
+        {
+            "id": 68159,
+            "labelName": "混凝土搅拌机",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 40
+        },
+        {
+            "id": 68160,
+            "labelName": "时钟",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 24
+        },
+        {
+            "id": 68161,
+            "labelName": "服务台",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 37
+        },
+        {
+            "id": 68162,
+            "labelName": "土路",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 63
+        },
+        {
+            "id": 68163,
+            "labelName": "梯子",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 33
+        },
+        {
+            "id": 68164,
+            "labelName": "电缆",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 63
+        },
+        {
+            "id": 68165,
+            "labelName": "铁路",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 43
+        },
+        {
+            "id": 68166,
+            "labelName": "标识牌",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 34
+        },
+        {
+            "id": 68167,
+            "labelName": "水沟",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 19
+        },
+        {
+            "id": 68168,
+            "labelName": "厂房",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 29
+        },
+        {
+            "id": 68169,
+            "labelName": "安检门",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 22
+        },
+        {
+            "id": 68170,
+            "labelName": "铁丝网",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 36
+        },
+        {
+            "id": 68171,
+            "labelName": "柱子",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 63
+        },
+        {
+            "id": 68172,
+            "labelName": "箱子",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 43
+        },
+        {
+            "id": 68173,
+            "labelName": "储罐",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 8
+        },
+        {
+            "id": 68174,
+            "labelName": "门卫室",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 37
+        },
+        {
+            "id": 68175,
+            "labelName": "音箱",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 23
+        },
+        {
+            "id": 68176,
+            "labelName": "计算器",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 28
+        },
+        {
+            "id": 68177,
+            "labelName": "石雕",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 29
+        },
+        {
+            "id": 68178,
+            "labelName": "限高杆",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 18
+        },
+        {
+            "id": 68179,
+            "labelName": "牌坊",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 34
+        },
+        {
+            "id": 68180,
+            "labelName": "临时板房",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 21
+        },
+        {
+            "id": 68181,
+            "labelName": "储物柜",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 17
+        },
+        {
+            "id": 68182,
+            "labelName": "教学楼",
+            "level": 3,
+            "parentId": 67910,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 12
+        },
+        {
+            "id": 68183,
+            "labelName": "跪垫",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 30
+        },
+        {
+            "id": 68184,
+            "labelName": "宣传牌",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 20
+        },
+        {
+            "id": 68185,
+            "labelName": "装饰物",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 23
+        },
+        {
+            "id": 68186,
+            "labelName": "茶几",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 39
+        },
+        {
+            "id": 68187,
+            "labelName": "桌椅",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 17
+        },
+        {
+            "id": 68188,
+            "labelName": "轮椅",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 28
+        },
+        {
+            "id": 68189,
+            "labelName": "防盗窗",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 21
+        },
+        {
+            "id": 68190,
+            "labelName": "跪拜垫",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 32
+        },
+        {
+            "id": 68191,
+            "labelName": "护士",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 17
+        },
+        {
+            "id": 68192,
+            "labelName": "电脑显示器",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 15
+        },
+        {
+            "id": 68193,
+            "labelName": "警示带",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 6
+        },
+        {
+            "id": 68194,
+            "labelName": "出口",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 18
+        },
+        {
+            "id": 68195,
+            "labelName": "地毯",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 30
+        },
+        {
+            "id": 68196,
+            "labelName": "交通标线",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 29
+        },
+        {
+            "id": 68197,
+            "labelName": "宣传展板",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 19
+        },
+        {
+            "id": 68198,
+            "labelName": "监控屏幕",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 13
+        },
+        {
+            "id": 68199,
+            "labelName": "告示牌",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 19
+        },
+        {
+            "id": 68200,
+            "labelName": "脚手架",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 23
+        },
+        {
+            "id": 68201,
+            "labelName": "投影幕布",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 16
+        },
+        {
+            "id": 68202,
+            "labelName": "麦克风",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 26
+        },
+        {
+            "id": 68203,
+            "labelName": "起重机",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 22
+        },
+        {
+            "id": 68204,
+            "labelName": "石桥",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 10
+        },
+        {
+            "id": 68205,
+            "labelName": "鞋子",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 10
+        },
+        {
+            "id": 68206,
+            "labelName": "竹篱笆",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 14
+        },
+        {
+            "id": 68207,
+            "labelName": "花束",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 17
+        },
+        {
+            "id": 68208,
+            "labelName": "手机",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 16
+        },
+        {
+            "id": 68209,
+            "labelName": "地面",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 3
+        },
+        {
+            "id": 68210,
+            "labelName": "石栏杆",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 23
+        },
+        {
+            "id": 68211,
+            "labelName": "电话",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 28
+        },
+        {
+            "id": 68212,
+            "labelName": "儿童游乐设施",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 22
+        },
+        {
+            "id": 68214,
+            "labelName": "煤气罐",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 18
+        },
+        {
+            "id": 68215,
+            "labelName": "灯",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 8
+        },
+        {
+            "id": 68216,
+            "labelName": "地贴",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 14
+        },
+        {
+            "id": 1000710,
+            "labelName": "附近POI",
+            "level": 1,
+            "parentId": 0,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 117136
+        },
+        {
+            "id": 1000711,
+            "labelName": "购物",
+            "level": 2,
+            "parentId": 1000710,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 20478
+        },
+        {
+            "id": 1000712,
+            "labelName": "房地产",
+            "level": 2,
+            "parentId": 1000710,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 12100
+        },
+        {
+            "id": 1000713,
+            "labelName": "公司企业",
+            "level": 2,
+            "parentId": 1000710,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 11804
+        },
+        {
+            "id": 1000714,
+            "labelName": "行政地标",
+            "level": 2,
+            "parentId": 1000710,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 10565
+        },
+        {
+            "id": 1000715,
+            "labelName": "美食",
+            "level": 2,
+            "parentId": 1000710,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 9453
+        },
+        {
+            "id": 1000716,
+            "labelName": "政府机构",
+            "level": 2,
+            "parentId": 1000710,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 5942
+        },
+        {
+            "id": 1000717,
+            "labelName": "生活服务",
+            "level": 2,
+            "parentId": 1000710,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 6895
+        },
+        {
+            "id": 1000718,
+            "labelName": "交通设施",
+            "level": 2,
+            "parentId": 1000710,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 9017
+        },
+        {
+            "id": 1000719,
+            "labelName": "出入口",
+            "level": 2,
+            "parentId": 1000710,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 8876
+        },
+        {
+            "id": 1000720,
+            "labelName": "医疗",
+            "level": 2,
+            "parentId": 1000710,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 3185
+        },
+        {
+            "id": 1000721,
+            "labelName": "教育培训",
+            "level": 2,
+            "parentId": 1000710,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 4570
+        },
+        {
+            "id": 1000722,
+            "labelName": "汽车服务",
+            "level": 2,
+            "parentId": 1000710,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 3654
+        },
+        {
+            "id": 1000723,
+            "labelName": "丽人",
+            "level": 2,
+            "parentId": 1000710,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 3529
+        },
+        {
+            "id": 1000724,
+            "labelName": "休闲娱乐",
+            "level": 2,
+            "parentId": 1000710,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 3033
+        },
+        {
+            "id": 1000725,
+            "labelName": "旅游景点",
+            "level": 2,
+            "parentId": 1000710,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 1098
+        },
+        {
+            "id": 1000726,
+            "labelName": "运动健身",
+            "level": 2,
+            "parentId": 1000710,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 758
+        },
+        {
+            "id": 1000727,
+            "labelName": "酒店",
+            "level": 2,
+            "parentId": 1000710,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 208
+        },
+        {
+            "id": 1000728,
+            "labelName": "金融",
+            "level": 2,
+            "parentId": 1000710,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 517
+        },
+        {
+            "id": 1000729,
+            "labelName": "文化传媒",
+            "level": 2,
+            "parentId": 1000710,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 251
+        },
+        {
+            "id": 1000730,
+            "labelName": "自然地物",
+            "level": 2,
+            "parentId": 1000710,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 27
+        },
+        {
+            "id": 1000731,
+            "labelName": "道路",
+            "level": 2,
+            "parentId": 1000710,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 1176
+        },
+        {
+            "id": 1000734,
+            "labelName": "商铺",
+            "level": 3,
+            "parentId": 1000711,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 10078
+        },
+        {
+            "id": 1000735,
+            "labelName": "家居建材",
+            "level": 3,
+            "parentId": 1000711,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 4636
+        },
+        {
+            "id": 1000736,
+            "labelName": "家电数码",
+            "level": 3,
+            "parentId": 1000711,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 989
+        },
+        {
+            "id": 1000737,
+            "labelName": "超市",
+            "level": 3,
+            "parentId": 1000711,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 2311
+        },
+        {
+            "id": 1000738,
+            "labelName": "便利店",
+            "level": 3,
+            "parentId": 1000711,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 2065
+        },
+        {
+            "id": 1000739,
+            "labelName": "市场",
+            "level": 3,
+            "parentId": 1000711,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 386
+        },
+        {
+            "id": 1000740,
+            "labelName": "购物中心",
+            "level": 3,
+            "parentId": 1000711,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 13
+        },
+        {
+            "id": 1000742,
+            "labelName": "住宅区",
+            "level": 3,
+            "parentId": 1000712,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 4379
+        },
+        {
+            "id": 1000743,
+            "labelName": "内部楼栋",
+            "level": 3,
+            "parentId": 1000712,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 7305
+        },
+        {
+            "id": 1000744,
+            "labelName": "写字楼",
+            "level": 3,
+            "parentId": 1000712,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 231
+        },
+        {
+            "id": 1000745,
+            "labelName": "宿舍",
+            "level": 3,
+            "parentId": 1000712,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 185
+        },
+        {
+            "id": 1000746,
+            "labelName": "公司",
+            "level": 3,
+            "parentId": 1000713,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 8940
+        },
+        {
+            "id": 1000747,
+            "labelName": "农林园艺",
+            "level": 3,
+            "parentId": 1000713,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 975
+        },
+        {
+            "id": 1000748,
+            "labelName": "厂矿",
+            "level": 3,
+            "parentId": 1000713,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 1674
+        },
+        {
+            "id": 1000749,
+            "labelName": "园区",
+            "level": 3,
+            "parentId": 1000713,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 215
+        },
+        {
+            "id": 1000750,
+            "labelName": "村庄",
+            "level": 3,
+            "parentId": 1000714,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 10481
+        },
+        {
+            "id": 1000751,
+            "labelName": "乡镇",
+            "level": 3,
+            "parentId": 1000714,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 31
+        },
+        {
+            "id": 1000752,
+            "labelName": "商圈",
+            "level": 3,
+            "parentId": 1000714,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 38
+        },
+        {
+            "id": 1000753,
+            "labelName": "区县",
+            "level": 3,
+            "parentId": 1000714,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 11
+        },
+        {
+            "id": 1000754,
+            "labelName": "地级市",
+            "level": 3,
+            "parentId": 1000714,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 4
+        },
+        {
+            "id": 1000755,
+            "labelName": "中餐厅",
+            "level": 3,
+            "parentId": 1000715,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 4445
+        },
+        {
+            "id": 1000756,
+            "labelName": "小吃快餐店",
+            "level": 3,
+            "parentId": 1000715,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 3810
+        },
+        {
+            "id": 1000757,
+            "labelName": "咖啡厅",
+            "level": 3,
+            "parentId": 1000715,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 82
+        },
+        {
+            "id": 1000758,
+            "labelName": "外国餐厅",
+            "level": 3,
+            "parentId": 1000715,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 94
+        },
+        {
+            "id": 1000759,
+            "labelName": "茶座",
+            "level": 3,
+            "parentId": 1000715,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 165
+        },
+        {
+            "id": 1000760,
+            "labelName": "蛋糕甜品店",
+            "level": 3,
+            "parentId": 1000715,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 674
+        },
+        {
+            "id": 1000761,
+            "labelName": "酒吧",
+            "level": 3,
+            "parentId": 1000715,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 183
+        },
+        {
+            "id": 1000762,
+            "labelName": "行政单位",
+            "level": 3,
+            "parentId": 1000716,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 2372
+        },
+        {
+            "id": 1000763,
+            "labelName": "各级政府",
+            "level": 3,
+            "parentId": 1000716,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 1518
+        },
+        {
+            "id": 1000764,
+            "labelName": "公检法机构",
+            "level": 3,
+            "parentId": 1000716,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 904
+        },
+        {
+            "id": 1000765,
+            "labelName": "党派团体",
+            "level": 3,
+            "parentId": 1000716,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 235
+        },
+        {
+            "id": 1000766,
+            "labelName": "社会团体",
+            "level": 3,
+            "parentId": 1000716,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 538
+        },
+        {
+            "id": 1000767,
+            "labelName": "福利机构",
+            "level": 3,
+            "parentId": 1000716,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 179
+        },
+        {
+            "id": 1000768,
+            "labelName": "居民委员会",
+            "level": 3,
+            "parentId": 1000716,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 165
+        },
+        {
+            "id": 1000769,
+            "labelName": "政治教育机构",
+            "level": 3,
+            "parentId": 1000716,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 31
+        },
+        {
+            "id": 1000770,
+            "labelName": "公共厕所",
+            "level": 3,
+            "parentId": 1000717,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 1840
+        },
+        {
+            "id": 1000771,
+            "labelName": "公用事业",
+            "level": 3,
+            "parentId": 1000717,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 363
+        },
+        {
+            "id": 1000772,
+            "labelName": "售票处",
+            "level": 3,
+            "parentId": 1000717,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 93
+        },
+        {
+            "id": 1000773,
+            "labelName": "图文快印店",
+            "level": 3,
+            "parentId": 1000717,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 418
+        },
+        {
+            "id": 1000774,
+            "labelName": "宠物服务",
+            "level": 3,
+            "parentId": 1000717,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 197
+        },
+        {
+            "id": 1000775,
+            "labelName": "家政服务",
+            "level": 3,
+            "parentId": 1000717,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 351
+        },
+        {
+            "id": 1000776,
+            "labelName": "彩票销售点",
+            "level": 3,
+            "parentId": 1000717,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 282
+        },
+        {
+            "id": 1000777,
+            "labelName": "房产中介机构",
+            "level": 3,
+            "parentId": 1000717,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 443
+        },
+        {
+            "id": 1000778,
+            "labelName": "殡葬服务",
+            "level": 3,
+            "parentId": 1000717,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 221
+        },
+        {
+            "id": 1000779,
+            "labelName": "洗衣店",
+            "level": 3,
+            "parentId": 1000717,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 238
+        },
+        {
+            "id": 1000780,
+            "labelName": "照相馆",
+            "level": 3,
+            "parentId": 1000717,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 240
+        },
+        {
+            "id": 1000781,
+            "labelName": "物流公司",
+            "level": 3,
+            "parentId": 1000717,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 1210
+        },
+        {
+            "id": 1000782,
+            "labelName": "维修点",
+            "level": 3,
+            "parentId": 1000717,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 759
+        },
+        {
+            "id": 1000783,
+            "labelName": "通讯营业厅",
+            "level": 3,
+            "parentId": 1000717,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 164
+        },
+        {
+            "id": 1000784,
+            "labelName": "邮局",
+            "level": 3,
+            "parentId": 1000717,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 76
+        },
+        {
+            "id": 1000785,
+            "labelName": "停车场",
+            "level": 3,
+            "parentId": 1000718,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 6672
+        },
+        {
+            "id": 1000786,
+            "labelName": "充电站",
+            "level": 3,
+            "parentId": 1000718,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 490
+        },
+        {
+            "id": 1000787,
+            "labelName": "加油加气站",
+            "level": 3,
+            "parentId": 1000718,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 542
+        },
+        {
+            "id": 1000788,
+            "labelName": "收费站",
+            "level": 3,
+            "parentId": 1000718,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 16
+        },
+        {
+            "id": 1000789,
+            "labelName": "桥",
+            "level": 3,
+            "parentId": 1000718,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 19
+        },
+        {
+            "id": 1000790,
+            "labelName": "港口",
+            "level": 3,
+            "parentId": 1000718,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 25
+        },
+        {
+            "id": 1000791,
+            "labelName": "火车站",
+            "level": 3,
+            "parentId": 1000718,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 23
+        },
+        {
+            "id": 1000792,
+            "labelName": "路侧停车位",
+            "level": 3,
+            "parentId": 1000718,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 1166
+        },
+        {
+            "id": 1000793,
+            "labelName": "普通停车位",
+            "level": 3,
+            "parentId": 1000718,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 23
+        },
+        {
+            "id": 1000794,
+            "labelName": "长途汽车站",
+            "level": 3,
+            "parentId": 1000718,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 35
+        },
+        {
+            "id": 1000796,
+            "labelName": "公交车站",
+            "level": 3,
+            "parentId": 1000718,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 6
+        },
+        {
+            "id": 1000800,
+            "labelName": "停车场出入口",
+            "level": 3,
+            "parentId": 1000719,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 2609
+        },
+        {
+            "id": 1000801,
+            "labelName": "门",
+            "level": 3,
+            "parentId": 1000719,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 6254
+        },
+        {
+            "id": 1000802,
+            "labelName": "车站入口",
+            "level": 3,
+            "parentId": 1000719,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 9
+        },
+        {
+            "id": 1000803,
+            "labelName": "车站出口",
+            "level": 3,
+            "parentId": 1000719,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 4
+        },
+        {
+            "id": 1000805,
+            "labelName": "专科医院",
+            "level": 3,
+            "parentId": 1000720,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 133
+        },
+        {
+            "id": 1000806,
+            "labelName": "体检机构",
+            "level": 3,
+            "parentId": 1000720,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 50
+        },
+        {
+            "id": 1000807,
+            "labelName": "医疗保健",
+            "level": 3,
+            "parentId": 1000720,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 204
+        },
+        {
+            "id": 1000808,
+            "labelName": "医疗器械",
+            "level": 3,
+            "parentId": 1000720,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 71
+        },
+        {
+            "id": 1000809,
+            "labelName": "急救中心",
+            "level": 3,
+            "parentId": 1000720,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 26
+        },
+        {
+            "id": 1000810,
+            "labelName": "疗养院",
+            "level": 3,
+            "parentId": 1000720,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 33
+        },
+        {
+            "id": 1000811,
+            "labelName": "疾控中心",
+            "level": 3,
+            "parentId": 1000720,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 15
+        },
+        {
+            "id": 1000812,
+            "labelName": "综合医院",
+            "level": 3,
+            "parentId": 1000720,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 78
+        },
+        {
+            "id": 1000813,
+            "labelName": "药店",
+            "level": 3,
+            "parentId": 1000720,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 686
+        },
+        {
+            "id": 1000814,
+            "labelName": "诊所",
+            "level": 3,
+            "parentId": 1000720,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 1885
+        },
+        {
+            "id": 1000815,
+            "labelName": "核酸检测点",
+            "level": 3,
+            "parentId": 1000720,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 4
+        },
+        {
+            "id": 1000816,
+            "labelName": "中学",
+            "level": 3,
+            "parentId": 1000721,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 559
+        },
+        {
+            "id": 1000817,
+            "labelName": "小学",
+            "level": 3,
+            "parentId": 1000721,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 1017
+        },
+        {
+            "id": 1000818,
+            "labelName": "幼儿园",
+            "level": 3,
+            "parentId": 1000721,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 1218
+        },
+        {
+            "id": 1000819,
+            "labelName": "培训机构",
+            "level": 3,
+            "parentId": 1000721,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 1501
+        },
+        {
+            "id": 1000820,
+            "labelName": "高等院校",
+            "level": 3,
+            "parentId": 1000721,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 50
+        },
+        {
+            "id": 1000821,
+            "labelName": "科研机构",
+            "level": 3,
+            "parentId": 1000721,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 125
+        },
+        {
+            "id": 1000822,
+            "labelName": "图书馆",
+            "level": 3,
+            "parentId": 1000721,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 48
+        },
+        {
+            "id": 1000823,
+            "labelName": "成人教育",
+            "level": 3,
+            "parentId": 1000721,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 27
+        },
+        {
+            "id": 1000824,
+            "labelName": "亲子教育",
+            "level": 3,
+            "parentId": 1000721,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 11
+        },
+        {
+            "id": 1000825,
+            "labelName": "特殊教育学校",
+            "level": 3,
+            "parentId": 1000721,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 14
+        },
+        {
+            "id": 1000826,
+            "labelName": "汽车维修",
+            "level": 3,
+            "parentId": 1000722,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 1704
+        },
+        {
+            "id": 1000827,
+            "labelName": "汽车美容",
+            "level": 3,
+            "parentId": 1000722,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 723
+        },
+        {
+            "id": 1000828,
+            "labelName": "汽车销售",
+            "level": 3,
+            "parentId": 1000722,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 685
+        },
+        {
+            "id": 1000829,
+            "labelName": "汽车配件",
+            "level": 3,
+            "parentId": 1000722,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 485
+        },
+        {
+            "id": 1000830,
+            "labelName": "汽车检测场",
+            "level": 3,
+            "parentId": 1000722,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 16
+        },
+        {
+            "id": 1000831,
+            "labelName": "汽车租赁",
+            "level": 3,
+            "parentId": 1000722,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 41
+        },
+        {
+            "id": 1000832,
+            "labelName": "美发",
+            "level": 3,
+            "parentId": 1000723,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 1648
+        },
+        {
+            "id": 1000833,
+            "labelName": "美容",
+            "level": 3,
+            "parentId": 1000723,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 1223
+        },
+        {
+            "id": 1000834,
+            "labelName": "美体",
+            "level": 3,
+            "parentId": 1000723,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 298
+        },
+        {
+            "id": 1000835,
+            "labelName": "美甲",
+            "level": 3,
+            "parentId": 1000723,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 360
+        },
+        {
+            "id": 1000836,
+            "labelName": "ktv",
+            "level": 3,
+            "parentId": 1000724,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 103
+        },
+        {
+            "id": 1000837,
+            "labelName": "休闲广场",
+            "level": 3,
+            "parentId": 1000724,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 400
+        },
+        {
+            "id": 1000838,
+            "labelName": "农家院",
+            "level": 3,
+            "parentId": 1000724,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 210
+        },
+        {
+            "id": 1000839,
+            "labelName": "剧院",
+            "level": 3,
+            "parentId": 1000724,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 20
+        },
+        {
+            "id": 1000840,
+            "labelName": "度假村",
+            "level": 3,
+            "parentId": 1000724,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 22
+        },
+        {
+            "id": 1000841,
+            "labelName": "歌舞厅",
+            "level": 3,
+            "parentId": 1000724,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 13
+        },
+        {
+            "id": 1000842,
+            "labelName": "洗浴按摩",
+            "level": 3,
+            "parentId": 1000724,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 1662
+        },
+        {
+            "id": 1000843,
+            "labelName": "游戏场所",
+            "level": 3,
+            "parentId": 1000724,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 519
+        },
+        {
+            "id": 1000844,
+            "labelName": "电影院",
+            "level": 3,
+            "parentId": 1000724,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 43
+        },
+        {
+            "id": 1000845,
+            "labelName": "网吧",
+            "level": 3,
+            "parentId": 1000724,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 41
+        },
+        {
+            "id": 1000846,
+            "labelName": "公园",
+            "level": 3,
+            "parentId": 1000725,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 388
+        },
+        {
+            "id": 1000847,
+            "labelName": "博物馆",
+            "level": 3,
+            "parentId": 1000725,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 68
+        },
+        {
+            "id": 1000848,
+            "labelName": "寺庙",
+            "level": 3,
+            "parentId": 1000725,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 102
+        },
+        {
+            "id": 1000849,
+            "labelName": "教堂",
+            "level": 3,
+            "parentId": 1000725,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 94
+        },
+        {
+            "id": 1000850,
+            "labelName": "文物古迹",
+            "level": 3,
+            "parentId": 1000725,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 318
+        },
+        {
+            "id": 1000851,
+            "labelName": "植物园",
+            "level": 3,
+            "parentId": 1000725,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 3
+        },
+        {
+            "id": 1000854,
+            "labelName": "游乐园",
+            "level": 3,
+            "parentId": 1000725,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 53
+        },
+        {
+            "id": 1000855,
+            "labelName": "风景区",
+            "level": 3,
+            "parentId": 1000725,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 68
+        },
+        {
+            "id": 1000856,
+            "labelName": "景点",
+            "level": 3,
+            "parentId": 1000725,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 4
+        },
+        {
+            "id": 1000857,
+            "labelName": "体育场馆",
+            "level": 3,
+            "parentId": 1000726,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 653
+        },
+        {
+            "id": 1000858,
+            "labelName": "健身中心",
+            "level": 3,
+            "parentId": 1000726,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 50
+        },
+        {
+            "id": 1000859,
+            "labelName": "极限运动场所",
+            "level": 3,
+            "parentId": 1000726,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 55
+        },
+        {
+            "id": 1000860,
+            "labelName": "快捷酒店",
+            "level": 3,
+            "parentId": 1000727,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 53
+        },
+        {
+            "id": 1000861,
+            "labelName": "星级酒店",
+            "level": 3,
+            "parentId": 1000727,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 10
+        },
+        {
+            "id": 1000862,
+            "labelName": "公寓式酒店",
+            "level": 3,
+            "parentId": 1000727,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 9
+        },
+        {
+            "id": 1000863,
+            "labelName": "民宿",
+            "level": 3,
+            "parentId": 1000727,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 136
+        },
+        {
+            "id": 1000864,
+            "labelName": "银行",
+            "level": 3,
+            "parentId": 1000728,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 175
+        },
+        {
+            "id": 1000865,
+            "labelName": "atm",
+            "level": 3,
+            "parentId": 1000728,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 153
+        },
+        {
+            "id": 1000866,
+            "labelName": "信用社",
+            "level": 3,
+            "parentId": 1000728,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 34
+        },
+        {
+            "id": 1000867,
+            "labelName": "投资理财",
+            "level": 3,
+            "parentId": 1000728,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 146
+        },
+        {
+            "id": 1000868,
+            "labelName": "典当行",
+            "level": 3,
+            "parentId": 1000728,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 9
+        },
+        {
+            "id": 1000869,
+            "labelName": "展览馆",
+            "level": 3,
+            "parentId": 1000729,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 134
+        },
+        {
+            "id": 1000870,
+            "labelName": "广播电视",
+            "level": 3,
+            "parentId": 1000729,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 40
+        },
+        {
+            "id": 1000871,
+            "labelName": "文化宫",
+            "level": 3,
+            "parentId": 1000729,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 44
+        },
+        {
+            "id": 1000872,
+            "labelName": "新闻出版",
+            "level": 3,
+            "parentId": 1000729,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 5
+        },
+        {
+            "id": 1000873,
+            "labelName": "美术馆",
+            "level": 3,
+            "parentId": 1000729,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 5
+        },
+        {
+            "id": 1000874,
+            "labelName": "艺术团体",
+            "level": 3,
+            "parentId": 1000729,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 23
+        },
+        {
+            "id": 1000875,
+            "labelName": "山峰",
+            "level": 3,
+            "parentId": 1000730,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 18
+        },
+        {
+            "id": 1000876,
+            "labelName": "水系",
+            "level": 3,
+            "parentId": 1000730,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 9
+        },
+        {
+            "id": 1000877,
+            "labelName": "路口",
+            "level": 3,
+            "parentId": 1000731,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 1176
+        },
+        {
+            "id": 1000886,
+            "labelName": "商铺",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 2541
+        },
+        {
+            "id": 1000887,
+            "labelName": "建筑",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 2365
+        },
+        {
+            "id": 1000888,
+            "labelName": "桥梁",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 278
+        },
+        {
+            "id": 1000889,
+            "labelName": "小路",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 6
+        },
+        {
+            "id": 1000890,
+            "labelName": "加油站",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 112
+        },
+        {
+            "id": 1000891,
+            "labelName": "书架",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 16
+        },
+        {
+            "id": 1000892,
+            "labelName": "装饰画",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 6
+        },
+        {
+            "id": 1000893,
+            "labelName": "金属支架",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 5
+        },
+        {
+            "id": 1000895,
+            "labelName": "纸杯",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 5
+        },
+        {
+            "id": 1000896,
+            "labelName": "教室",
+            "level": 3,
+            "parentId": 67910,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 5
+        },
+        {
+            "id": 1000897,
+            "labelName": "店铺",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 107
+        },
+        {
+            "id": 1000898,
+            "labelName": "电梯",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 58
+        },
+        {
+            "id": 1000900,
+            "labelName": "山",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 11
+        },
+        {
+            "id": 1000901,
+            "labelName": "景区入口",
+            "level": 3,
+            "parentId": 67910,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 6
+        },
+        {
+            "id": 1000902,
+            "labelName": "门帘",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 25
+        },
+        {
+            "id": 1000903,
+            "labelName": "竹竿",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 10
+        },
+        {
+            "id": 1000904,
+            "labelName": "路缘石",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 28
+        },
+        {
+            "id": 1000905,
+            "labelName": "宣传墙",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 9
+        },
+        {
+            "id": 1000906,
+            "labelName": "书本",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 16
+        },
+        {
+            "id": 1000907,
+            "labelName": "驾驶人员",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 24
+        },
+        {
+            "id": 1000908,
+            "labelName": "天桥",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 6
+        },
+        {
+            "id": 1000909,
+            "labelName": "指示箭头",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 9
+        },
+        {
+            "id": 1000910,
+            "labelName": "购物篮",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 4
+        },
+        {
+            "id": 1000911,
+            "labelName": "图书馆",
+            "level": 3,
+            "parentId": 67910,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 3
+        },
+        {
+            "id": 1000912,
+            "labelName": "楼梯间",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 92
+        },
+        {
+            "id": 1000913,
+            "labelName": "墙贴",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 12
+        },
+        {
+            "id": 1000914,
+            "labelName": "警示胶带",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 6
+        },
+        {
+            "id": 1000916,
+            "labelName": "棚架",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 13
+        },
+        {
+            "id": 1000917,
+            "labelName": "山丘",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 16
+        },
+        {
+            "id": 1000918,
+            "labelName": "考场",
+            "level": 3,
+            "parentId": 67910,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 17
+        },
+        {
+            "id": 1000919,
+            "labelName": "栅栏",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 7
+        },
+        {
+            "id": 1000921,
+            "labelName": "混凝土结构",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 8
+        },
+        {
+            "id": 1000922,
+            "labelName": "背包",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 10
+        },
+        {
+            "id": 1000923,
+            "labelName": "壁画",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 11
+        },
+        {
+            "id": 1000924,
+            "labelName": "混凝土管",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 4
+        },
+        {
+            "id": 1000925,
+            "labelName": "护士站",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 6
+        },
+        {
+            "id": 1000927,
+            "labelName": "工作台",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 4
+        },
+        {
+            "id": 1000928,
+            "labelName": "警示柱",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 15
+        },
+        {
+            "id": 1000929,
+            "labelName": "衣帽架",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 5
+        },
+        {
+            "id": 1000931,
+            "labelName": "装载机",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 3
+        },
+        {
+            "id": 1000933,
+            "labelName": "砖石堆",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 7
+        },
+        {
+            "id": 1000937,
+            "labelName": "农业机械",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 34
+        },
+        {
+            "id": 1000939,
+            "labelName": "土堆",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 22
+        },
+        {
+            "id": 1000940,
+            "labelName": "自动售货机",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 8
+        },
+        {
+            "id": 1000941,
+            "labelName": "供品",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 6
+        },
+        {
+            "id": 1000942,
+            "labelName": "隔离带",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 6
+        },
+        {
+            "id": 1000943,
+            "labelName": "农房",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 21
+        },
+        {
+            "id": 1000945,
+            "labelName": "纸张",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 3
+        },
+        {
+            "id": 1000946,
+            "labelName": "笔",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 3
+        },
+        {
+            "id": 1000947,
+            "labelName": "安检机",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 17
+        },
+        {
+            "id": 1000948,
+            "labelName": "河",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 19
+        },
+        {
+            "id": 1000949,
+            "labelName": "石柱",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 6
+        },
+        {
+            "id": 1000950,
+            "labelName": "车道线",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 22
+        },
+        {
+            "id": 1000951,
+            "labelName": "收割机",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 3
+        },
+        {
+            "id": 1000952,
+            "labelName": "会议桌",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 19
+        },
+        {
+            "id": 1000953,
+            "labelName": "显示屏",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 20
+        },
+        {
+            "id": 1000954,
+            "labelName": "镇区",
+            "level": 3,
+            "parentId": 67910,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 5
+        },
+        {
+            "id": 1000955,
+            "labelName": "农具",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 15
+        },
+        {
+            "id": 1000956,
+            "labelName": "晾衣绳",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 58
+        },
+        {
+            "id": 1000958,
+            "labelName": "会议室",
+            "level": 3,
+            "parentId": 67910,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 6
+        },
+        {
+            "id": 1000959,
+            "labelName": "石堆",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 12
+        },
+        {
+            "id": 1000960,
+            "labelName": "舞台",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 6
+        },
+        {
+            "id": 1000961,
+            "labelName": "入口",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 6
+        },
+        {
+            "id": 1000962,
+            "labelName": "农舍",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 30
+        },
+        {
+            "id": 1000964,
+            "labelName": "集装箱",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 6
+        },
+        {
+            "id": 1000966,
+            "labelName": "水槽",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 8
+        },
+        {
+            "id": 1000967,
+            "labelName": "电箱",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 6
+        },
+        {
+            "id": 1000968,
+            "labelName": "教学楼",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 8
+        },
+        {
+            "id": 1000969,
+            "labelName": "餐厅",
+            "level": 3,
+            "parentId": 67910,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 3
+        },
+        {
+            "id": 1000970,
+            "labelName": "消防器材柜",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 4
+        },
+        {
+            "id": 1000971,
+            "labelName": "临时建筑",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 14
+        },
+        {
+            "id": 1000972,
+            "labelName": "服务器机柜",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 7
+        },
+        {
+            "id": 1000973,
+            "labelName": "监控显示屏",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 5
+        },
+        {
+            "id": 1000974,
+            "labelName": "插座",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 6
+        },
+        {
+            "id": 1000976,
+            "labelName": "出口标志",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 9
+        },
+        {
+            "id": 1000977,
+            "labelName": "办公楼",
+            "level": 3,
+            "parentId": 67910,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 5
+        },
+        {
+            "id": 1000978,
+            "labelName": "水塔",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 9
+        },
+        {
+            "id": 1000979,
+            "labelName": "立柱",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 25
+        },
+        {
+            "id": 1000980,
+            "labelName": "塑料袋",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 7
+        },
+        {
+            "id": 1000981,
+            "labelName": "小凳子",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 4
+        },
+        {
+            "id": 1000982,
+            "labelName": "门柱",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 5
+        },
+        {
+            "id": 1000983,
+            "labelName": "公共设施",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 9
+        },
+        {
+            "id": 1000984,
+            "labelName": "标语",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 10
+        },
+        {
+            "id": 1000985,
+            "labelName": "显示器",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 15
+        },
+        {
+            "id": 1000986,
+            "labelName": "监控室",
+            "level": 3,
+            "parentId": 67910,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 5
+        },
+        {
+            "id": 1000987,
+            "labelName": "接待台",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 5
+        },
+        {
+            "id": 1000988,
+            "labelName": "警用装备柜",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 4
+        },
+        {
+            "id": 1000989,
+            "labelName": "中国国旗",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 8
+        },
+        {
+            "id": 1000990,
+            "labelName": "路桩",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 8
+        },
+        {
+            "id": 1000991,
+            "labelName": "衣架",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 8
+        },
+        {
+            "id": 1000992,
+            "labelName": "圣诞树",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 6
+        },
+        {
+            "id": 1000993,
+            "labelName": "门禁",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 5
+        },
+        {
+            "id": 1000994,
+            "labelName": "停止标志",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 8
+        },
+        {
+            "id": 1000995,
+            "labelName": "盆",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 4
+        },
+        {
+            "id": 1000996,
+            "labelName": "书籍",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 4
+        },
+        {
+            "id": 1000997,
+            "labelName": "校门",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 17
+        },
+        {
+            "id": 1000998,
+            "labelName": "祭坛",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 9
+        },
+        {
+            "id": 1000999,
+            "labelName": "垃圾箱",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 13
+        },
+        {
+            "id": 1001000,
+            "labelName": "砖块堆",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 16
+        },
+        {
+            "id": 1001001,
+            "labelName": "水管",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 8
+        },
+        {
+            "id": 1001003,
+            "labelName": "鼓",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 9
+        },
+        {
+            "id": 1001004,
+            "labelName": "旋转门",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 6
+        },
+        {
+            "id": 1001005,
+            "labelName": "铁艺大门",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 10
+        },
+        {
+            "id": 1001006,
+            "labelName": "竹林",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 6
+        },
+        {
+            "id": 1001007,
+            "labelName": "排水沟盖",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 4
+        },
+        {
+            "id": 1001009,
+            "labelName": "水池",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 8
+        },
+        {
+            "id": 1001010,
+            "labelName": "混凝土隔离墩",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 7
+        },
+        {
+            "id": 1001011,
+            "labelName": "监控大屏",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 5
+        },
+        {
+            "id": 1001012,
+            "labelName": "雕像",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 7
+        },
+        {
+            "id": 1001013,
+            "labelName": "水域",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 15
+        },
+        {
+            "id": 1001015,
+            "labelName": "石凳",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 13
+        },
+        {
+            "id": 1001017,
+            "labelName": "山村",
+            "level": 3,
+            "parentId": 67910,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 5
+        },
+        {
+            "id": 1001019,
+            "labelName": "塑料凳",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 9
+        },
+        {
+            "id": 1001020,
+            "labelName": "宣传海报",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 20
+        },
+        {
+            "id": 1001021,
+            "labelName": "特警车",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 6
+        },
+        {
+            "id": 1001022,
+            "labelName": "公路",
+            "level": 3,
+            "parentId": 67910,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 4
+        },
+        {
+            "id": 1001023,
+            "labelName": "冷藏柜",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 9
+        },
+        {
+            "id": 1001024,
+            "labelName": "公交车站台",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 14
+        },
+        {
+            "id": 1001025,
+            "labelName": "警示锥",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 4
+        },
+        {
+            "id": 1001026,
+            "labelName": "拱门",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 3
+        },
+        {
+            "id": 1001027,
+            "labelName": "X光机",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 4
+        },
+        {
+            "id": 1001028,
+            "labelName": "升降路桩",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 9
+        },
+        {
+            "id": 1001029,
+            "labelName": "衣物",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 9
+        },
+        {
+            "id": 1001032,
+            "labelName": "禁止烟火",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 4
+        },
+        {
+            "id": 1001033,
+            "labelName": "交通岛",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 12
+        },
+        {
+            "id": 1001034,
+            "labelName": "石牌坊",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 15
+        },
+        {
+            "id": 1001035,
+            "labelName": "小屋",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 6
+        },
+        {
+            "id": 1001036,
+            "labelName": "自行车道标记",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 11
+        },
+        {
+            "id": 1001037,
+            "labelName": "工业区",
+            "level": 3,
+            "parentId": 67910,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 7
+        },
+        {
+            "id": 1001043,
+            "labelName": "水泥搅拌机",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 14
+        },
+        {
+            "id": 1001044,
+            "labelName": "运动场",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 5
+        },
+        {
+            "id": 1001045,
+            "labelName": "座椅",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 16
+        },
+        {
+            "id": 1001046,
+            "labelName": "乐谱架",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 19
+        },
+        {
+            "id": 1001047,
+            "labelName": "电水壶",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 12
+        },
+        {
+            "id": 1001049,
+            "labelName": "公安",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 8
+        },
+        {
+            "id": 1001050,
+            "labelName": "景区",
+            "level": 3,
+            "parentId": 67910,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 5
+        },
+        {
+            "id": 1001051,
+            "labelName": "蒲团",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 9
+        },
+        {
+            "id": 1001052,
+            "labelName": "油罐车",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 6
+        },
+        {
+            "id": 1001053,
+            "labelName": "快递柜",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 16
+        },
+        {
+            "id": 1001054,
+            "labelName": "涵洞",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 8
+        },
+        {
+            "id": 1001056,
+            "labelName": "社区直饮水站",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 6
+        },
+        {
+            "id": 1001057,
+            "labelName": "绿植",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 4
+        },
+        {
+            "id": 1001058,
+            "labelName": "限速标志",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 7
+        },
+        {
+            "id": 1001059,
+            "labelName": "水泥管",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 4
+        },
+        {
+            "id": 1001060,
+            "labelName": "禁止停车标志牌",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 4
+        },
+        {
+            "id": 1001061,
+            "labelName": "游乐设施",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 6
+        },
+        {
+            "id": 1001063,
+            "labelName": "文件夹",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 7
+        },
+        {
+            "id": 1001064,
+            "labelName": "纸巾盒",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 3
+        },
+        {
+            "id": 1001066,
+            "labelName": "沟渠",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 8
+        },
+        {
+            "id": 1001067,
+            "labelName": "电风扇",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 3
+        },
+        {
+            "id": 1001068,
+            "labelName": "绿化带",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 6
+        },
+        {
+            "id": 1001069,
+            "labelName": "对联",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 10
+        },
+        {
+            "id": 1001070,
+            "labelName": "塑料筐",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 3
+        },
+        {
+            "id": 1001071,
+            "labelName": "非机动车",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 13
+        },
+        {
+            "id": 1001076,
+            "labelName": "体重秤",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 4
+        },
+        {
+            "id": 1001077,
+            "labelName": "应急出口",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 4
+        },
+        {
+            "id": 1001078,
+            "labelName": "自动感应门",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 3
+        },
+        {
+            "id": 1001080,
+            "labelName": "遥控器",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 3
+        },
+        {
+            "id": 1001081,
+            "labelName": "柜台",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 5
+        },
+        {
+            "id": 1001082,
+            "labelName": "食堂",
+            "level": 3,
+            "parentId": 67910,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 7
+        },
+        {
+            "id": 1001083,
+            "labelName": "钟楼",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 4
+        },
+        {
+            "id": 1001085,
+            "labelName": "自行车道",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 9
+        },
+        {
+            "id": 1001086,
+            "labelName": "工具箱",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 4
+        },
+        {
+            "id": 1001089,
+            "labelName": "砖块堆放物",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 7
+        },
+        {
+            "id": 1001092,
+            "labelName": "非机动车辆",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 15
+        },
+        {
+            "id": 1001093,
+            "labelName": "挂画",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 5
+        },
+        {
+            "id": 1001094,
+            "labelName": "灯具",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 3
+        },
+        {
+            "id": 1001097,
+            "labelName": "简易房",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 7
+        },
+        {
+            "id": 1001098,
+            "labelName": "车站",
+            "level": 3,
+            "parentId": 67910,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 9
+        },
+        {
+            "id": 1001099,
+            "labelName": "铁栅栏",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 3
+        },
+        {
+            "id": 1001100,
+            "labelName": "墙体",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 5
+        },
+        {
+            "id": 1001103,
+            "labelName": "水泥路",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 5
+        },
+        {
+            "id": 1001104,
+            "labelName": "金属门框",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 3
+        },
+        {
+            "id": 1001105,
+            "labelName": "人行天桥",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 5
+        },
+        {
+            "id": 1001107,
+            "labelName": "田间小路",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 5
+        },
+        {
+            "id": 1001110,
+            "labelName": "蜘蛛网",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 4
+        },
+        {
+            "id": 1001112,
+            "labelName": "高压电线塔",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 5
+        },
+        {
+            "id": 1001116,
+            "labelName": "电视",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 21
+        },
+        {
+            "id": 1001117,
+            "labelName": "幼儿园",
+            "level": 3,
+            "parentId": 67910,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 4
+        },
+        {
+            "id": 1001118,
+            "labelName": "金属围栏",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 3
+        },
+        {
+            "id": 1001119,
+            "labelName": "停",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 11
+        },
+        {
+            "id": 1001120,
+            "labelName": "地沟",
+            "level": 3,
+            "parentId": 67910,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 3
+        },
+        {
+            "id": 1001122,
+            "labelName": "展板",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 12
+        },
+        {
+            "id": 1001123,
+            "labelName": "收银机",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 5
+        },
+        {
+            "id": 1001125,
+            "labelName": "烟灰缸",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 3
+        },
+        {
+            "id": 1001126,
+            "labelName": "充气拱门",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 4
+        },
+        {
+            "id": 1001127,
+            "labelName": "功德箱",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 6
+        },
+        {
+            "id": 1001128,
+            "labelName": "人员",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 6
+        },
+        {
+            "id": 1001129,
+            "labelName": "拖车",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 6
+        },
+        {
+            "id": 1001130,
+            "labelName": "经幡",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 3
+        },
+        {
+            "id": 1001132,
+            "labelName": "餐桌",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 8
+        },
+        {
+            "id": 1001133,
+            "labelName": "实验室",
+            "level": 3,
+            "parentId": 67910,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 4
+        },
+        {
+            "id": 1001135,
+            "labelName": "屋顶",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 4
+        },
+        {
+            "id": 1001137,
+            "labelName": "洗车机",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 6
+        },
+        {
+            "id": 1001138,
+            "labelName": "通风口",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 5
+        },
+        {
+            "id": 1001139,
+            "labelName": "消防沙",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 4
+        },
+        {
+            "id": 1001140,
+            "labelName": "遮阳棚",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 11
+        },
+        {
+            "id": 1001141,
+            "labelName": "花瓶",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 12
+        },
+        {
+            "id": 1001144,
+            "labelName": "防暴器材柜",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 7
+        },
+        {
+            "id": 1001145,
+            "labelName": "自动门",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 4
+        },
+        {
+            "id": 1001146,
+            "labelName": "手套",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 5
+        },
+        {
+            "id": 1001147,
+            "labelName": "草坪",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 8
+        },
+        {
+            "id": 1001148,
+            "labelName": "课桌",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 4
+        },
+        {
+            "id": 1001150,
+            "labelName": "门楼",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 5
+        },
+        {
+            "id": 1001151,
+            "labelName": "商品",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 4
+        },
+        {
+            "id": 1001152,
+            "labelName": "石桌",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 4
+        },
+        {
+            "id": 1001155,
+            "labelName": "吊灯",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 9
+        },
+        {
+            "id": 1001156,
+            "labelName": "彩灯",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 5
+        },
+        {
+            "id": 1001158,
+            "labelName": "限高架",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 8
+        },
+        {
+            "id": 1001159,
+            "labelName": "沙袋",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 9
+        },
+        {
+            "id": 1001160,
+            "labelName": "油污",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 4
+        },
+        {
+            "id": 1001162,
+            "labelName": "球形路障",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 4
+        },
+        {
+            "id": 1001164,
+            "labelName": "遮阳伞",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 6
+        },
+        {
+            "id": 1001165,
+            "labelName": "监控设备",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 3
+        },
+        {
+            "id": 1001166,
+            "labelName": "公共厕所",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 6
+        },
+        {
+            "id": 1001167,
+            "labelName": "桶",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 6
+        },
+        {
+            "id": 1001169,
+            "labelName": "招牌",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 4
+        },
+        {
+            "id": 1001170,
+            "labelName": "钢琴",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 6
+        },
+        {
+            "id": 1001172,
+            "labelName": "凸面镜",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 4
+        },
+        {
+            "id": 1001173,
+            "labelName": "气球",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 3
+        },
+        {
+            "id": 1001174,
+            "labelName": "简易棚屋",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 6
+        },
+        {
+            "id": 1001176,
+            "labelName": "快递车",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 6
+        },
+        {
+            "id": 1001179,
+            "labelName": "禁止停车标志",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 4
+        },
+        {
+            "id": 1001182,
+            "labelName": "鸟巢",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 4
+        },
+        {
+            "id": 1001183,
+            "labelName": "烟雾",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 6
+        },
+        {
+            "id": 1001185,
+            "labelName": "宣传展架",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 5
+        },
+        {
+            "id": 1001187,
+            "labelName": "安全出口标志",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 8
+        },
+        {
+            "id": 1001194,
+            "labelName": "电饭煲",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 4
+        },
+        {
+            "id": 1001195,
+            "labelName": "音乐架",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 3
+        },
+        {
+            "id": 1001201,
+            "labelName": "金属架",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 6
+        },
+        {
+            "id": 1001202,
+            "labelName": "头盔",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 4
+        },
+        {
+            "id": 1001204,
+            "labelName": "检票闸机",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 3
+        },
+        {
+            "id": 1001205,
+            "labelName": "消防柜",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 3
+        },
+        {
+            "id": 1001209,
+            "labelName": "警务室",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 5
+        },
+        {
+            "id": 1001210,
+            "labelName": "抽油机",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 8
+        },
+        {
+            "id": 1001213,
+            "labelName": "床",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 7
+        },
+        {
+            "id": 1001215,
+            "labelName": "警示桩",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 3
+        },
+        {
+            "id": 1001217,
+            "labelName": "水杯",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 6
+        },
+        {
+            "id": 1001218,
+            "labelName": "屏幕",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 4
+        },
+        {
+            "id": 1001221,
+            "labelName": "交通锥桶",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 12
+        },
+        {
+            "id": 1001223,
+            "labelName": "储油罐",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 4
+        },
+        {
+            "id": 1001228,
+            "labelName": "拖把",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 7
+        },
+        {
+            "id": 1001231,
+            "labelName": "在建建筑",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 4
+        },
+        {
+            "id": 1001232,
+            "labelName": "洗手池",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 4
+        },
+        {
+            "id": 1001233,
+            "labelName": "医疗推车",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 4
+        },
+        {
+            "id": 1001234,
+            "labelName": "高压线塔",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 6
+        },
+        {
+            "id": 1001237,
+            "labelName": "文件架",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 3
+        },
+        {
+            "id": 1001239,
+            "labelName": "白板",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 3
+        },
+        {
+            "id": 1001241,
+            "labelName": "宣传标语",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 3
+        },
+        {
+            "id": 1001251,
+            "labelName": "链条",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 4
+        },
+        {
+            "id": 1001252,
+            "labelName": "禁止吸烟",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 3
+        },
+        {
+            "id": 1001255,
+            "labelName": "展示柜",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 3
+        },
+        {
+            "id": 1001256,
+            "labelName": "冰柜",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 6
+        },
+        {
+            "id": 1001258,
+            "labelName": "自助服务机",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 6
+        },
+        {
+            "id": 1001259,
+            "labelName": "公告牌",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 6
+        },
+        {
+            "id": 1001260,
+            "labelName": "无障碍电梯",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 3
+        },
+        {
+            "id": 1001262,
+            "labelName": "小溪",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 5
+        },
+        {
+            "id": 1001265,
+            "labelName": "河岸",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 3
+        },
+        {
+            "id": 1001270,
+            "labelName": "书桌",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 4
+        },
+        {
+            "id": 1001271,
+            "labelName": "公路",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 4
+        },
+        {
+            "id": 1001272,
+            "labelName": "柴草堆",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 3
+        },
+        {
+            "id": 1001273,
+            "labelName": "船只",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 5
+        },
+        {
+            "id": 1001275,
+            "labelName": "门禁系统",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 4
+        },
+        {
+            "id": 1001281,
+            "labelName": "停车位",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 4
+        },
+        {
+            "id": 1001282,
+            "labelName": "牌匾",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 4
+        },
+        {
+            "id": 1001288,
+            "labelName": "自行车道标识",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 5
+        },
+        {
+            "id": 1001291,
+            "labelName": "公共健身器材",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 4
+        },
+        {
+            "id": 1001293,
+            "labelName": "保温壶",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 4
+        },
+        {
+            "id": 1001296,
+            "labelName": "警示线",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 3
+        },
+        {
+            "id": 1001297,
+            "labelName": "地砖",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 5
+        },
+        {
+            "id": 1001301,
+            "labelName": "水壶",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 4
+        },
+        {
+            "id": 1001303,
+            "labelName": "标语牌",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 5
+        },
+        {
+            "id": 1001307,
+            "labelName": "石块",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 4
+        },
+        {
+            "id": 1001311,
+            "labelName": "走廊",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 3
+        },
+        {
+            "id": 1001313,
+            "labelName": "农用拖车",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 3
+        },
+        {
+            "id": 1001314,
+            "labelName": "墙壁装饰",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 3
+        },
+        {
+            "id": 1001316,
+            "labelName": "箭头标线",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 3
+        },
+        {
+            "id": 1001318,
+            "labelName": "篮球",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 3
+        },
+        {
+            "id": 1001320,
+            "labelName": "消毒液",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 3
+        },
+        {
+            "id": 1001321,
+            "labelName": "隔离球",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 6
+        },
+        {
+            "id": 1001325,
+            "labelName": "保安亭",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 3
+        },
+        {
+            "id": 1001331,
+            "labelName": "标牌",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 7
+        },
+        {
+            "id": 1001338,
+            "labelName": "铁丝网围栏",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 4
+        },
+        {
+            "id": 1001340,
+            "labelName": "盲道",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 3
+        },
+        {
+            "id": 1001346,
+            "labelName": "线缆",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 4
+        },
+        {
+            "id": 1001400,
+            "labelName": "砖瓦房",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 3
+        },
+        {
+            "id": 1001401,
+            "labelName": "碗",
+            "level": 3,
+            "parentId": 67920,
+            "sourceType": 0,
+            "needRefresh": 0,
+            "deviceCount": 3
+        }
+    ]
+}

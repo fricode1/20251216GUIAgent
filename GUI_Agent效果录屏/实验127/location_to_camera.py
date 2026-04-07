@@ -5,6 +5,20 @@ import config
 # 禁用因 verify=False 产生的不安全请求警告
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
+
+def response_simplify(camera_list):
+    """
+    input: 
+        camera_list: list of dict
+    """
+    simple_result = []
+    for camera_item in camera_list:
+        camera_name = camera_item.get("name")
+        camera_id = camera_item.get("apeId")
+        simple_result.append({"apeId": camera_id, "name": camera_name})
+    return simple_result
+
+
 def location_to_camera(location):
     """根据地点查询摄像头ID
     input:
@@ -23,7 +37,7 @@ def location_to_camera(location):
     # 设置请求载荷 (payload)
     payload = {
         "pageNumber": 1,
-        "pageSize": 1,
+        "pageSize": 3,
         "queryCondition": location
     }
     
@@ -47,7 +61,9 @@ def location_to_camera(location):
         if res_json.get("code") == "0":
             data_list = res_json.get("data", {}).get("list", [])
             if data_list:
-                return data_list[0].get("apeId")
+                simple_result = response_simplify(data_list)
+                return simple_result
+                # return data_list[0].get("apeId")
             else:
                 # 列表为空，说明没查到该地点
                 return None
